@@ -15,7 +15,7 @@ C:/Users/camev/Documents/GitHub/SkyfallEditor
 -logFile
 Logs/AssetImportWorker5.log
 -srvPort
-50125
+52161
 Successfully changed project path to: C:/Users/camev/Documents/GitHub/SkyfallEditor
 C:/Users/camev/Documents/GitHub/SkyfallEditor
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,11 +49,11 @@ C:/Users/camev/Documents/GitHub/SkyfallEditor
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [17432] Host "[IP] 192.168.5.66 [Port] 0 [Flags] 2 [Guid] 3478283735 [EditorId] 3478283735 [Version] 1048832 [Id] WindowsEditor(7,cameronspc) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [372] Host "[IP] 192.168.5.66 [Port] 0 [Flags] 2 [Guid] 3461682337 [EditorId] 3461682337 [Version] 1048832 [Id] WindowsEditor(7,cameronspc) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [17432] Host "[IP] 192.168.5.66 [Port] 0 [Flags] 2 [Guid] 3478283735 [EditorId] 3478283735 [Version] 1048832 [Id] WindowsEditor(7,cameronspc) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [372] Host "[IP] 192.168.5.66 [Port] 0 [Flags] 2 [Guid] 3461682337 [EditorId] 3461682337 [Version] 1048832 [Id] WindowsEditor(7,cameronspc) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 41.24 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 43.98 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.2.21f1 (4907324dc95b)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity 2022.2.21f1/Editor/Data/Resources/UnitySubsystems
@@ -69,43 +69,43 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity 2022.2.21f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity 2022.2.21f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity 2022.2.21f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56244
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56404
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity 2022.2.21f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity 2022.2.21f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
-Registered in 0.009481 seconds.
-- Loaded All Assemblies, in  0.488 seconds
+Registered in 0.008885 seconds.
+- Loaded All Assemblies, in  0.504 seconds
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.469 seconds
+- Finished resetting the current domain, in  0.485 seconds
 Domain Reload Profiling:
-	ReloadAssembly (262ms)
-		BeginReloadAssembly (103ms)
+	ReloadAssembly (284ms)
+		BeginReloadAssembly (116ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (1ms)
 		LoadAllAssembliesAndSetupDomain (0ms)
-			LoadAssemblies (101ms)
+			LoadAssemblies (113ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (218ms)
-				TypeCache.Initialize (217ms)
-					TypeCache.ScanAssembly (215ms)
+			SetupTypeCache (209ms)
+				TypeCache.Initialize (207ms)
+					TypeCache.ScanAssembly (203ms)
 				ResolveRequiredComponents (1ms)
 		FinalizeReload (0ms)
 			ReleaseScriptCaches (0ms)
 			RebuildScriptCaches (0ms)
-			SetupLoadedEditorAssemblies (369ms)
+			SetupLoadedEditorAssemblies (379ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (37ms)
-				SetLoadedEditorAssemblies (13ms)
+				InitializePlatformSupportModulesInManaged (41ms)
+				SetLoadedEditorAssemblies (14ms)
 				RefreshPlugins (0ms)
 				BeforeProcessingInitializeOnLoad (2ms)
-				ProcessInitializeOnLoadAttributes (237ms)
-				ProcessInitializeOnLoadMethodAttributes (80ms)
+				ProcessInitializeOnLoadAttributes (222ms)
+				ProcessInitializeOnLoadMethodAttributes (100ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
@@ -114,49 +114,49 @@ Domain Reload Profiling:
 Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.0, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.615 seconds
-Refreshing native plugins compatible for Editor in 22.86 ms, found 3 plugins.
+- Loaded All Assemblies, in  1.838 seconds
+Refreshing native plugins compatible for Editor in 17.77 ms, found 3 plugins.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.575 seconds
+- Finished resetting the current domain, in  1.447 seconds
 Domain Reload Profiling:
-	ReloadAssembly (384ms)
-		BeginReloadAssembly (191ms)
+	ReloadAssembly (383ms)
+		BeginReloadAssembly (190ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (9ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (34ms)
-		LoadAllAssembliesAndSetupDomain (1226ms)
-			LoadAssemblies (608ms)
+			CreateAndSetChildDomain (37ms)
+		LoadAllAssembliesAndSetupDomain (1449ms)
+			LoadAssemblies (662ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (692ms)
-				TypeCache.Initialize (602ms)
-					TypeCache.ScanAssembly (592ms)
-				ResolveRequiredComponents (23ms)
+			SetupTypeCache (865ms)
+				TypeCache.Initialize (793ms)
+					TypeCache.ScanAssembly (780ms)
+				ResolveRequiredComponents (21ms)
 		FinalizeReload (0ms)
 			ReleaseScriptCaches (0ms)
 			RebuildScriptCaches (0ms)
-			SetupLoadedEditorAssemblies (1229ms)
+			SetupLoadedEditorAssemblies (1155ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (14ms)
-				SetLoadedEditorAssemblies (10ms)
+				InitializePlatformSupportModulesInManaged (12ms)
+				SetLoadedEditorAssemblies (7ms)
 				RefreshPlugins (0ms)
-				BeforeProcessingInitializeOnLoad (161ms)
-				ProcessInitializeOnLoadAttributes (724ms)
-				ProcessInitializeOnLoadMethodAttributes (312ms)
+				BeforeProcessingInitializeOnLoad (149ms)
+				ProcessInitializeOnLoadAttributes (679ms)
+				ProcessInitializeOnLoadMethodAttributes (300ms)
 				AfterProcessingInitializeOnLoad (7ms)
 				EditorAssembliesLoaded (1ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (11ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.07 seconds
-Refreshing native plugins compatible for Editor in 21.42 ms, found 3 plugins.
+			AwakeInstancesAfterBackupRestoration (9ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
+Refreshing native plugins compatible for Editor in 24.42 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7464 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 166 unused Assets / (493.9 KB). Loaded Objects now: 7904.
-Memory consumption went from 263.1 MB to 262.6 MB.
-Total: 8.316800 ms (FindLiveObjects: 0.648800 ms CreateObjectMapping: 0.429600 ms MarkObjects: 6.766900 ms  DeleteObjects: 0.470300 ms)
+Unloading 7488 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 185 unused Assets / (0.5 MB). Loaded Objects now: 7927.
+Memory consumption went from 277.3 MB to 276.7 MB.
+Total: 11.580700 ms (FindLiveObjects: 0.744900 ms CreateObjectMapping: 0.500000 ms MarkObjects: 9.552800 ms  DeleteObjects: 0.781300 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
@@ -164,102 +164,11 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:FusionILWeaverTriggerImporter/ConfigHash: 4c841ab3df8ce14265baba770e4b226f -> 
   custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:Fusion.PrefabsDependency: 4179b5f337e9d542e57a47adac531163 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 2810.089959 seconds.
-  path: Assets/Village Buildings/Models/Materials/Strecha.mat
-  artifactKey: Guid(0356621207615c84f9c77a3e7ddc583f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Models/Materials/Strecha.mat using Guid(0356621207615c84f9c77a3e7ddc583f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '422dae37d96bdf178f48609ddb5aea4b') in 0.014219 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 4.485308 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V1_Roof_Normal.png
-  artifactKey: Guid(ce6ecc38fa686b843a3ea6dff36824d6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V1_Roof_Normal.png using Guid(ce6ecc38fa686b843a3ea6dff36824d6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4984d8be6067a7400945aa700e68557a') in 0.011759 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000346 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V4_Roof_Normal.png
-  artifactKey: Guid(5502b92b22d8de8499b797d5e3250469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V4_Roof_Normal.png using Guid(5502b92b22d8de8499b797d5e3250469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '28e15fd15c769b9af4b312206fcd2c16') in 0.009847 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V2_Roof_Normal.png
-  artifactKey: Guid(20d37a1f52c71c647b29a3050d8eb095) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V2_Roof_Normal.png using Guid(20d37a1f52c71c647b29a3050d8eb095) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3d1639ff39f803f8b2a31e987050688e') in 0.004071 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000023 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V2_Wall_Albedo.png
-  artifactKey: Guid(d9a858af7e436a74f8ef218490711ec7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V2_Wall_Albedo.png using Guid(d9a858af7e436a74f8ef218490711ec7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '11300b1c2c6da9c7b7a6fd6aa7a77d4c') in 0.003979 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V4_Roof_MetallicSmoothness.png
-  artifactKey: Guid(88966125641f37e4d83bcf64f6f8868e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V4_Roof_MetallicSmoothness.png using Guid(88966125641f37e4d83bcf64f6f8868e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'df8df4bd50002234804101f35d0baa35') in 0.005507 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000017 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V2_Wall_MetallicSmoothness.png
-  artifactKey: Guid(5a4aab3d4d7293d45b2669467b935d33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V2_Wall_MetallicSmoothness.png using Guid(5a4aab3d4d7293d45b2669467b935d33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c869e4b066391c6f3c684800fcb0fee') in 0.004953 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V4_Wall_Normal.png
-  artifactKey: Guid(e3eb761f13f83444696354c4bc011102) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V4_Wall_Normal.png using Guid(e3eb761f13f83444696354c4bc011102) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bc847ed99a0a3a4db098f3f0aa3ab712') in 0.004789 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000080 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V2_Wall_Normal.png
-  artifactKey: Guid(1f6c8601f154e1040a30b5457f6b212e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V2_Wall_Normal.png using Guid(1f6c8601f154e1040a30b5457f6b212e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbf57433813b38dc18ef185639d8cc21') in 0.005048 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/Village Buildings/Textures/Village_House_V3_Roof_MetallicSmoothness.png
-  artifactKey: Guid(c4206a550b2723d45b6c7fca3b54ce39) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Textures/Village_House_V3_Roof_MetallicSmoothness.png using Guid(c4206a550b2723d45b6c7fca3b54ce39) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '72659ae6991cfb337c1a2b6662ab88eb') in 0.005283 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 1.408226 seconds.
-  path: Assets/Village Buildings/Materials/Village_WindMill_Wall.mat
-  artifactKey: Guid(a64ef02578b3b924194f015fc005c5f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Village Buildings/Materials/Village_WindMill_Wall.mat using Guid(a64ef02578b3b924194f015fc005c5f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '06aa710d147614f9c85844b3918fc2f1') in 0.001626 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: The I/O operation has been aborted because of either a thread exit or an application request.
-AssetImportWorker is now disconnected from the server
-Process exiting
-Exiting without the bug reporter. Application will terminate with return code 0
