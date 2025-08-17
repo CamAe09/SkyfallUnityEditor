@@ -80,12 +80,6 @@ namespace TPSBR
 
 			if (Application.isBatchMode == false)
 			{
-				bool fogEnabled = RenderSettings.fog;
-				RenderSettings.fog = false;
-
-				_camera.Render();
-
-				RenderSettings.fog = fogEnabled;
 			}
 		}
 	}

@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{CBDB9BEE-4FE3-D55B-102C-3E2C9CC02861}</ProjectGuid>
+    <ProjectGuid>{98265852-993A-BFE4-7FB9-5AEE4B23AECB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Fusion.Menu.Editor</AssemblyName>
@@ -494,6 +494,82 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@3.8.1\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\System.Reflection.Metadata.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bezi-websocket-sharp">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\bezi-websocket-sharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Memory">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Memory.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpToken">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\SharpToken.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Numerics.Vectors">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Numerics.Vectors.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BeziSidekickInternal">
+      <HintPath>Packages\com.bezi.sidekick\Editor\BeziSidekickInternal.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Text.Json">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Text.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Buffers">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Buffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Threading.Tasks.Extensions">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Text.Encodings.Web">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Text.Encodings.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Collections.Immutable">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Collections.Immutable.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Microsoft.CodeAnalysis.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\System.Collections.Immutable.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Reflection.Metadata">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Reflection.Metadata.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="nunit.framework">
@@ -1019,7 +1095,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Fusion.Menu.csproj">
-      <Project>{09DF0004-2F23-CD22-310A-13F5917DE618}</Project>
+      <Project>{30A39FB8-8364-2EF2-5ED6-484072FA4421}</Project>
       <Name>Fusion.Menu</Name>
     </ProjectReference>
   </ItemGroup>

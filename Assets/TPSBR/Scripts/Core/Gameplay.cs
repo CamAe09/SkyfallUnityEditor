@@ -37,12 +37,12 @@ namespace TPSBR
 			while (asyncOp.isDone == false)
 				yield return null;
 
-			for (int i = SceneManager.sceneCount; i --> 0;)
+			for (int i = SceneManager.sceneCount; i-- > 0;)
 			{
 				var unityScene = SceneManager.GetSceneAt(i);
 				if (unityScene.name == UI_SCENE_NAME)
 				{
-					_UIScene      = unityScene;
+					_UIScene = unityScene;
 					var uiService = _UIScene.GetComponent<UI.SceneUI>(true);
 
 					foreach (GameObject rootObject in unityScene.GetRootGameObjects())
@@ -59,11 +59,6 @@ namespace TPSBR
 					uiService.Activate();
 					break;
 				}
-			}
-
-			foreach (RenderSettingsUpdater renderSettingsUpdater in Context.Runner.SimulationUnityScene.GetComponents<RenderSettingsUpdater>(false))
-			{
-				renderSettingsUpdater.Process();
 			}
 		}
 

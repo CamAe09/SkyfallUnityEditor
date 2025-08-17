@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>TPSBR</RootNamespace>
-    <ProjectGuid>{55890854-FCAE-E92D-063F-79456660990B}</ProjectGuid>
+    <ProjectGuid>{0BC1A3B4-C65A-195A-7BC9-73BCF8B707A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
@@ -476,6 +476,78 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@3.8.1\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\System.Reflection.Metadata.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bezi-websocket-sharp">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\bezi-websocket-sharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Memory">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Memory.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpToken">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\SharpToken.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Numerics.Vectors">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Numerics.Vectors.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Text.Json">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Text.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Buffers">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Buffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Threading.Tasks.Extensions">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Text.Encodings.Web">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Text.Encodings.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Collections.Immutable">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Collections.Immutable.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Microsoft.CodeAnalysis.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\System.Collections.Immutable.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Reflection.Metadata">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Reflection.Metadata.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Packages\com.bezi.sidekick\Plugins\Sentry.System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1257,31 +1329,31 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Fusion.Addons.Physics.csproj">
-      <Project>{C28788DB-9BB9-6975-F5E3-9E1A09C89933}</Project>
+      <Project>{099A1E88-6432-E5C0-6DE7-5EF9B4896D18}</Project>
       <Name>Fusion.Addons.Physics</Name>
     </ProjectReference>
     <ProjectReference Include="Fusion.Addons.Physics.Editor.csproj">
-      <Project>{43814580-02A0-9925-ECD0-002CE6CAE6C8}</Project>
+      <Project>{CF9C22DA-22EA-8653-952C-6B1E4F1BC086}</Project>
       <Name>Fusion.Addons.Physics.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Fusion.Unity.Editor.csproj">
-      <Project>{0455EDEC-E6B3-8A6D-A089-8518B3FA4600}</Project>
+      <Project>{30A3CB88-3C0F-0E01-BE27-115EF6758386}</Project>
       <Name>Fusion.Unity.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Fusion.Menu.csproj">
-      <Project>{09DF0004-2F23-CD22-310A-13F5917DE618}</Project>
+      <Project>{30A39FB8-8364-2EF2-5ED6-484072FA4421}</Project>
       <Name>Fusion.Menu</Name>
     </ProjectReference>
     <ProjectReference Include="Fusion.Plugin.csproj">
-      <Project>{A90A6D3F-0E40-1257-178F-425F9CEB3BE9}</Project>
+      <Project>{4A9F1523-D17A-AED9-CE38-0D8844F9AE61}</Project>
       <Name>Fusion.Plugin</Name>
     </ProjectReference>
     <ProjectReference Include="Fusion.Menu.Editor.csproj">
-      <Project>{CBDB9BEE-4FE3-D55B-102C-3E2C9CC02861}</Project>
+      <Project>{98265852-993A-BFE4-7FB9-5AEE4B23AECB}</Project>
       <Name>Fusion.Menu.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Fusion.Unity.csproj">
-      <Project>{68AB7D24-A2B3-B5A3-8E64-EFD545F1166E}</Project>
+      <Project>{25A1ECC3-EB2C-5100-3A57-B7D7DE6F4FC0}</Project>
       <Name>Fusion.Unity</Name>
     </ProjectReference>
   </ItemGroup>
