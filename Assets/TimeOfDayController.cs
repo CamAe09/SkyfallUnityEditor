@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class TimeOfDayController : MonoBehaviour
 {
@@ -45,6 +46,23 @@ public class TimeOfDayController : MonoBehaviour
 
     void Start()
     {
+        // Disable any existing RenderSettingsUpdaters in the scene
+        TPSBR.RenderSettingsUpdater[] existingUpdaters = FindObjectsOfType<TPSBR.RenderSettingsUpdater>();
+        foreach (var updater in existingUpdaters)
+        {
+            updater.enabled = false;
+            Debug.Log($"TimeOfDay: Disabled RenderSettingsUpdater on {updater.gameObject.name}");
+        }
+
+        StartCoroutine(DelayedInitialization());
+    }
+
+    IEnumerator DelayedInitialization()
+    {
+        // Wait for all scene initialization to complete
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
         InitializeSettings();
 
         if (randomizeOnStart)
@@ -53,13 +71,30 @@ public class TimeOfDayController : MonoBehaviour
         }
         else
         {
-            SetTimeOfDay(0); // Default to morning
+            SetTimeOfDay(0);
+        }
+
+        // Force reapply settings after a delay to override any other scripts
+        yield return StartCoroutine(ForceReapplySettings());
+    }
+
+    IEnumerator ForceReapplySettings()
+    {
+        yield return new WaitForSeconds(0.1f);
+        ApplyTimeOfDaySettings();
+
+        // Reapply again to be absolutely sure
+        yield return new WaitForSeconds(0.1f);
+        ApplyTimeOfDaySettings();
+
+        if (showCurrentTime)
+        {
+            Debug.Log($"TimeOfDay: Final settings applied - {currentSettings.timeName} with fog density: {currentSettings.fogDensity}");
         }
     }
 
     void InitializeSettings()
     {
-        // Initialize default values for each time of day
         SetupMorningDefaults();
         SetupNoonDefaults();
         SetupEveningDefaults();
@@ -71,7 +106,7 @@ public class TimeOfDayController : MonoBehaviour
     void SetupMorningDefaults()
     {
         morningSettings.timeName = "Morning";
-        morningSettings.fogColor = new Color(0.8f, 0.9f, 1f, 1f); // Light blue
+        morningSettings.fogColor = new Color(0.8f, 0.9f, 1f, 1f);
         morningSettings.fogDensity = 0.005f;
         morningSettings.ambientColor = new Color(0.7f, 0.8f, 1f, 1f);
         morningSettings.ambientIntensity = 0.8f;
@@ -82,7 +117,7 @@ public class TimeOfDayController : MonoBehaviour
     void SetupNoonDefaults()
     {
         noonSettings.timeName = "Noon";
-        noonSettings.fogColor = new Color(0.9f, 0.95f, 1f, 1f); // Very light blue
+        noonSettings.fogColor = new Color(0.9f, 0.95f, 1f, 1f);
         noonSettings.fogDensity = 0.003f;
         noonSettings.ambientColor = new Color(0.5f, 0.7f, 1f, 1f);
         noonSettings.ambientIntensity = 1.2f;
@@ -93,7 +128,7 @@ public class TimeOfDayController : MonoBehaviour
     void SetupEveningDefaults()
     {
         eveningSettings.timeName = "Evening";
-        eveningSettings.fogColor = new Color(1f, 0.7f, 0.5f, 1f); // Orange/pink
+        eveningSettings.fogColor = new Color(1f, 0.7f, 0.5f, 1f);
         eveningSettings.fogDensity = 0.008f;
         eveningSettings.ambientColor = new Color(1f, 0.6f, 0.4f, 1f);
         eveningSettings.ambientIntensity = 0.9f;
@@ -104,7 +139,7 @@ public class TimeOfDayController : MonoBehaviour
     void SetupNightDefaults()
     {
         nightSettings.timeName = "Night";
-        nightSettings.fogColor = new Color(0.2f, 0.3f, 0.5f, 1f); // Dark blue
+        nightSettings.fogColor = new Color(0.2f, 0.3f, 0.5f, 1f);
         nightSettings.fogDensity = 0.015f;
         nightSettings.ambientColor = new Color(0.2f, 0.3f, 0.6f, 1f);
         nightSettings.ambientIntensity = 0.3f;
@@ -122,7 +157,7 @@ public class TimeOfDayController : MonoBehaviour
     {
         if (timeIndex < 0 || timeIndex >= allSettings.Length)
         {
-            Debug.LogWarning("Invalid time index: " + timeIndex);
+            Debug.LogWarning("TimeOfDay: Invalid time index: " + timeIndex);
             return;
         }
 
@@ -131,13 +166,15 @@ public class TimeOfDayController : MonoBehaviour
 
         if (showCurrentTime)
         {
-            Debug.Log($"Time of Day set to: {currentSettings.timeName}");
+            Debug.Log($"TimeOfDay: Set to {currentSettings.timeName}");
         }
     }
 
     void ApplyTimeOfDaySettings()
     {
         if (currentSettings == null) return;
+
+        Debug.Log($"TimeOfDay: Applying {currentSettings.timeName} with fog density: {currentSettings.fogDensity}");
 
         // Apply Skybox
         if (currentSettings.skyboxMaterial != null)

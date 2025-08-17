@@ -453,6 +453,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Interactions\ItemBox.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\AgentInterestProvider.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\Layers\UpperBodyLayer.cs" />
+    <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\RenderSettingsUpdater.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\Pool.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIBattleRoyale.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Utilities\AnimationUtility.cs" />

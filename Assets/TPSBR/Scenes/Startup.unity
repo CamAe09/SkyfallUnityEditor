@@ -580,6 +580,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &941117030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 941117032}
+  - component: {fileID: 941117031}
+  m_Layer: 0
+  m_Name: RenderSettingsController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &941117031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941117030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09188f0744dac4c468f7af7472dd6ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  morningSettings:
+    timeName: Morning
+    skyboxMaterial: {fileID: 2100000, guid: fffa32279a0516540a16df2357adb130, type: 2}
+    enableFog: 1
+    fogMode: 3
+    fogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    fogDensity: 0.001
+    ambientColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    ambientIntensity: 1
+    sunColor: {r: 1, g: 1, b: 1, a: 1}
+    sunIntensity: 1
+  noonSettings:
+    timeName: Noon
+    skyboxMaterial: {fileID: 2100000, guid: d928116c18e64794e89e2a639d2b0e77, type: 2}
+    enableFog: 1
+    fogMode: 3
+    fogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    fogDensity: 0.01
+    ambientColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    ambientIntensity: 1
+    sunColor: {r: 1, g: 1, b: 1, a: 1}
+    sunIntensity: 1.04
+  eveningSettings:
+    timeName: Evening
+    skyboxMaterial: {fileID: 2100000, guid: 4f9a4899ea720a44ab5dd04fce8bb24f, type: 2}
+    enableFog: 1
+    fogMode: 3
+    fogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    fogDensity: 0.01
+    ambientColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    ambientIntensity: 1
+    sunColor: {r: 1, g: 1, b: 1, a: 1}
+    sunIntensity: 0.74
+  nightSettings:
+    timeName: Night
+    skyboxMaterial: {fileID: 2100000, guid: 341860b673392f04eb71c6d6e18542d9, type: 2}
+    enableFog: 1
+    fogMode: 3
+    fogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    fogDensity: 0.02
+    ambientColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    ambientIntensity: 1
+    sunColor: {r: 1, g: 1, b: 1, a: 1}
+    sunIntensity: 0.13
+  sunLight: {fileID: 0}
+  randomizeOnStart: 1
+  showCurrentTime: 1
+--- !u!4 &941117032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941117030}
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 1406.4836, y: 69.93559, z: 1546.2488}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &955250455
 GameObject:
   m_ObjectHideFlags: 3
