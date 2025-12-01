@@ -18,6 +18,8 @@ namespace TPSBR.UI
 		[SerializeField]
 		private TMP_Dropdown _gameplay;
 		[SerializeField]
+		private TMP_Dropdown _teamMode;
+		[SerializeField]
 		private TMP_InputField _maxPlayers;
 		[SerializeField]
 		private UIToggle _dedicatedServer;
@@ -162,6 +164,25 @@ namespace TPSBR.UI
 			_gameplay.SetValueWithoutNotify(defaultOption);
 
 			ListPool.Return(options);
+			
+			UpdateTeamModeDropdown();
+		}
+		
+		private void UpdateTeamModeDropdown()
+		{
+			if (_teamMode == null)
+				return;
+			
+			var teamOptions = ListPool.Get<string>(3);
+			teamOptions.Add("Solo");
+			teamOptions.Add("Duo");
+			teamOptions.Add("Squad");
+			
+			_teamMode.ClearOptions();
+			_teamMode.AddOptions(teamOptions);
+			_teamMode.SetValueWithoutNotify(2);
+			
+			ListPool.Return(teamOptions);
 		}
 
 		private void OnMapSelectionChanged(int index)

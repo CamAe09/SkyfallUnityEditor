@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Flower01B
-  m_Shader: {fileID: -6465566751694194690, guid: 399a5461f3655314798b059dad5f3df4,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 399a5461f3655314798b059dad5f3df4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -22,7 +21,8 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: TransparentCutout
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -144,6 +144,7 @@ Material:
     - _Secondary_Color: {r: 0.16470589, g: 0.33333334, b: 0.05882353, a: 1}
     - _Tertiary_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &255569464563250958
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -156,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 7
+  version: 10
 --- !u!114 &8590984878958436758
 MonoBehaviour:
   m_ObjectHideFlags: 11

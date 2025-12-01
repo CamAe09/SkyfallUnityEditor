@@ -20,6 +20,8 @@ namespace TPSBR.UI
 		[SerializeField]
 		private UIButton _playerButton;
 		[SerializeField]
+		private UIButton _partyButton;
+		[SerializeField]
 		private UIPlayer _player;
 		[SerializeField]
 		private TextMeshProUGUI _agentName;
@@ -50,6 +52,9 @@ namespace TPSBR.UI
 			_changeNicknameButton.onClick.AddListener(OnChangeNicknameButton);
 			_quitButton.onClick.AddListener(OnQuitButton);
 			_playerButton.onClick.AddListener(OnPlayerButton);
+			
+			if (_partyButton != null)
+				_partyButton.onClick.AddListener(OnPartyButton);
 
 			_applicationVersion.text = $"Version {Application.version}";
 		}
@@ -62,6 +67,9 @@ namespace TPSBR.UI
 			_changeNicknameButton.onClick.RemoveListener(OnChangeNicknameButton);
 			_quitButton.onClick.RemoveListener(OnQuitButton);
 			_playerButton.onClick.RemoveListener(OnPlayerButton);
+			
+			if (_partyButton != null)
+				_partyButton.onClick.RemoveListener(OnPartyButton);
 
 			base.OnDeinitialize();
 		}
@@ -144,6 +152,11 @@ namespace TPSBR.UI
 			agentSelection.BackView = this;
 
 			Close();
+		}
+		
+		private void OnPartyButton()
+		{
+			Open<UIPartyViewSimple>();
 		}
 
 		private void OnPlayerDataChanged(PlayerData playerData)
