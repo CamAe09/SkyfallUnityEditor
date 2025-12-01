@@ -542,6 +542,10 @@ MonoBehaviour:
       Probability: 50
     - Pickup: {fileID: 1753923265918319972, guid: 93ff156a0ef76084c918a240b780304b, type: 3}
       Probability: 10
+    - Pickup: {fileID: 6061256743707649197, guid: 76ebfb9abe30d9143bcad60f8a502217, type: 3}
+      Probability: 200
+    - Pickup: {fileID: 6198615961083387491, guid: 2f3aad8a90c6ade42a5eca39072fdc64, type: 3}
+      Probability: 200
   - Transform: {fileID: 1902573880166076804}
     Pickups:
     - Pickup: {fileID: 1214334607122330860, guid: 515d0a7122c2eca4cb0841021a46116a, type: 3}
