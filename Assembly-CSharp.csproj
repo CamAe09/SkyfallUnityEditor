@@ -118,6 +118,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\GroundSlider.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIWidget.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Stages\PrepareData.cs" />
+    <Compile Include="Assets\TPSBR\Scripts\Gameplay\Projectiles\RocketProjectile.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\ObjectCache.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Targets\AutoAimTarget.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIView.cs" />
@@ -478,6 +479,7 @@
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Shapes\InterestBox.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GameplayViews\UIGameplayMenu.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GameplayViews\UIGameplayView.cs" />
+    <Compile Include="Assets\Scripts\TeamSystem\TeammateVisualizer.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIList.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\NetworkAreaOfInterestProxy.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkProperties.cs" />
@@ -537,6 +539,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\Core\GenericKCCProcessorProvider.cs" />
     <Compile Include="Assets\TimeOfDayController.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\KCCTimer.cs" />
+    <Compile Include="Assets\Scripts\TeamSystem\TeamSystemAutoSetup.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\UIExtensions.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UITeamPanel.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIHealth.cs" />

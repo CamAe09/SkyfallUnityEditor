@@ -38,6 +38,7 @@ namespace TPSBR
 		Shotgun,
 		Sniper,
 		ShrinkingArea,
+		RocketLauncher,
 	}
 
 	public interface IHitTarget

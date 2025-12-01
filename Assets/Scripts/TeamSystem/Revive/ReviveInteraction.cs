@@ -80,7 +80,7 @@ namespace TPSBR
                 if (downedPlayer == null || downedPlayer == _localPlayer)
                     continue;
 
-                if (TeamManager.Instance != null && !TeamManager.Instance.AreTeammates(_localPlayer.UserID, downedPlayer.UserID))
+                if (!_localPlayer.IsTeammateWith(downedPlayer))
                     continue;
 
                 if (reviveSystem.IsBeingRevived && reviveSystem.GetRevivingPlayer() != _localPlayer)

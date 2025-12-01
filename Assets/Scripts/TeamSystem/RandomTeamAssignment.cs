@@ -9,7 +9,7 @@ namespace TPSBR
         [SerializeField]
         private bool _autoAssignTeams = true;
         [SerializeField]
-        private TeamMode _defaultTeamMode = TeamMode.Solo;
+        private TeamMode _defaultTeamMode = TeamMode.Duo;
 
         private Dictionary<PlayerRef, bool> _assignedPlayers = new Dictionary<PlayerRef, bool>();
 
@@ -47,7 +47,7 @@ namespace TPSBR
                 if (_assignedPlayers.ContainsKey(playerRef))
                     continue;
 
-                AssignPlayerToTeam(player);
+                AssignPlayerToRandomTeam(player);
                 _assignedPlayers[playerRef] = true;
             }
         }
@@ -67,13 +67,13 @@ namespace TPSBR
             {
                 if (player != null)
                 {
-                    AssignPlayerToTeam(player);
+                    AssignPlayerToRandomTeam(player);
                     _assignedPlayers[player.Object.InputAuthority] = true;
                 }
             }
         }
 
-        private void AssignPlayerToTeam(Player player)
+        private void AssignPlayerToRandomTeam(Player player)
         {
             if (_defaultTeamMode == TeamMode.Solo)
             {

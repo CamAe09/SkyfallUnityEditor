@@ -55,15 +55,6 @@ namespace TPSBR
             if (victim == null)
                 return;
 
-            if (TeamManager.Instance == null)
-                return;
-
-            var teamMode = TeamManager.Instance.GetTeamMode();
-            if (teamMode == TeamMode.Solo)
-            {
-                return;
-            }
-
             var reviveSystem = victim.GetComponent<ReviveSystem>();
             if (reviveSystem != null && !reviveSystem.IsDown)
             {

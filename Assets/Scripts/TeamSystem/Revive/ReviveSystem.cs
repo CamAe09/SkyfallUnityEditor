@@ -179,13 +179,10 @@ namespace TPSBR
             if (reviver == null || _player == null)
                 return false;
 
-            if (TeamManager.Instance == null)
-                return false;
-
-            if (!TeamManager.Instance.AreTeammates(reviver.UserID, _player.UserID))
-                return false;
-
             if (reviver.ActiveAgent == null || _player.ActiveAgent == null)
+                return false;
+
+            if (!reviver.IsTeammateWith(_player))
                 return false;
 
             float distance = Vector3.Distance(
