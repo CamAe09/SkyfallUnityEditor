@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TPSBR
 {
-    public class ReviveSystem : NetworkBehaviour
+    public class ReviveSystem : NetworkBehaviour, IInteraction
     {
         public Action<Player> OnPlayerDowned;
         public Action<Player, Player> OnReviveStarted;
@@ -23,6 +23,11 @@ namespace TPSBR
         public bool IsBeingRevived => ReviveData.HasRevivingPlayer;
         public float BleedOutProgress => ReviveData.BleedOutTimer.RemainingTime(Runner) ?? 0f;
         public float ReviveProgress => 1f - (ReviveData.ReviveTimer.RemainingTime(Runner) ?? ReviveSettings.REVIVE_DURATION) / ReviveSettings.REVIVE_DURATION;
+
+        public string Name => "";
+        public string Description => "";
+        public Vector3 HUDPosition => Vector3.zero;
+        public bool IsActive => false;
 
         public override void Spawned()
         {
@@ -58,17 +63,30 @@ namespace TPSBR
                 return;
             }
 
+            if (ReviveData.IsDown)
+            {
+                Debug.LogWarning("[ReviveSystem] Player already downed, ignoring EnterDownedState call");
+                return;
+            }
+
             var reviveData = ReviveData;
             reviveData.IsDown = true;
             reviveData.BleedOutTimer = TickTimer.CreateFromSeconds(Runner, ReviveSettings.BLEED_OUT_DURATION);
             reviveData.HasRevivingPlayer = false;
             ReviveData = reviveData;
 
+            Debug.Log($"[ReviveSystem] Entered downed state. Bleed-out timer set to {ReviveSettings.BLEED_OUT_DURATION} seconds");
+
             _agent = _player.ActiveAgent;
             if (_agent != null)
             {
                 _agent.Character.CharacterController.SetActive(false);
                 DisableAgentActions();
+                
+                if (Physics.Raycast(_agent.transform.position, Vector3.down, out RaycastHit hit, 10f, LayerMask.GetMask("Default", "Dirt", "Wood", "Metal")))
+                {
+                    _agent.transform.position = hit.point + Vector3.up * 0.1f;
+                }
             }
 
             OnPlayerDowned?.Invoke(_player);

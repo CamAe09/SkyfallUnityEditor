@@ -15,7 +15,7 @@ namespace TPSBR.UI
         [SerializeField]
         private TextMeshProUGUI _playerNameText;
         [SerializeField]
-        private string _promptMessage = "Hold [E] to Revive";
+        private string _promptMessage = "Hold [U] to Revive";
 
         private ReviveInteraction _reviveInteraction;
 
@@ -26,6 +26,14 @@ namespace TPSBR.UI
             if (_reviveInteraction == null && Context != null)
             {
                 _reviveInteraction = FindObjectOfType<ReviveInteraction>();
+                if (_reviveInteraction != null)
+                {
+                    Debug.Log("[UIRevivePrompt] Found ReviveInteraction component");
+                }
+                else
+                {
+                    Debug.LogWarning("[UIRevivePrompt] ReviveInteraction component not found in scene");
+                }
             }
 
             if (_reviveInteraction == null)

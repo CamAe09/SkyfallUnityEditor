@@ -85,10 +85,12 @@ namespace TPSBR
             if (availableTeam != null)
             {
                 TeamManager.Instance.CreateOrJoinTeam(player.UserID, player.Nickname, availableTeam.TeamID.ToString());
+                Debug.Log($"Assigned player {player.Nickname} to existing team {availableTeam.TeamID}");
             }
             else
             {
-                TeamManager.Instance.CreateOrJoinTeam(player.UserID, player.Nickname);
+                var newTeam = TeamManager.Instance.CreateOrJoinTeam(player.UserID, player.Nickname);
+                Debug.Log($"Created new team {newTeam?.TeamID} for player {player.Nickname}");
             }
         }
 

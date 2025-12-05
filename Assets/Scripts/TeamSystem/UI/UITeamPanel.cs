@@ -112,9 +112,15 @@ namespace TPSBR.UI
 
         private void Update()
         {
-            if (Context == null || Context.NetworkGame == null)
+            if (_currentTeam == null)
                 return;
-
+            
+            if (Context == null)
+                return;
+            
+            if (Context.NetworkGame == null)
+                return;
+            
             UpdateTeamDisplay();
         }
 

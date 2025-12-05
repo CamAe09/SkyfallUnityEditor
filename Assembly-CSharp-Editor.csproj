@@ -124,6 +124,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Editor\RecoilPatternEditor.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UISliderEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationControllerEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\MapScreenshotTool.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCLayerDrawer.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UIButtonEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\DisabledInPlayModeDrawer.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\GlobalInterestManagerEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCProxyBehaviorDrawer.cs" />
     <Compile Include="Assets\3rdParty\Hovl Studio\Render Pipelines support\Editor\ShaderChanger.cs" />
+    <Compile Include="Assets\Scripts\Editor\MapMeasurementHelper.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\InterestProviderEditor.cs" />
   </ItemGroup>
   <ItemGroup>

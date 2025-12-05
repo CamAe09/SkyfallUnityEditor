@@ -365,6 +365,7 @@
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Core\AnimationTypes.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\ShortExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIKillFeed.cs" />
+    <Compile Include="Assets\Scripts\SimpleMapSystem.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Interactions\Pickups\HealthPickup.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UISessionList.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\Core\NetworkTRSPProcessorProvider.cs" />
@@ -376,6 +377,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkFloatArray.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\AgentVFX.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
+    <Compile Include="Assets\Scripts\MapPOI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Options\PersistentStorage.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
@@ -577,6 +579,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\SmoothValues\SmoothFloat.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Projectiles\ProjectileDamage.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\IKCCInteractionProvider.cs" />
+    <Compile Include="Assets\Scripts\TeamSystem\TeamSystemNetworkSetup.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Settings\ApplicationSettings.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\TerrainTreeProcessor.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Core\Global.cs" />

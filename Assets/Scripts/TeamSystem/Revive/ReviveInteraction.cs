@@ -94,7 +94,14 @@ namespace TPSBR
                 }
             }
 
-            _nearbyDownedPlayer = closestDowned;
+            if (closestDowned != _nearbyDownedPlayer)
+            {
+                _nearbyDownedPlayer = closestDowned;
+                if (_nearbyDownedPlayer != null)
+                {
+                    Debug.Log($"[ReviveInteraction] Found nearby downed player at distance {closestDistance}");
+                }
+            }
         }
 
         private void HandleReviveInput()
@@ -108,7 +115,7 @@ namespace TPSBR
                 return;
             }
 
-            if (Keyboard.current != null && Keyboard.current.eKey.isPressed)
+            if (Keyboard.current != null && Keyboard.current.uKey.isPressed)
             {
                 if (!_isReviving)
                 {

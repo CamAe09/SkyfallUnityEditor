@@ -144,8 +144,32 @@ namespace TPSBR
 
 			if (IsAlive == false)
 			{
-				hitData.IsFatal = true;
-				Context.GameplayMode.AgentDeath(_agent, hitData);
+				var player = Context?.NetworkGame?.GetPlayer(_agent.Object.InputAuthority);
+				var reviveSystem = player != null ? player.GetComponent<ReviveSystem>() : null;
+				
+				UnityEngine.Debug.Log($"[Health] Player death check - Player: {player?.Nickname}, Has ReviveSystem: {reviveSystem != null}, IsDown: {reviveSystem?.IsDown}");
+				
+				if (reviveSystem != null && !reviveSystem.IsDown)
+				{
+					SetHealth(1f);
+					hitData.IsFatal = false;
+					
+					UnityEngine.Debug.Log($"[Health] Player {player.Nickname} entering downed state from {hitData.HitType}");
+					reviveSystem.EnterDownedState();
+					
+					var statistics = player.Statistics;
+					statistics.IsAlive = true;
+					player.UpdateStatistics(statistics);
+				}
+				else
+				{
+					if (player != null)
+					{
+						UnityEngine.Debug.Log($"[Health] Player {player.Nickname} dying instantly - No revive system or already down");
+					}
+					hitData.IsFatal = true;
+					Context.GameplayMode.AgentDeath(_agent, hitData);
+				}
 			}
 		}
 
