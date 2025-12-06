@@ -27,6 +27,7 @@ namespace TPSBR
         private int _downedAnimationHash;
         private GUIStyle _guiStyle;
         private CapsuleCollider _downedCollider;
+        private float _lastBleedOutLog;
 
         public bool IsDown => ReviveData.IsDown;
         public bool IsBeingRevived => ReviveData.HasRevivingPlayer;
@@ -62,15 +63,29 @@ namespace TPSBR
             if (!ReviveData.IsDown)
                 return;
 
-            if (ReviveData.BleedOutTimer.Expired(Runner))
+            float remainingTime = ReviveData.BleedOutTimer.RemainingTime(Runner) ?? 0f;
+            
+            if (Time.time - _lastBleedOutLog >= 1f)
             {
+                _lastBleedOutLog = Time.time;
+                Debug.Log($"[ReviveSystem] {_player?.Nickname} bleed-out timer: {remainingTime:F1}s remaining (HasAuthority: {HasStateAuthority})");
+            }
+            
+            if (remainingTime <= 0f)
+            {
+                Debug.Log($"[ReviveSystem] Bleed-out timer expired for {_player?.Nickname}");
                 OnBleedOut();
                 return;
             }
 
-            if (ReviveData.HasRevivingPlayer && ReviveData.ReviveTimer.Expired(Runner))
+            if (ReviveData.HasRevivingPlayer)
             {
-                CompleteRevive();
+                float reviveRemaining = ReviveData.ReviveTimer.RemainingTime(Runner) ?? 0f;
+                if (reviveRemaining <= 0f)
+                {
+                    Debug.Log($"[ReviveSystem] Revive completed for {_player?.Nickname}");
+                    CompleteRevive();
+                }
             }
         }
 
@@ -94,7 +109,7 @@ namespace TPSBR
             reviveData.HasRevivingPlayer = false;
             ReviveData = reviveData;
 
-            Debug.Log($"[ReviveSystem] Entered downed state. Bleed-out timer set to {ReviveSettings.BLEED_OUT_DURATION} seconds");
+            Debug.Log($"[ReviveSystem] Entered downed state. Bleed-out timer set to {ReviveSettings.BLEED_OUT_DURATION} seconds. Timer IsRunning: {ReviveData.BleedOutTimer.IsRunning}, ExpiredOrNotRunning: {ReviveData.BleedOutTimer.ExpiredOrNotRunning(Runner)}");
 
             _agent = _player.ActiveAgent;
             if (_agent != null)

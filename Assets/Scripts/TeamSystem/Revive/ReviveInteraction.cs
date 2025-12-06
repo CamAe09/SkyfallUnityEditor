@@ -7,25 +7,23 @@ namespace TPSBR
     public class ReviveInteraction : ContextBehaviour
     {
         [SerializeField]
-        private LayerMask _playerLayer;
+        private LayerMask _playerLayer = -1;
         [SerializeField]
-        private float _checkInterval = 0.2f;
+        private float _checkInterval = 0.1f;
 
-        private Agent _localAgent;
         private Player _localPlayer;
+        private Agent _localAgent;
         private ReviveSystem _nearbyDownedPlayer;
         private float _checkTimer;
         private bool _isReviving;
-        private InputAction _reviveAction;
-        private GUIStyle _guiStyle;
+        private GUIStyle _promptStyle;
 
         private void Awake()
         {
-            _guiStyle = new GUIStyle();
-            _guiStyle.fontSize = 32;
-            _guiStyle.fontStyle = FontStyle.Bold;
-            _guiStyle.alignment = TextAnchor.MiddleCenter;
-            _guiStyle.normal.textColor = Color.white;
+            _promptStyle = new GUIStyle();
+            _promptStyle.fontSize = 36;
+            _promptStyle.fontStyle = FontStyle.Bold;
+            _promptStyle.alignment = TextAnchor.MiddleCenter;
         }
 
         private void Update()
@@ -33,62 +31,44 @@ namespace TPSBR
             if (Context == null || Context.Runner == null)
                 return;
 
-            UpdateLocalPlayer();
-
-            if (_localAgent == null || _localPlayer == null)
+            if (_localPlayer == null || _localAgent == null)
+            {
+                TryGetLocalPlayer();
                 return;
+            }
+
+            var localReviveSystem = _localPlayer.GetComponent<ReviveSystem>();
+            if (localReviveSystem != null && localReviveSystem.IsDown)
+            {
+                _nearbyDownedPlayer = null;
+                _isReviving = false;
+                return;
+            }
 
             _checkTimer += Time.deltaTime;
             if (_checkTimer >= _checkInterval)
             {
                 _checkTimer = 0f;
-                CheckForDownedPlayers();
+                FindNearbyDownedPlayer();
             }
 
-            if (Keyboard.current != null)
-            {
-                HandleReviveInput();
-            }
+            HandleInput();
         }
 
-        private void OnGUI()
+        private void TryGetLocalPlayer()
         {
-            if (_nearbyDownedPlayer != null && _nearbyDownedPlayer.IsDown && _localPlayer != null)
-            {
-                var downedPlayer = _nearbyDownedPlayer.GetComponent<Player>();
-                if (downedPlayer != null)
-                {
-                    string message = _isReviving 
-                        ? $"Reviving {downedPlayer.Nickname}... {(_nearbyDownedPlayer.ReviveProgress * 100f):F0}%"
-                        : $"Hold [U] to Revive {downedPlayer.Nickname}";
-                    
-                    var rect = new Rect(Screen.width / 2 - 300, Screen.height * 0.35f, 600, 100);
-                    
-                    _guiStyle.normal.textColor = Color.black;
-                    GUI.Label(new Rect(rect.x + 2, rect.y + 2, rect.width, rect.height), message, _guiStyle);
-                    
-                    _guiStyle.normal.textColor = _isReviving ? Color.green : Color.yellow;
-                    GUI.Label(rect, message, _guiStyle);
-                }
-            }
-        }
-
-        private void UpdateLocalPlayer()
-        {
-            if (_localPlayer != null && _localAgent != null)
+            if (Context?.NetworkGame == null)
                 return;
 
-            if (Context != null && Context.NetworkGame != null)
+            _localPlayer = Context.NetworkGame.GetPlayer(Context.LocalPlayerRef);
+            if (_localPlayer != null)
             {
-                _localPlayer = Context.NetworkGame.GetPlayer(Context.LocalPlayerRef);
-                if (_localPlayer != null)
-                {
-                    _localAgent = _localPlayer.ActiveAgent;
-                }
+                _localAgent = _localPlayer.ActiveAgent;
+                Debug.Log($"[ReviveInteraction] Found local player: {_localPlayer.Nickname}");
             }
         }
 
-        private void CheckForDownedPlayers()
+        private void FindNearbyDownedPlayer()
         {
             if (_localAgent == null)
             {
@@ -96,11 +76,9 @@ namespace TPSBR
                 return;
             }
 
-            var localReviveSystem = _localPlayer?.GetComponent<ReviveSystem>();
-            if (localReviveSystem != null && localReviveSystem.IsDown)
+            if (_playerLayer.value == -1)
             {
-                _nearbyDownedPlayer = null;
-                return;
+                _playerLayer = LayerMask.GetMask("Agent");
             }
 
             Collider[] colliders = Physics.OverlapSphere(
@@ -109,15 +87,16 @@ namespace TPSBR
                 _playerLayer
             );
 
-            Debug.Log($"[ReviveInteraction] Checking - Found {colliders.Length} colliders. LayerMask={_playerLayer.value}, Position={_localAgent.transform.position}");
-
             ReviveSystem closestDowned = null;
             float closestDistance = float.MaxValue;
 
-            foreach (var collider in colliders)
+            foreach (var col in colliders)
             {
-                var reviveSystem = collider.GetComponentInParent<ReviveSystem>();
-                if (reviveSystem == null || !reviveSystem.IsDown)
+                var reviveSystem = col.GetComponentInParent<ReviveSystem>();
+                if (reviveSystem == null)
+                    continue;
+
+                if (!reviveSystem.IsDown)
                     continue;
 
                 var downedPlayer = reviveSystem.GetComponent<Player>();
@@ -125,20 +104,15 @@ namespace TPSBR
                     continue;
 
                 if (!_localPlayer.IsTeammateWith(downedPlayer))
-                {
-                    Debug.Log($"[ReviveInteraction] Skipping {downedPlayer.Nickname} - not a teammate");
                     continue;
-                }
 
                 if (reviveSystem.IsBeingRevived && reviveSystem.GetRevivingPlayer() != _localPlayer)
                     continue;
 
-                float distance = Vector3.Distance(_localAgent.transform.position, collider.transform.position);
-                Debug.Log($"[ReviveInteraction] Found downed teammate {downedPlayer.Nickname} at distance {distance}");
-                
-                if (distance < closestDistance)
+                float dist = Vector3.Distance(_localAgent.transform.position, col.transform.position);
+                if (dist < closestDistance)
                 {
-                    closestDistance = distance;
+                    closestDistance = dist;
                     closestDowned = reviveSystem;
                 }
             }
@@ -146,61 +120,115 @@ namespace TPSBR
             if (closestDowned != _nearbyDownedPlayer)
             {
                 _nearbyDownedPlayer = closestDowned;
+                
                 if (_nearbyDownedPlayer != null)
                 {
                     var downedPlayer = _nearbyDownedPlayer.GetComponent<Player>();
-                    Debug.Log($"[ReviveInteraction] ✅ Nearby downed player set to {downedPlayer?.Nickname} at distance {closestDistance}");
+                    Debug.Log($"[ReviveInteraction] Found downed player: {downedPlayer?.Nickname} at {closestDistance:F1}m");
                 }
-                else
+                else if (!_isReviving)
                 {
-                    Debug.Log($"[ReviveInteraction] No downed players nearby");
+                    Debug.Log("[ReviveInteraction] No downed players nearby");
                 }
             }
         }
 
-        private void HandleReviveInput()
+        private void HandleInput()
         {
             if (_nearbyDownedPlayer == null)
             {
                 if (_isReviving)
                 {
-                    StopReviving();
+                    StopRevive();
                 }
                 return;
             }
 
-            if (Keyboard.current != null && Keyboard.current.uKey.isPressed)
+            bool uKeyPressed = Keyboard.current != null && Keyboard.current.uKey.isPressed;
+
+            if (uKeyPressed && !_isReviving)
             {
-                if (!_isReviving)
-                {
-                    StartReviving();
-                }
+                StartRevive();
             }
-            else
+            else if (!uKeyPressed && _isReviving)
             {
-                if (_isReviving)
-                {
-                    StopReviving();
-                }
+                StopRevive();
             }
         }
 
-        private void StartReviving()
+        private void StartRevive()
         {
             if (_nearbyDownedPlayer == null || _localPlayer == null)
                 return;
 
             _isReviving = true;
             _nearbyDownedPlayer.StartRevive(_localPlayer.Object.InputAuthority);
+            
+            var downedPlayer = _nearbyDownedPlayer.GetComponent<Player>();
+            Debug.Log($"[ReviveInteraction] Started reviving {downedPlayer?.Nickname}");
         }
 
-        private void StopReviving()
+        private void StopRevive()
         {
             if (_nearbyDownedPlayer == null)
                 return;
 
             _isReviving = false;
             _nearbyDownedPlayer.CancelRevive();
+            
+            Debug.Log("[ReviveInteraction] Stopped reviving");
+        }
+
+        private void OnGUI()
+        {
+            if (_nearbyDownedPlayer == null || !_nearbyDownedPlayer.IsDown)
+                return;
+
+            if (_localPlayer == null)
+                return;
+
+            var downedPlayer = _nearbyDownedPlayer.GetComponent<Player>();
+            if (downedPlayer == null)
+                return;
+
+            if (_promptStyle == null)
+            {
+                _promptStyle = new GUIStyle();
+                _promptStyle.fontSize = 36;
+                _promptStyle.fontStyle = FontStyle.Bold;
+                _promptStyle.alignment = TextAnchor.MiddleCenter;
+            }
+
+            string message;
+            Color color;
+
+            if (_isReviving)
+            {
+                float progress = _nearbyDownedPlayer.ReviveProgress * 100f;
+                message = $"Reviving {downedPlayer.Nickname}...\n{progress:F0}%";
+                color = Color.green;
+            }
+            else
+            {
+                message = $"Hold [U] to Revive\n{downedPlayer.Nickname}";
+                color = Color.yellow;
+            }
+
+            var rect = new Rect(Screen.width / 2 - 300, Screen.height * 0.35f, 600, 120);
+
+            _promptStyle.normal.textColor = Color.black;
+            GUI.Label(new Rect(rect.x + 2, rect.y + 2, rect.width, rect.height), message, _promptStyle);
+
+            _promptStyle.normal.textColor = color;
+            GUI.Label(rect, message, _promptStyle);
+        }
+
+        private void OnDisable()
+        {
+            if (_isReviving)
+            {
+                StopRevive();
+            }
         }
 
         public ReviveSystem GetNearbyDownedPlayer()
@@ -211,14 +239,6 @@ namespace TPSBR
         public bool IsReviving()
         {
             return _isReviving;
-        }
-
-        private void OnDisable()
-        {
-            if (_isReviving)
-            {
-                StopReviving();
-            }
         }
     }
 }
