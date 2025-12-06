@@ -6,57 +6,34 @@ namespace TPSBR.UI
 {
     public class UIDownedState : UIWidget
     {
-        [Header("References")]
         [SerializeField]
-        private GameObject _downedStateRoot;
+        private TextMeshProUGUI _downedText;
         [SerializeField]
-        private Image _healthBarFill;
-        [SerializeField]
-        private TextMeshProUGUI _statusText;
-        [SerializeField]
-        private TextMeshProUGUI _bleedOutTimerText;
-        
-        [Header("Being Revived")]
-        [SerializeField]
-        private GameObject _beingRevivedIndicator;
-        [SerializeField]
-        private TextMeshProUGUI _reviverNameText;
-        [SerializeField]
-        private Image _reviveProgressFill;
-        
-        [Header("Colors")]
-        [SerializeField]
-        private Color _bleedOutColor = new Color(0.8f, 0.1f, 0.1f);
-        [SerializeField]
-        private Color _revivingColor = new Color(0.1f, 0.8f, 0.1f);
+        private TextMeshProUGUI _timerText;
 
         private ReviveSystem _localReviveSystem;
         private Player _localPlayer;
-        private Color _originalHealthBarColor;
-        private bool _wasDown = false;
+        private CanvasGroup _canvasGroup;
 
         protected override void OnTick()
         {
             base.OnTick();
 
+            if (_canvasGroup == null)
+            {
+                _canvasGroup = GetComponent<CanvasGroup>();
+                if (_canvasGroup == null)
+                {
+                    _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                }
+            }
+
             UpdateLocalPlayer();
 
             if (_localReviveSystem == null || !_localReviveSystem.IsDown)
             {
-                if (_wasDown)
-                {
-                    RestoreHealthBarColor();
-                    _wasDown = false;
-                }
-                
                 HideDownedState();
                 return;
-            }
-
-            if (!_wasDown)
-            {
-                SaveHealthBarColor();
-                _wasDown = true;
             }
 
             ShowDownedState();
@@ -80,33 +57,21 @@ namespace TPSBR.UI
 
         private void ShowDownedState()
         {
-            if (_downedStateRoot != null)
+            if (_canvasGroup != null)
             {
-                _downedStateRoot.SetActive(true);
+                _canvasGroup.alpha = 1;
+                _canvasGroup.interactable = true;
+                _canvasGroup.blocksRaycasts = true;
             }
         }
 
         private void HideDownedState()
         {
-            if (_downedStateRoot != null)
+            if (_canvasGroup != null)
             {
-                _downedStateRoot.SetActive(false);
-            }
-        }
-
-        private void SaveHealthBarColor()
-        {
-            if (_healthBarFill != null)
-            {
-                _originalHealthBarColor = _healthBarFill.color;
-            }
-        }
-
-        private void RestoreHealthBarColor()
-        {
-            if (_healthBarFill != null)
-            {
-                _healthBarFill.color = _originalHealthBarColor;
+                _canvasGroup.alpha = 0;
+                _canvasGroup.interactable = false;
+                _canvasGroup.blocksRaycasts = false;
             }
         }
 
@@ -116,52 +81,29 @@ namespace TPSBR.UI
                 return;
 
             float bleedOutTime = _localReviveSystem.BleedOutProgress;
-            float bleedOutPercent = bleedOutTime / ReviveSettings.BLEED_OUT_DURATION;
 
-            if (_healthBarFill != null)
+            if (_timerText != null)
             {
-                _healthBarFill.fillAmount = bleedOutPercent;
-                _healthBarFill.color = _localReviveSystem.IsBeingRevived ? _revivingColor : _bleedOutColor;
+                _timerText.text = $"{Mathf.CeilToInt(bleedOutTime)}s";
             }
 
-            if (_bleedOutTimerText != null)
+            if (_downedText != null)
             {
-                _bleedOutTimerText.text = $"{Mathf.CeilToInt(bleedOutTime)}s";
-            }
-
-            if (_localReviveSystem.IsBeingRevived)
-            {
-                if (_beingRevivedIndicator != null)
+                if (_localReviveSystem.IsBeingRevived)
                 {
-                    _beingRevivedIndicator.SetActive(true);
+                    var reviver = _localReviveSystem.GetRevivingPlayer();
+                    if (reviver != null)
+                    {
+                        _downedText.text = $"{reviver.Nickname} is reviving you...";
+                    }
+                    else
+                    {
+                        _downedText.text = "Being Revived...";
+                    }
                 }
-
-                var reviver = _localReviveSystem.GetRevivingPlayer();
-                if (reviver != null && _reviverNameText != null)
+                else
                 {
-                    _reviverNameText.text = $"{reviver.Nickname} is reviving you...";
-                }
-
-                if (_reviveProgressFill != null)
-                {
-                    _reviveProgressFill.fillAmount = _localReviveSystem.ReviveProgress;
-                }
-
-                if (_statusText != null)
-                {
-                    _statusText.text = "Being Revived...";
-                }
-            }
-            else
-            {
-                if (_beingRevivedIndicator != null)
-                {
-                    _beingRevivedIndicator.SetActive(false);
-                }
-
-                if (_statusText != null)
-                {
-                    _statusText.text = "You are down! Waiting for teammate...";
+                    _downedText.text = "YOU ARE DOWNED";
                 }
             }
         }

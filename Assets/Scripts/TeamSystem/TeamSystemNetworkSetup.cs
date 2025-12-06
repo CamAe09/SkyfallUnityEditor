@@ -26,6 +26,7 @@ namespace TPSBR
         private ReviveIntegration _reviveIntegration;
         private ReviveInteraction _reviveInteraction;
         private bool _initialized;
+        private static bool _uiCreated = false;
 
         public override void Spawned()
         {
@@ -60,6 +61,7 @@ namespace TPSBR
             {
                 AddReviveIntegration();
                 AddReviveInteraction();
+                CreateReviveUI();
             }
 
             LogDebug("Team System initialization complete");
@@ -185,6 +187,25 @@ namespace TPSBR
             {
                 Debug.Log($"[TeamSystemNetworkSetup] {message}");
             }
+        }
+
+        private void CreateReviveUI()
+        {
+            if (_uiCreated)
+            {
+                LogDebug("Revive UI already created");
+                return;
+            }
+
+            var uiBuilder = FindFirstObjectByType<ReviveUIBuilder>();
+            if (uiBuilder == null)
+            {
+                var go = new GameObject("ReviveUIBuilder");
+                go.AddComponent<ReviveUIBuilder>();
+                LogDebug("Created ReviveUIBuilder");
+            }
+
+            _uiCreated = true;
         }
 
         public override void Despawned(NetworkRunner runner, bool hasState)

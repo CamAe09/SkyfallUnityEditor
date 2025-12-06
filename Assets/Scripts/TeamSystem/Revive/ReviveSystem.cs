@@ -6,6 +6,11 @@ namespace TPSBR
 {
     public class ReviveSystem : NetworkBehaviour, IInteraction
     {
+        [Header("Downed Animation")]
+        [SerializeField]
+        [Tooltip("Animation clip to play when player is downed (optional)")]
+        private AnimationClip _downedAnimationClip;
+
         public Action<Player> OnPlayerDowned;
         public Action<Player, Player> OnReviveStarted;
         public Action<Player, Player> OnReviveCompleted;
@@ -18,6 +23,8 @@ namespace TPSBR
         private Player _player;
         private Agent _agent;
         private NetworkGame _networkGame;
+        private Animator _animator;
+        private int _downedAnimationHash;
 
         public bool IsDown => ReviveData.IsDown;
         public bool IsBeingRevived => ReviveData.HasRevivingPlayer;
@@ -33,6 +40,11 @@ namespace TPSBR
         {
             _player = GetComponent<Player>();
             _networkGame = Runner.SimulationUnityScene.GetComponent<NetworkGame>(true);
+
+            if (_downedAnimationClip != null)
+            {
+                _downedAnimationHash = Animator.StringToHash(_downedAnimationClip.name);
+            }
         }
 
         public override void FixedUpdateNetwork()
@@ -87,6 +99,8 @@ namespace TPSBR
                 {
                     _agent.transform.position = hit.point + Vector3.up * 0.1f;
                 }
+
+                PlayDownedAnimation();
             }
 
             OnPlayerDowned?.Invoke(_player);
@@ -161,6 +175,8 @@ namespace TPSBR
                     Target = _agent.Health
                 };
                 ((IHitTarget)_agent.Health).ProcessHit(ref hitData);
+
+                StopDownedAnimation();
             }
 
             var statistics = _player.Statistics;
@@ -240,6 +256,32 @@ namespace TPSBR
                 return null;
 
             return _networkGame?.GetPlayer(ReviveData.RevivingPlayer);
+        }
+
+        private void PlayDownedAnimation()
+        {
+            if (_downedAnimationClip == null || _agent == null)
+                return;
+
+            if (_animator == null)
+            {
+                _animator = _agent.GetComponentInChildren<Animator>();
+            }
+
+            if (_animator != null && _downedAnimationHash != 0)
+            {
+                _animator.CrossFade(_downedAnimationHash, 0.2f);
+                Debug.Log($"[ReviveSystem] Playing downed animation: {_downedAnimationClip.name}");
+            }
+        }
+
+        private void StopDownedAnimation()
+        {
+            if (_animator != null)
+            {
+                _animator.Rebind();
+                Debug.Log("[ReviveSystem] Stopped downed animation");
+            }
         }
 
         [Rpc(RpcSources.All, RpcTargets.StateAuthority, Channel = RpcChannel.Reliable)]

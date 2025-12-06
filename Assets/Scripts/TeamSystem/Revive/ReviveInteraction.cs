@@ -67,6 +67,8 @@ namespace TPSBR
                 _playerLayer
             );
 
+            Debug.Log($"[ReviveInteraction] Checking - Found {colliders.Length} colliders. LayerMask={_playerLayer.value}, Position={_localAgent.transform.position}");
+
             ReviveSystem closestDowned = null;
             float closestDistance = float.MaxValue;
 

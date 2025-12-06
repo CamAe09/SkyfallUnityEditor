@@ -98,3 +98,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c34314064bff644db7b742b716f080c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _downedAnimationClip: {fileID: -203655887218126122, guid: 28f3411ee922d7d49b175d1a2695c6e9, type: 3}

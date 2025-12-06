@@ -327,6 +327,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\LogRecorder.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+    <Compile Include="Assets\Scripts\TeamSystem\Revive\UI\ReviveUIBuilder.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\States\ReloadState.cs" />
     <Compile Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Scripts\FPSRandomRotateAngle.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\Recorders\PlayerRecorder.cs" />
