@@ -90,7 +90,7 @@ MonoBehaviour:
   _useShrinkingArea: 1
   _maxKillInRowDelay: 6
   _airplanePrefab: {fileID: 2804349911246124050, guid: 407c894c943b3ff478cd5f01ddd9d842, type: 3}
-  _airplaneHeight: 800
+  _airplaneHeight: 450
   _playerDropTime: 60
   _airplaneJumpImpulse: 20
   _airplaneAgentPrefab: {fileID: 337249011232384914, guid: af8e52ecf47dccc448a889075bde48ee, type: 3}

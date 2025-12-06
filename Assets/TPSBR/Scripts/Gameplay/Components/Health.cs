@@ -83,6 +83,14 @@ namespace TPSBR
 
 			if (IsAlive == true && _healthRegenPerSecond > 0f && _regenTickTimer.ExpiredOrNotRunning(Runner) == true)
 			{
+				var player = Context?.NetworkGame?.GetPlayer(_agent.Object.InputAuthority);
+				var reviveSystem = player != null ? player.GetComponent<ReviveSystem>() : null;
+				
+				if (reviveSystem != null && reviveSystem.IsDown)
+				{
+					return;
+				}
+
 				_regenTickTimer = TickTimer.CreateFromSeconds(Runner, _regenTickTime);
 
 				var healthDiff = _maxHealthFromRegen - CurrentHealth;
