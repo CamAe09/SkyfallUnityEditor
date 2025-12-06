@@ -25,6 +25,7 @@ namespace TPSBR
         private NetworkGame _networkGame;
         private Animator _animator;
         private int _downedAnimationHash;
+        private GUIStyle _guiStyle;
 
         public bool IsDown => ReviveData.IsDown;
         public bool IsBeingRevived => ReviveData.HasRevivingPlayer;
@@ -45,6 +46,11 @@ namespace TPSBR
             {
                 _downedAnimationHash = Animator.StringToHash(_downedAnimationClip.name);
             }
+
+            _guiStyle = new GUIStyle();
+            _guiStyle.fontSize = 40;
+            _guiStyle.fontStyle = FontStyle.Bold;
+            _guiStyle.alignment = TextAnchor.MiddleCenter;
         }
 
         public override void FixedUpdateNetwork()
@@ -256,6 +262,25 @@ namespace TPSBR
                 return null;
 
             return _networkGame?.GetPlayer(ReviveData.RevivingPlayer);
+        }
+
+        private void OnGUI()
+        {
+            if (!IsDown || _player == null || !_player.HasInputAuthority)
+                return;
+
+            float bleedOutTime = BleedOutProgress;
+            string message = IsBeingRevived 
+                ? $"BEING REVIVED\n{(ReviveProgress * 100f):F0}%"
+                : $"YOU ARE DOWNED\nBleed out in {Mathf.CeilToInt(bleedOutTime)}s";
+
+            var rect = new Rect(Screen.width / 2 - 300, Screen.height * 0.7f, 600, 150);
+            
+            _guiStyle.normal.textColor = Color.black;
+            GUI.Label(new Rect(rect.x + 2, rect.y + 2, rect.width, rect.height), message, _guiStyle);
+            
+            _guiStyle.normal.textColor = IsBeingRevived ? Color.green : Color.red;
+            GUI.Label(rect, message, _guiStyle);
         }
 
         private void PlayDownedAnimation()

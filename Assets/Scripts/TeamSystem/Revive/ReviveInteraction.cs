@@ -17,6 +17,16 @@ namespace TPSBR
         private float _checkTimer;
         private bool _isReviving;
         private InputAction _reviveAction;
+        private GUIStyle _guiStyle;
+
+        private void Awake()
+        {
+            _guiStyle = new GUIStyle();
+            _guiStyle.fontSize = 32;
+            _guiStyle.fontStyle = FontStyle.Bold;
+            _guiStyle.alignment = TextAnchor.MiddleCenter;
+            _guiStyle.normal.textColor = Color.white;
+        }
 
         private void Update()
         {
@@ -35,7 +45,32 @@ namespace TPSBR
                 CheckForDownedPlayers();
             }
 
-            HandleReviveInput();
+            if (Keyboard.current != null)
+            {
+                HandleReviveInput();
+            }
+        }
+
+        private void OnGUI()
+        {
+            if (_nearbyDownedPlayer != null && _nearbyDownedPlayer.IsDown && _localPlayer != null)
+            {
+                var downedPlayer = _nearbyDownedPlayer.GetComponent<Player>();
+                if (downedPlayer != null)
+                {
+                    string message = _isReviving 
+                        ? $"Reviving {downedPlayer.Nickname}... {(_nearbyDownedPlayer.ReviveProgress * 100f):F0}%"
+                        : $"Hold [U] to Revive {downedPlayer.Nickname}";
+                    
+                    var rect = new Rect(Screen.width / 2 - 300, Screen.height * 0.35f, 600, 100);
+                    
+                    _guiStyle.normal.textColor = Color.black;
+                    GUI.Label(new Rect(rect.x + 2, rect.y + 2, rect.width, rect.height), message, _guiStyle);
+                    
+                    _guiStyle.normal.textColor = _isReviving ? Color.green : Color.yellow;
+                    GUI.Label(rect, message, _guiStyle);
+                }
+            }
         }
 
         private void UpdateLocalPlayer()

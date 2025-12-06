@@ -62,10 +62,9 @@ namespace TPSBR
             {
                 AddReviveIntegration();
                 AddReviveInteraction();
-                CreateReviveUI();
             }
 
-            LogDebug("Team System initialization complete");
+            Debug.Log($"[TeamSystemNetworkSetup] ✅ Initialization complete! Revive system is {"enabled".ToUpper()}!");
         }
 
         private void SpawnTeamManager()
@@ -188,25 +187,6 @@ namespace TPSBR
             {
                 Debug.Log($"[TeamSystemNetworkSetup] {message}");
             }
-        }
-
-        private void CreateReviveUI()
-        {
-            if (_uiCreated)
-            {
-                LogDebug("Revive UI already created");
-                return;
-            }
-
-            var uiBuilder = FindFirstObjectByType<ReviveUIBuilder>();
-            if (uiBuilder == null)
-            {
-                var go = new GameObject("ReviveUIBuilder");
-                go.AddComponent<ReviveUIBuilder>();
-                LogDebug("Created ReviveUIBuilder");
-            }
-
-            _uiCreated = true;
         }
 
         public override void Despawned(NetworkRunner runner, bool hasState)
