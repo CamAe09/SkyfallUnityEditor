@@ -8,7 +8,7 @@ namespace TPSBR
         [SerializeField]
         private bool _enableReviveSystem = true;
 
-        private void Update()
+        public override void FixedUpdateNetwork()
         {
             if (!_enableReviveSystem || Context == null || Context.NetworkGame == null)
                 return;
@@ -31,7 +31,7 @@ namespace TPSBR
                 if (reviveSystem == null)
                 {
                     reviveSystem = player.gameObject.AddComponent<ReviveSystem>();
-                    Debug.Log($"[ReviveIntegration] Added ReviveSystem to player {player.Nickname}");
+                    Debug.Log($"[ReviveIntegration] Added ReviveSystem to player {player.Nickname} immediately on network tick");
                 }
             }
         }
