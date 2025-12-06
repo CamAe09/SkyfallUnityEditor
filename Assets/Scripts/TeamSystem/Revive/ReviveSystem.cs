@@ -26,6 +26,7 @@ namespace TPSBR
         private Animator _animator;
         private int _downedAnimationHash;
         private GUIStyle _guiStyle;
+        private CapsuleCollider _downedCollider;
 
         public bool IsDown => ReviveData.IsDown;
         public bool IsBeingRevived => ReviveData.HasRevivingPlayer;
@@ -106,10 +107,54 @@ namespace TPSBR
                     _agent.transform.position = hit.point + Vector3.up * 0.1f;
                 }
 
+                CreateDownedCollider();
                 PlayDownedAnimation();
             }
 
             OnPlayerDowned?.Invoke(_player);
+        }
+
+        private void CreateDownedCollider()
+        {
+            if (_downedCollider != null)
+                return;
+
+            var agentCollider = _agent.GetComponentInChildren<CapsuleCollider>();
+            if (agentCollider == null)
+            {
+                Debug.LogWarning("[ReviveSystem] No CapsuleCollider found on agent, creating default collider");
+                _downedCollider = _agent.gameObject.AddComponent<CapsuleCollider>();
+                _downedCollider.height = 1f;
+                _downedCollider.radius = 0.5f;
+                _downedCollider.center = new Vector3(0, 0.5f, 0);
+            }
+            else
+            {
+                _downedCollider = _agent.gameObject.AddComponent<CapsuleCollider>();
+                _downedCollider.height = agentCollider.height * 0.3f;
+                _downedCollider.radius = agentCollider.radius;
+                _downedCollider.center = new Vector3(0, _downedCollider.height * 0.5f, 0);
+            }
+
+            _downedCollider.isTrigger = false;
+            
+            int agentLayer = LayerMask.NameToLayer("Agent");
+            if (agentLayer != -1)
+            {
+                _agent.gameObject.layer = agentLayer;
+            }
+
+            Debug.Log($"[ReviveSystem] Created downed collider - Height: {_downedCollider.height}, Radius: {_downedCollider.radius}");
+        }
+
+        private void RemoveDownedCollider()
+        {
+            if (_downedCollider != null)
+            {
+                Destroy(_downedCollider);
+                _downedCollider = null;
+                Debug.Log("[ReviveSystem] Removed downed collider");
+            }
         }
 
         public void StartRevive(PlayerRef reviverRef)
@@ -173,6 +218,7 @@ namespace TPSBR
             {
                 _agent.Character.CharacterController.SetActive(true);
                 EnableAgentActions();
+                RemoveDownedCollider();
 
                 var hitData = new HitData
                 {
@@ -194,10 +240,14 @@ namespace TPSBR
 
         private void OnBleedOut()
         {
+            Debug.Log($"[ReviveSystem] Player {_player?.Nickname} bled out, dealing fatal damage");
+
             var reviveData = ReviveData;
             reviveData.IsDown = false;
             reviveData.HasRevivingPlayer = false;
             ReviveData = reviveData;
+
+            RemoveDownedCollider();
 
             if (_agent != null && _agent.Health != null)
             {
@@ -206,7 +256,8 @@ namespace TPSBR
                     Action = EHitAction.Damage,
                     Amount = 9999f,
                     Target = _agent.Health,
-                    InstigatorRef = PlayerRef.None
+                    InstigatorRef = PlayerRef.None,
+                    IsFatal = true
                 };
                 ((IHitTarget)_agent.Health).ProcessHit(ref hitData);
             }

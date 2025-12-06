@@ -96,6 +96,13 @@ namespace TPSBR
                 return;
             }
 
+            var localReviveSystem = _localPlayer?.GetComponent<ReviveSystem>();
+            if (localReviveSystem != null && localReviveSystem.IsDown)
+            {
+                _nearbyDownedPlayer = null;
+                return;
+            }
+
             Collider[] colliders = Physics.OverlapSphere(
                 _localAgent.transform.position,
                 ReviveSettings.REVIVE_INTERACTION_DISTANCE,
@@ -118,12 +125,17 @@ namespace TPSBR
                     continue;
 
                 if (!_localPlayer.IsTeammateWith(downedPlayer))
+                {
+                    Debug.Log($"[ReviveInteraction] Skipping {downedPlayer.Nickname} - not a teammate");
                     continue;
+                }
 
                 if (reviveSystem.IsBeingRevived && reviveSystem.GetRevivingPlayer() != _localPlayer)
                     continue;
 
                 float distance = Vector3.Distance(_localAgent.transform.position, collider.transform.position);
+                Debug.Log($"[ReviveInteraction] Found downed teammate {downedPlayer.Nickname} at distance {distance}");
+                
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
@@ -136,7 +148,12 @@ namespace TPSBR
                 _nearbyDownedPlayer = closestDowned;
                 if (_nearbyDownedPlayer != null)
                 {
-                    Debug.Log($"[ReviveInteraction] Found nearby downed player at distance {closestDistance}");
+                    var downedPlayer = _nearbyDownedPlayer.GetComponent<Player>();
+                    Debug.Log($"[ReviveInteraction] ✅ Nearby downed player set to {downedPlayer?.Nickname} at distance {closestDistance}");
+                }
+                else
+                {
+                    Debug.Log($"[ReviveInteraction] No downed players nearby");
                 }
             }
         }
