@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using TMPro;
+using Fusion;
 
 namespace TPSBR
 {
@@ -144,6 +145,15 @@ namespace TPSBR
             if (_playerTransform == null)
             {
                 FindPlayer();
+            }
+            else
+            {
+                Agent agent = _playerTransform.GetComponent<Agent>();
+                if (agent == null || !agent.HasInputAuthority)
+                {
+                    _playerTransform = null;
+                    FindPlayer();
+                }
             }
 
             if (_playerTransform != null && _playerMarker != null)
@@ -342,10 +352,15 @@ namespace TPSBR
 
         private void FindPlayer()
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
+            Agent[] allAgents = FindObjectsByType<Agent>(FindObjectsSortMode.None);
+            
+            foreach (Agent agent in allAgents)
             {
-                _playerTransform = playerObj.transform;
+                if (agent.HasInputAuthority)
+                {
+                    _playerTransform = agent.transform;
+                    return;
+                }
             }
         }
 
