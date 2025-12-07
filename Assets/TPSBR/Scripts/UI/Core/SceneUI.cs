@@ -232,11 +232,15 @@ namespace TPSBR.UI
 
 		public bool PlaySound(AudioSetup effectSetup, EForceBehaviour force = EForceBehaviour.None)
 		{
+			if (_audioEffects == null || effectSetup == null)
+				return false;
 			return _audioEffects.PlaySound(effectSetup, force);
 		}
 
 		public bool PlayClickSound()
 		{
+			if (_clickSound == null)
+				return false;
 			return PlaySound(_clickSound);
 		}
 

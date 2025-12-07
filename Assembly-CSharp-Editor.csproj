@@ -118,6 +118,8 @@
     <Compile Include="Assets\TPSBR\Scripts\Editor\AllowHttpDialog.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UIToggleEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationStateEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabs.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixNetworkGameCode.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\Editor\ProjectUtility.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\PlayerInterestManagerEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCProcessorReferenceDrawer.cs" />
@@ -125,13 +127,18 @@
     <Compile Include="Assets\TPSBR\Scripts\Editor\UISliderEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationControllerEditor.cs" />
     <Compile Include="Assets\Scripts\Editor\MapScreenshotTool.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixBattleRoyaleType.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCLayerDrawer.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UIButtonEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\DisabledInPlayModeDrawer.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\PlayerInterestViewEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\ProxyBehaviorDrawer.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationLayerEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixReplayGalleryHierarchy.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixReplayViewerViewportAlpha.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabsV3.cs" />
+    <Compile Include="Assets\Scripts\Editor\CircleSpriteGenerator.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\StatsRecorderEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\ZoneInterestProviderEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\Utilities\InterestEditorUtility.cs" />
@@ -140,7 +147,9 @@
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\GlobalInterestManagerEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCProxyBehaviorDrawer.cs" />
     <Compile Include="Assets\3rdParty\Hovl Studio\Render Pipelines support\Editor\ShaderChanger.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabsV2.cs" />
     <Compile Include="Assets\Scripts\Editor\MapMeasurementHelper.cs" />
+    <Compile Include="Assets\Scripts\Editor\MapZoneSetupHelper.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\InterestProviderEditor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1642,6 +1651,10 @@
     </Reference>
     <Reference Include="Unity.NetCode.Hybrid">
       <HintPath>Library\ScriptAssemblies\Unity.NetCode.Hybrid.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Toolchain.Win-x86_64-Linux-x86_64">
+      <HintPath>Library\ScriptAssemblies\Unity.Toolchain.Win-x86_64-Linux-x86_64.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Analytics">

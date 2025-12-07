@@ -59,6 +59,12 @@ namespace TPSBR
 		[SerializeField]
 		private GroundSnapProcessor _groundSnapProcessor;
 
+		public float SpeedMultiplier
+		{
+			get => _speedMultiplier;
+			set => _speedMultiplier = value;
+		}
+
 		// KCCProcessor INTERFACE
 
 		public override float GetPriority(KCC kcc) => DefaultPriority + RelativePriority;

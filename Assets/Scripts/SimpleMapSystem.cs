@@ -20,8 +20,16 @@ namespace TPSBR
         [SerializeField] private GameObject _poiMarkerPrefab;
         [SerializeField] private Transform _poiMarkersContainer;
 
+        [Header("Zone Visualization")]
+        [SerializeField] private bool _showZones = true;
+        [SerializeField] private Image _currentZoneCircle;
+        [SerializeField] private Image _nextZoneCircle;
+        [SerializeField] private Color _currentZoneColor = new Color(1f, 0f, 0f, 0.3f);
+        [SerializeField] private Color _nextZoneColor = new Color(1f, 1f, 1f, 0.5f);
+
         private bool _isMapOpen = false;
         private Transform _playerTransform;
+        private ShrinkingArea _shrinkingArea;
         private readonly List<MapPOI> _pois = new List<MapPOI>();
         private readonly Dictionary<MapPOI, RectTransform> _poiMarkers = new Dictionary<MapPOI, RectTransform>();
 
@@ -29,6 +37,8 @@ namespace TPSBR
         {
             SetupMap();
             FindPOIs();
+            FindShrinkingArea();
+            SetupZoneCircles();
 
             if (_mapPanel != null)
             {
@@ -135,6 +145,82 @@ namespace TPSBR
             }
 
             UpdatePOIMarkers();
+            UpdateZoneCircles();
+        }
+
+        private void FindShrinkingArea()
+        {
+            _shrinkingArea = FindFirstObjectByType<ShrinkingArea>();
+        }
+
+        private void SetupZoneCircles()
+        {
+            if (_currentZoneCircle != null)
+            {
+                _currentZoneCircle.color = _currentZoneColor;
+                _currentZoneCircle.type = Image.Type.Simple;
+                _currentZoneCircle.gameObject.SetActive(false);
+            }
+
+            if (_nextZoneCircle != null)
+            {
+                _nextZoneCircle.color = _nextZoneColor;
+                _nextZoneCircle.type = Image.Type.Simple;
+                _nextZoneCircle.gameObject.SetActive(false);
+            }
+        }
+
+        private void UpdateZoneCircles()
+        {
+            if (!_showZones || _shrinkingArea == null || _mapDisplay == null)
+            {
+                if (_currentZoneCircle != null) _currentZoneCircle.gameObject.SetActive(false);
+                if (_nextZoneCircle != null) _nextZoneCircle.gameObject.SetActive(false);
+                return;
+            }
+
+            if (!_shrinkingArea.IsActive || !_shrinkingArea.IsAnnounced)
+            {
+                if (_currentZoneCircle != null) _currentZoneCircle.gameObject.SetActive(false);
+                if (_nextZoneCircle != null) _nextZoneCircle.gameObject.SetActive(false);
+                return;
+            }
+
+            if (_currentZoneCircle != null)
+            {
+                _currentZoneCircle.gameObject.SetActive(true);
+                UpdateZoneCircle(_currentZoneCircle, _shrinkingArea.Center, _shrinkingArea.Radius);
+            }
+
+            if (_nextZoneCircle != null && _shrinkingArea.IsAnnounced)
+            {
+                _nextZoneCircle.gameObject.SetActive(true);
+                UpdateZoneCircle(_nextZoneCircle, _shrinkingArea.ShrinkCenter, _shrinkingArea.ShrinkRadius);
+            }
+            else if (_nextZoneCircle != null)
+            {
+                _nextZoneCircle.gameObject.SetActive(false);
+            }
+        }
+
+        private void UpdateZoneCircle(Image circleImage, Vector3 worldCenter, float worldRadius)
+        {
+            if (circleImage == null || _mapDisplay == null)
+                return;
+
+            RectTransform circleRect = circleImage.GetComponent<RectTransform>();
+            if (circleRect == null)
+                return;
+
+            Vector2 mapPosition = WorldToMapPosition(worldCenter);
+            circleRect.anchoredPosition = mapPosition;
+
+            RectTransform mapRect = _mapDisplay.GetComponent<RectTransform>();
+            float mapDisplayWidth = mapRect.rect.width;
+
+            float circleSize = (worldRadius * 2f / _mapWorldSize.x) * mapDisplayWidth;
+
+            circleRect.sizeDelta = new Vector2(circleSize, circleSize);
         }
 
         private void FindPlayer()

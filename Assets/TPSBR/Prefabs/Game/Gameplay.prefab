@@ -557,16 +557,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2722191175907004470, guid: 3f938544efb06df40b044953cf2402f2, type: 3}
       propertyPath: _modePrefabs.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2722191175907004470, guid: 3f938544efb06df40b044953cf2402f2, type: 3}
       propertyPath: '_modePrefabs.Array.data[0]'
       value: 
-      objectReference: {fileID: 7530579074752114227, guid: 21506a62fa57cad48a73f852189262e6, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2722191175907004470, guid: 3f938544efb06df40b044953cf2402f2, type: 3}
       propertyPath: '_modePrefabs.Array.data[1]'
       value: 
-      objectReference: {fileID: 7530579074752114227, guid: c20cc8dbfb891bf489ddbd110760b3f6, type: 3}
+      objectReference: {fileID: 6461819204825746839, guid: 5932dd8436215414894111639686f18c, type: 3}
     - target: {fileID: 2722191175907004470, guid: 3f938544efb06df40b044953cf2402f2, type: 3}
       propertyPath: '_modePrefabs.Array.data[2]'
       value: 

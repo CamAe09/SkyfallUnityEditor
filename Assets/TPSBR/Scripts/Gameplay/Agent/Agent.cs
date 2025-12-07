@@ -19,6 +19,7 @@ namespace TPSBR
 		public Health            Health       => _health;
 		public AgentSenses       Senses       => _senses;
 		public Jetpack           Jetpack      => _jetpack;
+		public SprintSystem      Sprint       => _sprint;
 		public AgentVFX          Effects      => _agentVFX;
 		public AgentInterestView InterestView => _interestView;
 
@@ -52,6 +53,7 @@ namespace TPSBR
 		private Character           _character;
 		private Weapons             _weapons;
 		private Jetpack             _jetpack;
+		private SprintSystem        _sprint;
 		private AgentSenses         _senses;
 		private Health              _health;
 		private AgentVFX            _agentVFX;
@@ -224,6 +226,7 @@ namespace TPSBR
 			_agentVFX     = GetComponent<AgentVFX>();
 			_senses       = GetComponent<AgentSenses>();
 			_jetpack      = GetComponent<Jetpack>();
+			_sprint       = GetComponent<SprintSystem>();
 			_interestView = GetComponent<AgentInterestView>();
 		}
 
@@ -295,6 +298,14 @@ namespace TPSBR
 			if (_jetpack.IsActive == true)
 			{
 				_jetpack.FullThrust = input.Thrust;
+			}
+
+			_sprint.ProcessSprintInput(input.Sprint);
+
+			BREnvironmentProcessor environmentProcessor = _character.CharacterController.GetProcessor<BREnvironmentProcessor>();
+			if (environmentProcessor != null)
+			{
+				environmentProcessor.SpeedMultiplier = 1.6f * _sprint.SprintSpeedMultiplier;
 			}
 
 			_agentInput.SetFixedInput(input, false);

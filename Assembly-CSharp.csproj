@@ -125,11 +125,13 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\SceneExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\ByteExtensions.cs" />
+    <Compile Include="Assets\Scripts\SprintSystem.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Stages\Core\KCCStageInfo.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GeneralViews\UIErrorDialogView.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Effects\Explosion.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Networking\Networking.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\QuaternionExtensions.cs" />
+    <Compile Include="Assets\Scripts\CameraFixer.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\KCC.Physics.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Elevator.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UIFriendWidget.cs" />
@@ -171,6 +173,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\GameplayModes\DeathmatchGameplayMode.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\States\BlendTree\BlendTreeSet.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\MenuViews\UIMatchmakerView.cs" />
+    <Compile Include="Assets\Scripts\NetworkingHostMigrationIntegration.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Player\PlayerPreview.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UICrosshair.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UIPartyLobbyView.cs" />
@@ -201,6 +204,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Stages\Core\IKCCStage.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\KCC\BREnvironmentProcessor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\Recorders\StatsRecorder.cs" />
+    <Compile Include="Assets\Scripts\UISprintIndicator.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\Revive\ReviveIntegration.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Data\KCCDebug.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkInt.cs" />
@@ -217,6 +221,7 @@
     <Compile Include="Assets\TPSBR\Scripts\UI\GameplayViews\UIGameOverView.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIMapItem.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Hits\BodyPart.cs" />
+    <Compile Include="Assets\Scripts\Cinematics\CinematicCameraManager.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Stages\EndMove.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\Accumulators\Vector2Accumulator.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\KCC.Events.cs" />
@@ -261,6 +266,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkVector2.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GameplayViews\UIScoreboardView.cs" />
+    <Compile Include="Assets\Scripts\Cinematics\CinematicShot.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GeneralViews\UIInfoDialogView.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Extensions\NetworkRunnerExtensions.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UIFriendListWidget.cs" />
@@ -320,6 +326,7 @@
     <Compile Include="Assets\TPSBR\Scripts\UI\GeneralViews\UIButtonDialogView.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\GameplayModes\GameplayMode.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Extensions\KCCComponentExtensions.cs" />
+    <Compile Include="Assets\Scripts\AgentSprintProperty.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Announcer\Announcements\RemainingPlayersAnnouncement.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\States\EquipState.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\AnimationsRecorder.cs" />
@@ -356,10 +363,12 @@
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Utilities\AnimationUtility.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\States\UnequipState.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Targets\ColorTag.cs" />
+    <Compile Include="Assets\Scripts\Cinematics\CinematicController.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkQuaternion.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Announcer\Announcements\MultiKillAnnouncement.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\AgentInput.Mobile.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
+    <Compile Include="Assets\Scripts\Cinematics\CinematicRecorder.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\IntExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\Character.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\ListPool.cs" />
@@ -369,6 +378,7 @@
     <Compile Include="Assets\Scripts\SimpleMapSystem.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Interactions\Pickups\HealthPickup.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UISessionList.cs" />
+    <Compile Include="Assets\Scripts\CameraRenderDistanceHelper.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\Core\NetworkTRSPProcessorProvider.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Weapons\RecoilPattern.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GeneralViews\UIYesNoDialogView.cs" />
@@ -376,6 +386,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\Debug\PenetrationSolver.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\AudioEffectExtensions.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkFloatArray.cs" />
+    <Compile Include="Assets\Scripts\FreeCameraController.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\AgentVFX.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\Scripts\MapPOI.cs" />
@@ -444,6 +455,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Announcer\Announcements\RemainingKillsAnnouncement.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\LevelGeneration\BlockConnector.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Data\KCCTraceInfo.cs" />
+    <Compile Include="Assets\Scripts\HostMigrationManager.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIGameplayEvents.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\Layers\LocomotionLayer.cs" />
@@ -473,6 +485,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Core\NetworkGame.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\SceneUI.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Core\IInterestProvider.cs" />
+    <Compile Include="Assets\Scripts\CameraLayerDebugger.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Properties\AnimationProperty.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Projectiles\ThrowableProjectile.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\KillFloor.cs" />
@@ -504,6 +517,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\MaterialQualitySwitcher.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Components\Health.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\KCCUtility.cs" />
+    <Compile Include="Assets\Scripts\CircularMapSetup.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Extensions\KCCTypesExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Core\Loader.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIToggle.cs" />
@@ -599,6 +613,7 @@
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSLazer.shader" />
+    <None Include="Assets\Scripts\SPRINT_INTEGRATION_INSTRUCTIONS.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\Photon\FusionAddons\InterestManagement\release_history.txt" />
@@ -659,6 +674,7 @@
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSDistortionWaterParticles.shader" />
     <None Include="Assets\3rdParty\Water\Shaders\WaterFX.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\Scripts\SPRINT_SETUP_COMPLETE.txt" />
     <None Include="Assets\Photon\FusionAddons\AnimationController\release_history.txt" />
     <None Include="Assets\3rdParty\Hovl Studio\Render Pipelines support\Shaders\HDRP_LightGlow.shader" />
     <None Include="Assets\3rdParty\Rifle_27A2_Pro\READ ME! - Rifle Attaches to RightHandMiddle1 Finger.txt" />
@@ -672,6 +688,8 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\3rdPartyAsset-Links.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Scripts\MANUAL_FIX_REQUIRED.txt" />
+    <None Include="Assets\Scripts\AGENT_SPRINT_FIX.txt" />
     <None Include="Assets\3rdParty\Hovl Studio\3D Fire and Explosions\Shaders\Explosion.shader" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\Metro\ARM\libnanosockets.dll" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\Leafs.shader" />
@@ -2089,6 +2107,10 @@
     </Reference>
     <Reference Include="Unity.NetCode.Hybrid">
       <HintPath>Library\ScriptAssemblies\Unity.NetCode.Hybrid.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Toolchain.Win-x86_64-Linux-x86_64">
+      <HintPath>Library\ScriptAssemblies\Unity.Toolchain.Win-x86_64-Linux-x86_64.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Analytics">
