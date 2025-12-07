@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 namespace TPSBR.UI
@@ -21,6 +22,8 @@ namespace TPSBR.UI
 		private UIButton _playerButton;
 		[SerializeField]
 		private UIButton _partyButton;
+		[SerializeField]
+		private UIButton _replaysButton;
 		[SerializeField]
 		private UIPlayer _player;
 		[SerializeField]
@@ -55,6 +58,9 @@ namespace TPSBR.UI
 			
 			if (_partyButton != null)
 				_partyButton.onClick.AddListener(OnPartyButton);
+			
+			if (_replaysButton != null)
+				_replaysButton.onClick.AddListener(OnReplaysButton);
 
 			_applicationVersion.text = $"Version {Application.version}";
 		}
@@ -70,6 +76,9 @@ namespace TPSBR.UI
 			
 			if (_partyButton != null)
 				_partyButton.onClick.RemoveListener(OnPartyButton);
+			
+			if (_replaysButton != null)
+				_replaysButton.onClick.RemoveListener(OnReplaysButton);
 
 			base.OnDeinitialize();
 		}
@@ -157,6 +166,11 @@ namespace TPSBR.UI
 		private void OnPartyButton()
 		{
 			Open<UIPartyViewSimple>();
+		}
+		
+		private void OnReplaysButton()
+		{
+			SceneManager.LoadScene("ReplayViewer");
 		}
 
 		private void OnPlayerDataChanged(PlayerData playerData)

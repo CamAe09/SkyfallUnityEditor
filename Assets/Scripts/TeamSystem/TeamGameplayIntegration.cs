@@ -46,6 +46,12 @@ namespace TPSBR
 
         private void SpawnTeamManager()
         {
+            if (TeamManager.Instance != null)
+            {
+                _teamManager = TeamManager.Instance;
+                return;
+            }
+            
             if (_teamManagerPrefab != null && Context.Runner != null)
             {
                 var managerObject = Context.Runner.Spawn(_teamManagerPrefab);

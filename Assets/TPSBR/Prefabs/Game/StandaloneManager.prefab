@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultConfiguration:
-    GameplayType: 1
+    GameplayType: 3
     GameMode: 4
     ServerName: Standalone Game
     MaxPlayers: 200

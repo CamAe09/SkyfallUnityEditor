@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 1
   m_FogColor: {r: 0.627451, g: 0.8784314, b: 1, a: 1}
   m_FogMode: 1
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 500518620}
-  m_IndirectSpecularColor: {r: 0.2846214, g: 0.37120992, b: 0.498806, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 0
     m_BakeBackend: 1
@@ -156,11 +152,11 @@ PrefabInstance:
       value: 131216915
       objectReference: {fileID: 0}
     - target: {fileID: 5872025486481888425, guid: c91e068e99c0df240b4477d2d2f9e96b, type: 3}
-      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      propertyPath: 'NetworkGuid.RawGuidValue.Array.data[0]'
       value: 6002156277858563909
       objectReference: {fileID: 0}
     - target: {fileID: 5872025486481888425, guid: c91e068e99c0df240b4477d2d2f9e96b, type: 3}
-      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      propertyPath: 'NetworkGuid.RawGuidValue.Array.data[1]'
       value: -4877903974802552919
       objectReference: {fileID: 0}
     - target: {fileID: 5872025486481888430, guid: c91e068e99c0df240b4477d2d2f9e96b, type: 3}
@@ -297,9 +293,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500518618}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 1
-  m_Shape: 0
   m_Color: {r: 1, g: 0.9943659, b: 0.979, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -349,8 +344,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!4 &500518621
 Transform:
   m_ObjectHideFlags: 0
@@ -366,6 +365,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &559426240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 559426242}
+  - component: {fileID: 559426241}
+  m_Layer: 0
+  m_Name: ReplayBootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &559426241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559426240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544ffca17ecd4a24a99eb5506064e973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &559426242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559426240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &568163481
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +451,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 143047281796357150, guid: 5fe66330c489e4544ba809ba6cc86e2b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 85ffb1197dd41e74b929519ea3005bc3, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 85ffb1197dd41e74b929519ea3005bc3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.4
   m_Pitch: 1
@@ -563,7 +607,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 778164673}
     - target: {fileID: 6612427242272952745, guid: 1432674e7fc1fa646ad8b14ba927a797, type: 3}
-      propertyPath: _modePrefabs.Array.data[2]
+      propertyPath: '_modePrefabs.Array.data[2]'
       value: 
       objectReference: {fileID: 6461819204825746839, guid: d0e8944081ef0aa47ba9549b3cc77cda, type: 3}
     - target: {fileID: 7477277035807347016, guid: 1432674e7fc1fa646ad8b14ba927a797, type: 3}
@@ -729,6 +773,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!114 &772333544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,8 +923,7 @@ LightingSettings:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Settings.lighting
-  serializedVersion: 6
-  m_GIWorkflowMode: 1
+  serializedVersion: 9
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 1
   m_RealtimeEnvironmentLighting: 0
@@ -889,6 +933,8 @@ LightingSettings:
   m_UsingShadowmask: 0
   m_BakeBackend: 1
   m_LightmapMaxSize: 1024
+  m_LightmapSizeFixed: 0
+  m_UseMipmapLimits: 1
   m_BakeResolution: 16
   m_Padding: 2
   m_LightmapCompression: 3
@@ -902,13 +948,11 @@ LightingSettings:
   m_FilterMode: 1
   m_LightmapParameters: {fileID: 15204, guid: 0000000000000000f000000000000000, type: 0}
   m_ExportTrainingData: 0
+  m_EnableWorkerProcessBaking: 1
   m_TrainingDataDestination: TrainingData
   m_RealtimeResolution: 0.1
   m_ForceWhiteAlbedo: 0
   m_ForceUpdates: 0
-  m_FinalGather: 0
-  m_FinalGatherRayCount: 256
-  m_FinalGatherFiltering: 1
   m_PVRCulling: 1
   m_PVRSampling: 1
   m_PVRDirectSampleCount: 32
@@ -932,8 +976,6 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaDirect: 0.5
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
-  m_PVRTiledBaking: 0
-  m_NumRaysToShootPerTexel: -1
   m_RespectSceneVisibilityWhenBakingGI: 0
 --- !u!1001 &2545784599183929121
 PrefabInstance:
@@ -952,11 +994,11 @@ PrefabInstance:
       value: 1600664545
       objectReference: {fileID: 0}
     - target: {fileID: 366857587079319228, guid: 29b155d4997d9ee4f93f3e85056ad0e7, type: 3}
-      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      propertyPath: 'NetworkGuid.RawGuidValue.Array.data[0]'
       value: 4272306609342253505
       objectReference: {fileID: 0}
     - target: {fileID: 366857587079319228, guid: 29b155d4997d9ee4f93f3e85056ad0e7, type: 3}
-      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      propertyPath: 'NetworkGuid.RawGuidValue.Array.data[1]'
       value: -5891176678225599594
       objectReference: {fileID: 0}
     - target: {fileID: 2545784599827805921, guid: 29b155d4997d9ee4f93f3e85056ad0e7, type: 3}
@@ -1020,7 +1062,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8307279134516635020, guid: 29b155d4997d9ee4f93f3e85056ad0e7, type: 3}
-      propertyPath: NetworkedBehaviours.Array.data[0]
+      propertyPath: 'NetworkedBehaviours.Array.data[0]'
       value: 
       objectReference: {fileID: 2545784599183929122}
     m_RemovedComponents: []
@@ -1051,3 +1093,4 @@ SceneRoots:
   - {fileID: 640476331}
   - {fileID: 2545784599183929121}
   - {fileID: 347824304}
+  - {fileID: 559426242}

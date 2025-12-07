@@ -14,6 +14,9 @@ namespace TPSBR
 			{
 				var audioEffect = effects[i];
 
+				if (audioEffect == null)
+					continue;
+
 				if (audioEffect.IsPlaying == false)
 				{
 					audioEffect.Play(setup);

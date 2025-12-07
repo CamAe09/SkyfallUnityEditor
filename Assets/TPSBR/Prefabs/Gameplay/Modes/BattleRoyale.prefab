@@ -86,7 +86,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b9988e7c4c2e724eb751db972209419, type: 2}
   - {fileID: 11400000, guid: da0e42120d80f0e48a67314a635f4897, type: 2}
   _State: 0
-  _type: 3
+  _type: 1
   _useShrinkingArea: 1
   _maxKillInRowDelay: 6
   _airplanePrefab: {fileID: 2804349911246124050, guid: 407c894c943b3ff478cd5f01ddd9d842, type: 3}
@@ -124,8 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67475d5e160561c4dbafa381d9c5dc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enableTeamSystem: 1
+  _enableTeamSystem: 0
   _teamMode: 2
-  _autoAssignTeams: 1
-  _enableReviveSystem: 1
-  _enableDebugLogs: 1
+  _autoAssignTeams: 0
+  _enableReviveSystem: 0
+  _enableDebugLogs: 0

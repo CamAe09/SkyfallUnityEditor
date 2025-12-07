@@ -151,7 +151,7 @@ namespace TPSBR.UI
 					options.Add(value.ToString());
 				}
 
-				if (value == EGameplayType.Deathmatch)
+				if (value == EGameplayType.BattleRoyale)
 				{
 					defaultOption = i;
 				}

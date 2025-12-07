@@ -103,7 +103,10 @@ namespace TPSBR
 		{
 			PrepareAirplane();
 
-			_shrinkingArea.Pause(true);
+			if (_shrinkingArea != null)
+			{
+				_shrinkingArea.Pause(true);
+			}
 
 			_waitingForPlayersCooldown = TickTimer.CreateFromSeconds(Runner, _waitingForPlayersTime);
 			HasStarted = false;
@@ -139,7 +142,7 @@ namespace TPSBR
 
 				_forcedJumpCooldown = TickTimer.CreateFromSeconds(Runner, _forcedJumpDelay);
 
-				if (_airplaneAgents.Count == 0)
+				if (_airplaneAgents.Count == 0 && _airplane != null)
 				{
 					_airplane.DeactivateDropWindow();
 				}
@@ -228,6 +231,18 @@ namespace TPSBR
 
 		private void PrepareAirplane()
 		{
+			if (_shrinkingArea == null)
+			{
+				Debug.LogError("PrepareAirplane: _shrinkingArea is null! Cannot prepare airplane.");
+				return;
+			}
+
+			if (_airplanePrefab == null)
+			{
+				Debug.LogError("PrepareAirplane: _airplanePrefab is null! Make sure it's assigned in the prefab.");
+				return;
+			}
+
 			var randomOnCircle = MathUtility.RandomOnUnitCircle() * (_shrinkingArea.Radius + _airplanePrefab.OutZoneDistance + 30f);
 			var position = _shrinkingArea.Center + new Vector3(randomOnCircle.x, _airplaneHeight, randomOnCircle.y);
 
@@ -242,6 +257,12 @@ namespace TPSBR
 
 		private void StartAirdrop()
 		{
+			if (_airplane == null)
+			{
+				Debug.LogError("StartAirdrop: _airplane is null! Cannot start airdrop.");
+				return;
+			}
+
 			HasStarted = true;
 
 			_airplane.ActivateDropWindow();
@@ -266,12 +287,15 @@ namespace TPSBR
 				// Force remainining agents out in certain intervals
 				_forcedJumpCooldown = TickTimer.CreateFromSeconds(Runner, _forcedJumpDelay);
 			}
-			else
+			else if (_airplane != null)
 			{
 				_airplane.DeactivateDropWindow();
 			}
 
-			_shrinkingArea.Pause(false);
+			if (_shrinkingArea != null)
+			{
+				_shrinkingArea.Pause(false);
+			}
 		}
 
 		// RPCs

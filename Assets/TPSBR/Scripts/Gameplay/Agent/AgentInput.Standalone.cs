@@ -47,6 +47,7 @@ namespace TPSBR
 			_renderInput.Weapon            = GetWeaponInput(keyboard);
 			_renderInput.ToggleJetpack     = keyboard.xKey.isPressed;
 			_renderInput.Thrust            = keyboard.spaceKey.isPressed;
+			_renderInput.Sprint            = keyboard.leftShiftKey.isPressed;
 			_renderInput.ToggleSide        = keyboard.eKey.isPressed;
 		}
 	}

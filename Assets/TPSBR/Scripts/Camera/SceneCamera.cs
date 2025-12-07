@@ -27,7 +27,7 @@ namespace TPSBR
 		{
 			base.OnInitialize();
 
-		_camera.farClipPlane = 10000f;
+		_camera.farClipPlane = 90000f;
 
 			_cameraCullingMask = _camera.cullingMask;
 		}

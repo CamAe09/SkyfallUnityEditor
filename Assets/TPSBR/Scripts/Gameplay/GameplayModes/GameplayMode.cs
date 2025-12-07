@@ -26,8 +26,6 @@ namespace TPSBR
 	public enum EGameplayType
 	{
 		None,
-		Deathmatch,
-		Elimination,
 		BattleRoyale,
 	}
 

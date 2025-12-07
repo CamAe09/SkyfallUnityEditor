@@ -65,8 +65,6 @@ namespace TPSBR
 			if (ApplicationSettings.IsHost         == true) { _batchModeConfiguration.GameMode      = GameMode.Host;                    }
 			if (ApplicationSettings.IsServer       == true) { _batchModeConfiguration.GameMode      = GameMode.Server;                  }
 			if (ApplicationSettings.IsClient       == true) { _batchModeConfiguration.GameMode      = GameMode.Client;                  }
-			if (ApplicationSettings.IsDeathmatch   == true) { _batchModeConfiguration.GameplayType  = EGameplayType.Deathmatch;         }
-			if (ApplicationSettings.IsElimination  == true) { _batchModeConfiguration.GameplayType  = EGameplayType.Elimination;        }
 			if (ApplicationSettings.IsBattleRoyale == true) { _batchModeConfiguration.GameplayType  = EGameplayType.BattleRoyale;       }
 			if (ApplicationSettings.HasRegion      == true) { _batchModeConfiguration.Region        = ApplicationSettings.Region;       }
 			if (ApplicationSettings.HasExtraPeers  == true) { _batchModeConfiguration.ExtraPeers    = ApplicationSettings.ExtraPeers;   }
