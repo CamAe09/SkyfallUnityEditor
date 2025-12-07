@@ -24,8 +24,15 @@ namespace TPSBR
         [SerializeField] private bool _showZones = true;
         [SerializeField] private Image _currentZoneCircle;
         [SerializeField] private Image _nextZoneCircle;
+        [SerializeField] private Image _dangerZoneOverlay;
+        [SerializeField] private Image _guidanceLine;
         [SerializeField] private Color _currentZoneColor = new Color(1f, 0f, 0f, 0.3f);
-        [SerializeField] private Color _nextZoneColor = new Color(1f, 1f, 1f, 0.5f);
+        [SerializeField] private Color _nextZoneColor = new Color(1f, 1f, 1f, 0.8f);
+        [SerializeField] private Color _dangerZoneColor = new Color(1f, 0f, 0f, 0.6f);
+        [SerializeField] private Color _guideLineColor = new Color(1f, 1f, 1f, 0.8f);
+        [SerializeField] private float _guideLineWidth = 3f;
+
+        private Material _dangerZoneMaterial;
 
         private bool _isMapOpen = false;
         private Transform _playerTransform;
@@ -168,21 +175,50 @@ namespace TPSBR
                 _nextZoneCircle.type = Image.Type.Simple;
                 _nextZoneCircle.gameObject.SetActive(false);
             }
+
+            if (_dangerZoneOverlay != null)
+            {
+                _dangerZoneOverlay.color = Color.white;
+                _dangerZoneOverlay.type = Image.Type.Simple;
+                _dangerZoneOverlay.gameObject.SetActive(false);
+                _dangerZoneOverlay.raycastTarget = false;
+
+                Shader dangerShader = Shader.Find("UI/DangerZoneOverlay");
+                if (dangerShader != null)
+                {
+                    _dangerZoneMaterial = new Material(dangerShader);
+                    _dangerZoneMaterial.SetColor("_Color", _dangerZoneColor);
+                    _dangerZoneOverlay.material = _dangerZoneMaterial;
+                }
+            }
+
+            if (_guidanceLine != null)
+            {
+                _guidanceLine.color = _guideLineColor;
+                _guidanceLine.type = Image.Type.Filled;
+                _guidanceLine.fillMethod = Image.FillMethod.Horizontal;
+                _guidanceLine.gameObject.SetActive(false);
+                _guidanceLine.raycastTarget = false;
+            }
         }
 
         private void UpdateZoneCircles()
         {
-            if (!_showZones || _shrinkingArea == null || _mapDisplay == null)
+            if (!_showZones || _mapDisplay == null)
             {
                 if (_currentZoneCircle != null) _currentZoneCircle.gameObject.SetActive(false);
                 if (_nextZoneCircle != null) _nextZoneCircle.gameObject.SetActive(false);
+                if (_dangerZoneOverlay != null) _dangerZoneOverlay.gameObject.SetActive(false);
+                if (_guidanceLine != null) _guidanceLine.gameObject.SetActive(false);
                 return;
             }
 
-            if (!_shrinkingArea.IsActive || !_shrinkingArea.IsAnnounced)
+            if (_shrinkingArea == null || !_shrinkingArea.IsActive)
             {
                 if (_currentZoneCircle != null) _currentZoneCircle.gameObject.SetActive(false);
                 if (_nextZoneCircle != null) _nextZoneCircle.gameObject.SetActive(false);
+                if (_dangerZoneOverlay != null) _dangerZoneOverlay.gameObject.SetActive(false);
+                if (_guidanceLine != null) _guidanceLine.gameObject.SetActive(false);
                 return;
             }
 
@@ -192,15 +228,96 @@ namespace TPSBR
                 UpdateZoneCircle(_currentZoneCircle, _shrinkingArea.Center, _shrinkingArea.Radius);
             }
 
-            if (_nextZoneCircle != null && _shrinkingArea.IsAnnounced)
+            bool hasNextZone = _shrinkingArea.IsAnnounced;
+            
+            if (_nextZoneCircle != null)
             {
                 _nextZoneCircle.gameObject.SetActive(true);
-                UpdateZoneCircle(_nextZoneCircle, _shrinkingArea.ShrinkCenter, _shrinkingArea.ShrinkRadius);
+                if (hasNextZone)
+                {
+                    UpdateZoneCircle(_nextZoneCircle, _shrinkingArea.ShrinkCenter, _shrinkingArea.ShrinkRadius);
+                }
+                else
+                {
+                    UpdateZoneCircle(_nextZoneCircle, _shrinkingArea.Center, _shrinkingArea.Radius);
+                }
             }
-            else if (_nextZoneCircle != null)
+
+            UpdateDangerZone(hasNextZone);
+            UpdateGuidanceLine(hasNextZone);
+        }
+
+        private void UpdateDangerZone(bool hasNextZone)
+        {
+            if (_dangerZoneOverlay == null || _mapDisplay == null || _shrinkingArea == null)
+                return;
+
+            _dangerZoneOverlay.gameObject.SetActive(true);
+
+            RectTransform overlayRect = _dangerZoneOverlay.GetComponent<RectTransform>();
+            RectTransform mapRect = _mapDisplay.GetComponent<RectTransform>();
+
+            overlayRect.anchoredPosition = Vector2.zero;
+            overlayRect.sizeDelta = mapRect.sizeDelta;
+
+            if (_dangerZoneMaterial != null)
             {
-                _nextZoneCircle.gameObject.SetActive(false);
+                Vector3 targetZoneCenter = hasNextZone ? _shrinkingArea.ShrinkCenter : _shrinkingArea.Center;
+                float targetZoneRadius = hasNextZone ? _shrinkingArea.ShrinkRadius : _shrinkingArea.Radius;
+
+                float normalizedX = (targetZoneCenter.x - _mapWorldCenter.x + _mapWorldSize.x / 2f) / _mapWorldSize.x;
+                float normalizedZ = (targetZoneCenter.z - _mapWorldCenter.y + _mapWorldSize.y / 2f) / _mapWorldSize.y;
+
+                float radiusNormalized = targetZoneRadius / Mathf.Max(_mapWorldSize.x, _mapWorldSize.y);
+
+                _dangerZoneMaterial.SetVector("_ZoneCenter", new Vector4(normalizedX, normalizedZ, 0, 0));
+                _dangerZoneMaterial.SetFloat("_ZoneRadius", radiusNormalized);
+                _dangerZoneMaterial.SetVector("_MapSize", new Vector4(mapRect.rect.width, mapRect.rect.height, 0, 0));
+                _dangerZoneMaterial.SetColor("_Color", _dangerZoneColor);
             }
+        }
+
+        private void UpdateGuidanceLine(bool hasNextZone)
+        {
+            if (_guidanceLine == null || _playerTransform == null || _shrinkingArea == null || _mapDisplay == null)
+            {
+                if (_guidanceLine != null)
+                    _guidanceLine.gameObject.SetActive(false);
+                return;
+            }
+
+            Vector3 targetZoneCenter = hasNextZone ? _shrinkingArea.ShrinkCenter : _shrinkingArea.Center;
+            float targetZoneRadius = hasNextZone ? _shrinkingArea.ShrinkRadius : _shrinkingArea.Radius;
+
+            Vector3 playerWorldPos = _playerTransform.position;
+            Vector3 directionToZone = targetZoneCenter - playerWorldPos;
+            directionToZone.y = 0f;
+            float distanceToZoneCenter = directionToZone.magnitude;
+
+            bool isOutsideZone = distanceToZoneCenter > targetZoneRadius;
+
+            if (!isOutsideZone)
+            {
+                _guidanceLine.gameObject.SetActive(false);
+                return;
+            }
+
+            _guidanceLine.gameObject.SetActive(true);
+
+            Vector2 playerMapPos = WorldToMapPosition(playerWorldPos);
+            Vector2 zoneMapPos = WorldToMapPosition(targetZoneCenter);
+            
+            Vector2 lineDirection = (zoneMapPos - playerMapPos).normalized;
+            float lineLength = Vector2.Distance(playerMapPos, zoneMapPos);
+
+            RectTransform lineRect = _guidanceLine.GetComponent<RectTransform>();
+            lineRect.anchoredPosition = playerMapPos;
+            lineRect.sizeDelta = new Vector2(lineLength, _guideLineWidth);
+
+            float angle = Mathf.Atan2(lineDirection.y, lineDirection.x) * Mathf.Rad2Deg;
+            lineRect.localRotation = Quaternion.Euler(0, 0, angle);
+
+            lineRect.pivot = new Vector2(0f, 0.5f);
         }
 
         private void UpdateZoneCircle(Image circleImage, Vector3 worldCenter, float worldRadius)

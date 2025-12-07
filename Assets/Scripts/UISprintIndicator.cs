@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using TPSBR.UI;
 
 namespace TPSBR
 {
@@ -22,18 +23,39 @@ namespace TPSBR
         private Color _readyColor = Color.white;
 
         private Agent _agent;
+        private SceneUI _sceneUI;
 
-        public void Initialize(Agent agent)
+        private void Start()
         {
-            _agent = agent;
+            if (_sprintBar != null)
+            {
+                _sprintBar.fillAmount = 1f;
+                _sprintBar.color = _readyColor;
+            }
+            if (_statusText != null)
+            {
+                _statusText.text = "";
+            }
         }
 
         private void Update()
         {
+            if (_sceneUI == null)
+            {
+                _sceneUI = FindAnyObjectByType<SceneUI>();
+                if (_sceneUI == null)
+                    return;
+            }
+
+            _agent = _sceneUI.Context.ObservedAgent;
+
             if (_agent == null)
             {
                 if (_sprintBar != null)
-                    _sprintBar.fillAmount = 0f;
+                {
+                    _sprintBar.fillAmount = 1f;
+                    _sprintBar.color = _readyColor;
+                }
                 if (_statusText != null)
                     _statusText.text = "";
                 return;
@@ -44,7 +66,10 @@ namespace TPSBR
             if (sprint == null)
             {
                 if (_sprintBar != null)
-                    _sprintBar.fillAmount = 0f;
+                {
+                    _sprintBar.fillAmount = 1f;
+                    _sprintBar.color = _readyColor;
+                }
                 if (_statusText != null)
                     _statusText.text = "";
                 return;
