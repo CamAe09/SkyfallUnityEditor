@@ -153,3 +153,4 @@ MonoBehaviour:
         MinValue: 0
         MaxValue: 0
       StringValue: eu
+  ShopDatabase: {fileID: 11400000, guid: e1bd2e9c9d3e814499a4fe8ef73ff8cd, type: 2}

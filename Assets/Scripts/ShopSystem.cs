@@ -25,9 +25,40 @@ namespace TPSBR
 
             if (_ownedSkins.Count == 0)
             {
-                _ownedSkins.Add("Soldier");
-                _ownedSkinsList.Add("Soldier");
+                _ownedSkins.Add("Agent.Soldier");
+                _ownedSkinsList.Add("Agent.Soldier");
                 IsDirty = true;
+            }
+        }
+
+        public void InitializeWithDatabase(ShopDatabase shopDatabase)
+        {
+            _ownedSkins.Clear();
+            foreach (var skin in _ownedSkinsList)
+            {
+                _ownedSkins.Add(skin);
+            }
+
+            if (shopDatabase != null && _ownedSkins.Count == 0)
+            {
+                var defaultCharacters = shopDatabase.GetDefaultUnlockedCharacters();
+                foreach (var character in defaultCharacters)
+                {
+                    _ownedSkins.Add(character.agentID);
+                    _ownedSkinsList.Add(character.agentID);
+                }
+                
+                if (_ownedSkins.Count > 0)
+                {
+                    IsDirty = true;
+                }
+                else
+                {
+                    Debug.LogWarning("ShopDatabase has no default unlocked characters! Unlocking fallback Agent.Soldier");
+                    _ownedSkins.Add("Agent.Soldier");
+                    _ownedSkinsList.Add("Agent.Soldier");
+                    IsDirty = true;
+                }
             }
         }
 

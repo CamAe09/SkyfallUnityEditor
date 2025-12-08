@@ -93,9 +93,22 @@ namespace TPSBR
 			}
 			else
 			{
-				playerData.ShopSystem.Initialize();
+				var shopDatabase = Global.Settings != null ? Global.Settings.ShopDatabase : null;
+			if (shopDatabase != null)
+			{
+				playerData.ShopSystem.InitializeWithDatabase(shopDatabase);
 				
-				if (!playerData.ShopSystem.OwnsAgent(playerData.AgentID))
+				if (playerData.CoinSystem.CloudCoins == 100)
+				{
+					playerData.CoinSystem.CloudCoins = shopDatabase.startingCloudCoins;
+				}
+			}
+			else
+			{
+				playerData.ShopSystem.Initialize();
+			}
+			
+			if (!playerData.ShopSystem.OwnsAgent(playerData.AgentID))
 				{
 					var soldierAgent = Global.Settings.Agent.GetAgentSetup("Soldier");
 					if (soldierAgent != null && playerData.ShopSystem.OwnsAgent(soldierAgent.ID))

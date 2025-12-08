@@ -6,12 +6,21 @@ namespace TPSBR.UI
 {
 	public class UIShopView : UICloseView
 	{
+		[Header("Shop Configuration")]
 		[SerializeField]
-		private UIList _shopItemsList;
+		private ShopDatabase _shopDatabase;
+
+		[Header("UI References")]
+		[SerializeField]
+		private UIShopList _shopItemsList;
 		[SerializeField]
 		private TextMeshProUGUI _cloudCoinsText;
+
+		[Header("Display Settings")]
 		[SerializeField]
 		private string _cloudCoinsFormat = "CloudCoins: {0}";
+
+		[Header("Audio")]
 		[SerializeField]
 		private AudioSetup _purchaseSound;
 		[SerializeField]
@@ -21,22 +30,41 @@ namespace TPSBR.UI
 		{
 			base.OnInitialize();
 
-			_shopItemsList.UpdateContent += OnListUpdateContent;
+			if (_shopItemsList != null)
+			{
+				_shopItemsList.UpdateContent += OnListUpdateContent;
+			}
+
+			if (_shopDatabase == null)
+			{
+				Debug.LogError("UIShopView: ShopDatabase is not assigned! Please assign it in the inspector.", this);
+			}
 		}
 
 		private void OnListUpdateContent(int index, MonoBehaviour content)
 		{
-			var shopItem = content as UIShopItem;
-			var setup = Context.Settings.Agent.Agents[index];
+			if (_shopDatabase == null || index >= _shopDatabase.characters.Count)
+				return;
 
-			shopItem.SetData(setup, Context.PlayerData, OnPurchaseClicked);
+			var shopItem = content as UIShopItem;
+			var characterData = _shopDatabase.characters[index];
+
+			shopItem.SetData(characterData, Context.PlayerData, OnPurchaseClicked);
 		}
 
 		protected override void OnOpen()
 		{
 			base.OnOpen();
 
-			_shopItemsList.Refresh(Context.Settings.Agent.Agents.Length, false);
+			if (_shopDatabase != null && _shopItemsList != null)
+			{
+				_shopItemsList.Refresh(_shopDatabase.characters.Count, false);
+			}
+			else if (_shopDatabase == null)
+			{
+				Debug.LogError("UIShopView: Cannot open shop - ShopDatabase is not assigned!", this);
+			}
+
 			UpdateCloudCoinsDisplay();
 
 			Context.PlayerData.CoinSystem.OnCloudCoinsChanged += OnCloudCoinsChanged;
@@ -51,23 +79,31 @@ namespace TPSBR.UI
 
 		protected override void OnDeinitialize()
 		{
-			_shopItemsList.UpdateContent -= OnListUpdateContent;
+			if (_shopItemsList != null)
+			{
+				_shopItemsList.UpdateContent -= OnListUpdateContent;
+			}
 
 			base.OnDeinitialize();
 		}
 
-		private void OnPurchaseClicked(AgentSetup agentSetup)
+		private void OnPurchaseClicked(CharacterData characterData)
 		{
+			if (characterData == null)
+				return;
+
 			bool success = Context.PlayerData.ShopSystem.TryUnlockAgent(
-				agentSetup.ID,
-				agentSetup.CloudCoinCost,
+				characterData.characterID,
+				characterData.price,
 				Context.PlayerData.CoinSystem
 			);
 
 			if (success)
 			{
+				Context.PlayerData.AgentID = characterData.agentID;
+				
 				PlaySound(_purchaseSound);
-				_shopItemsList.Refresh(Context.Settings.Agent.Agents.Length, false);
+				RefreshShopItems();
 				UpdateCloudCoinsDisplay();
 			}
 			else
@@ -79,6 +115,7 @@ namespace TPSBR.UI
 		private void OnCloudCoinsChanged(int newAmount)
 		{
 			UpdateCloudCoinsDisplay();
+			RefreshShopItems();
 		}
 
 		private void UpdateCloudCoinsDisplay()
@@ -86,6 +123,21 @@ namespace TPSBR.UI
 			if (_cloudCoinsText != null)
 			{
 				_cloudCoinsText.text = string.Format(_cloudCoinsFormat, Context.PlayerData.CoinSystem.CloudCoins);
+			}
+		}
+
+		private void RefreshShopItems()
+		{
+			if (_shopDatabase == null || _shopItemsList == null)
+				return;
+
+			foreach (Transform child in _shopItemsList.transform)
+			{
+				var shopItem = child.GetComponent<UIShopItem>();
+				if (shopItem != null)
+				{
+					shopItem.RefreshState();
+				}
 			}
 		}
 	}

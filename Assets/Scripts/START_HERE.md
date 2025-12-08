@@ -1,169 +1,136 @@
-# 🎮 Shop System - START HERE
+# 🎮 Modern Shop System - START HERE
 
-## What You Got
+## 🎉 Brand New System!
 
-A complete **CloudCoin Shop System** where players can buy agent skins with virtual currency!
+A completely **rebuilt shop system** from scratch with:
+- ✨ Sleek card-based UI
+- 🌟 Skin rarity system (Common → Mythic)
+- 🎨 Dynamic colored borders and glows
+- 🏗️ Clean, bug-free architecture
 
-## 📖 Documentation Overview
+## 📖 Documentation
 
 ```
-┌─────────────────────────────────────────────────────┐
-│          SHOP SYSTEM DOCUMENTATION MAP              │
-└─────────────────────────────────────────────────────┘
-
-START_HERE.md  ◄── YOU ARE HERE (Quick overview)
-    │
-    ├─► SHOP_SYSTEM_COMPLETE.md
-    │   └─► 📘 Main guide with Quick Start (5 min setup)
-    │
-    ├─► ShopSystemIntegrationChecklist.md
-    │   └─► ✅ Complete checklist of what's done/todo
-    │
-    ├─► ShopSystemArchitecture.md
-    │   └─► 🏗️ Technical architecture & diagrams
-    │
-    ├─► QuickShopSetup.md
-    │   └─► ⚡ Minimal setup steps
-    │
-    └─► ShopUISetupGuide.md
-        └─► 🎨 Detailed UI creation guide
+🎯 START_HERE.md          ◄── YOU ARE HERE (Quick start!)
+🎨 MODERN_SHOP_GUIDE.md   ◄── Complete guide & customization
 ```
 
-## 🚀 Get Started in 3 Steps
+## 🚀 3-Step Setup (2 Minutes!)
 
-### 1️⃣ Configure Prices (1 minute)
-```
-Menu → TPSBR/Shop System Setup Helper
-   └─► Set prices
-       └─► Click "Apply Agent Prices"
-```
+### 1️⃣ Create the Shop UI
+1. Make sure you're **NOT in Play Mode**
+2. Go to menu: **TPSBR → 🎨 Create Modern Shop UI**
+3. Wait for success message
+4. Done! ✨
 
-### 2️⃣ Create UI (3 minutes)
-```
-Menu → TPSBR/Create Shop UI
-   ├─► Click "Create UIShopItem Widget"
-   │   └─► Save as prefab
-   │
-   └─► Click "Create UIShopView Panel"
-       └─► Save as prefab
-```
+### 2️⃣ Set Character Rarities  
+1. Find `Assets/Scripts/CharacterData/marine.asset`
+2. Set **Rarity** to `Legendary` or `Epic`
+3. Find `Assets/Scripts/CharacterData/soldier66.asset`
+4. Set **Rarity** to `Common` or `Rare`
 
-### 3️⃣ Add Shop Button (1 minute)
-```
-In Menu scene:
-   ├─► Duplicate any menu button
-   ├─► Rename to "ShopButton"
-   ├─► Change text to "SHOP"
-   └─► Link to UIMainMenuView component
-```
+### 3️⃣ Test It!
+1. Press **Play ▶️**
+2. Find `ModernShop` GameObject in Hierarchy
+3. Set its Canvas Group → **Alpha = 1**
+4. See your cards with rarity colors! 🎨
+
+## ✨ What You Get
+
+### Rarity System
+- **Common** (Gray) - Basic skins
+- **Rare** (Blue) - Uncommon finds  
+- **Epic** (Purple) - Special editions
+- **Legendary** (Orange) - Premium skins
+- **Mythic** (Red) - Ultra-rare
+
+Each tier shows a **colored border + glow effect**!
+
+### Modern Card UI
+Each card displays:
+- ✨ Character icon
+- 🌟 Rarity tier with color
+- 💰 Price in CloudCoins
+- 🎯 BUY/SELECT button
+- ✓ Selected indicator
+- 🏆 Owned badge
 
 ## ✅ What's Already Done
 
-✅ CloudCoin currency system  
-✅ Shop purchase logic  
-✅ Agent ownership tracking  
-✅ PlayerData integration  
-✅ UI scripts (UIShopView, UIShopItem)  
-✅ Agent selection filtering  
-✅ Main menu button support  
-✅ Debug/testing tools  
-✅ **Two automated editor tools**
+✅ CharacterData enhanced with rarity  
+✅ ModernShopManager - handles all logic  
+✅ ModernShopCard - individual card component  
+✅ ModernShopToggle - open/close helper  
+✅ Auto-generated card prefab  
+✅ Grid layout with scroll  
+✅ Rarity colors & glows  
+✅ Purchase & selection logic
 
-## 🔲 What You Need to Do
+## 🎮 How to Open the Shop
 
-🔲 Create UI prefabs (use editor tool!)  
-🔲 Add shop button to main menu  
-🔲 Configure agent prices  
-🔲 Test!
+### Quick Test (Manual)
+1. Press Play
+2. Select `ModernShop` in Hierarchy
+3. Canvas Group → **Alpha = 1**
+4. Shop appears!
 
-## 🛠️ Editor Tools
+### With Keyboard Toggle
+1. Add `ModernShopToggle` component to `ModernShop`
+2. Assign the Canvas Group reference
+3. Press Play
+4. Press **B** key to toggle!
 
-### `TPSBR/Create Shop UI`
-Creates UI GameObjects automatically
-- Creates UIShopItem widget structure
-- Creates UIShopView panel structure
-
-### `TPSBR/Shop System Setup Helper`
-Configures prices automatically
-- Set Soldier cost (default: 0)
-- Set Marine cost (default: 500)
-- Applies to AgentSettings
-
-## 🧪 Testing
-
-Add `ShopSystemDebugHelper` component to any GameObject:
-- Right-click → "Add 1000 CloudCoins"
-- Right-click → "Log CloudCoins"
-- Right-click → "Log Owned Agents"
-
-## 📚 Read Next
-
-**For setup:** Read `SHOP_SYSTEM_COMPLETE.md`  
-**For checklist:** Read `ShopSystemIntegrationChecklist.md`  
-**For architecture:** Read `ShopSystemArchitecture.md`
-
-## 💡 Key Features
-
-- 💰 CloudCoin virtual currency
-- 🛒 Agent shop with purchases
-- 🔒 Locked agents (Marine requires purchase)
-- ✅ Default agent (Soldier is free)
-- 💾 Persistent data
-- 🎨 Fully customizable UI
-- 🧪 Debug tools included
-
-## 🎯 Default Configuration
-
-| Agent   | Cost | Status        |
-|---------|------|---------------|
-| Soldier | 0    | ✅ Free       |
-| Marine  | 500  | 🔒 Locked    |
-
-New players start with:
-- 0 CloudCoins
-- Soldier unlocked
-- Marine locked
-
-## ⚡ Quick Test
-
-1. Open Menu scene
-2. Press Play
-3. Add `ShopSystemDebugHelper` to any GameObject
-4. Right-click component → "Add 1000 CloudCoins"
-5. Check Console for confirmation
-
-## 🎨 UI Structure
-
-```
-Main Menu
-    └─► SHOP button
-           └─► Opens UIShopView
-                  ├─► Shows CloudCoins balance
-                  └─► Lists all agents
-                         ├─► Soldier (OWNED/SELECTED)
-                         └─► Marine (BUY - 500 coins)
+### From Your Menu Button
+```csharp
+// OnClick event:
+GameObject.Find("ModernShop")
+    .GetComponent<ModernShopToggle>()
+    .OpenShop();
 ```
 
-## 📁 Files Location
+## 🎨 Quick Customization
 
-All scripts in `/Assets/Scripts/`:
-- `CloudCoinSystem.cs` - Currency
-- `ShopSystem.cs` - Purchases
-- `CloudCoinReward.cs` - Test helper
-- `ShopSystemDebugHelper.cs` - Debug tools
+### Change Rarity Colors
+Edit `CharacterData.cs` → `GetRarityColor()` method
 
-All UI scripts in `/Assets/TPSBR/Scripts/UI/`:
-- `MenuViews/UIShopView.cs` - Shop view
-- `Widgets/UIShopItem.cs` - Shop item widget
+### Adjust Card Size
+Open `Assets/Prefabs/ModernShopCard.prefab`
 
-Editor tools in `/Assets/Editor/`:
-- `ShopUICreator.cs` - UI creation tool
-- `ShopSystemSetupHelper.cs` - Settings tool
+### Change Grid Layout
+Select `ModernShop/.../Grid` → Edit Grid Layout Group
+
+### Add More Characters
+1. Create → TPSBR → Character Data
+2. Set rarity, price, icon
+3. Add to ShopDatabase
+4. Auto-appears in shop!
+
+## 📁 Files Created
+
+```
+/Assets/Scripts/
+  ├── CharacterData.cs          (✏️ Enhanced with rarity)
+  ├── ModernShopManager.cs      (✨ New shop logic)
+  ├── ModernShopCard.cs         (✨ Card component)
+  ├── ModernShopToggle.cs       (✨ Toggle helper)
+  ├── START_HERE.md             (📖 This file)
+  └── MODERN_SHOP_GUIDE.md      (📖 Full guide)
+
+/Assets/Prefabs/
+  └── ModernShopCard.prefab     (✨ Auto-created)
+
+/Assets/Editor/
+  └── CreateModernShop.cs       (🔧 Setup tool)
+```
 
 ## 🎉 You're Ready!
 
-Open **`SHOP_SYSTEM_COMPLETE.md`** and follow the 5-minute Quick Start guide!
+Run the setup tool and you'll have a working modern shop in 2 minutes!
+
+**Menu:** TPSBR → 🎨 Create Modern Shop UI
+
+For detailed info, open **`MODERN_SHOP_GUIDE.md`**
 
 ---
 
-**Need help?** All documentation is in `/Assets/Scripts/` folder.
+**Made with ❤️ by Bezi AI - Enjoy your new shop system!** 🚀

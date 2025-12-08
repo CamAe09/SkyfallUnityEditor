@@ -17,5 +17,6 @@ namespace TPSBR
 		public MapSettings          Map;
 		public NetworkSettings      Network;
 		public OptionsData          DefaultOptions;
+		public ShopDatabase         ShopDatabase;
 	}
 }

@@ -4,203 +4,255 @@ using TMPro;
 
 namespace TPSBR.UI
 {
-	public class UIMainMenuView : UIView
-	{
-		// PRIVATE MEMBERS
+    public class UIMainMenuView : UIView
+    {
+        // PRIVATE MEMBERS
 
-		[SerializeField]
-		private UIButton _playButton;
-		[SerializeField]
-		private UIButton _settingsButton;
-		[SerializeField]
-		private UIButton _shopButton;
-		[SerializeField]
-		private UIButton _creditsButton;
-		[SerializeField]
-		private UIButton _changeNicknameButton;
-		[SerializeField]
-		private UIButton _quitButton;
-		[SerializeField]
-		private UIButton _playerButton;
-		[SerializeField]
-		private UIButton _partyButton;
-		[SerializeField]
-		private UIButton _replaysButton;
-		[SerializeField]
-		private UIPlayer _player;
-		[SerializeField]
-		private TextMeshProUGUI _agentName;
-		[SerializeField]
-		private TextMeshProUGUI _applicationVersion;
+        [SerializeField]
+        private UIButton _playButton;
+        [SerializeField]
+        private UIButton _settingsButton;
+        [SerializeField]
+        private UIButton _shopButton;
+        [SerializeField]
+        private UIButton _questsButton;
+        [SerializeField]
+        private UIButton _creditsButton;
+        [SerializeField]
+        private UIButton _changeNicknameButton;
+        [SerializeField]
+        private UIButton _quitButton;
+        [SerializeField]
+        private UIButton _playerButton;
+        [SerializeField]
+        private UIButton _partyButton;
+        [SerializeField]
+        private UIButton _replaysButton;
+        [SerializeField]
+        private UIPlayer _player;
+        [SerializeField]
+        private TextMeshProUGUI _agentName;
+        [SerializeField]
+        private TextMeshProUGUI _applicationVersion;
 
-		// PUBLIC METHODS
+        // PUBLIC METHODS
 
-		public void OnPlayerButtonPointerEnter()
-		{
-			Context.PlayerPreview.ShowOutline(true);
-		}
+        public void OnPlayerButtonPointerEnter()
+        {
+            Context.PlayerPreview.ShowOutline(true);
+        }
 
-		public void OnPlayerButtonPointerExit()
-		{
-			Context.PlayerPreview.ShowOutline(false);
-		}
+        public void OnPlayerButtonPointerExit()
+        {
+            Context.PlayerPreview.ShowOutline(false);
+        }
 
-		// UIView INTEFACE
+        // UIView INTEFACE
 
-		protected override void OnInitialize()
-		{
-			base.OnInitialize();
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
 
-			_settingsButton.onClick.AddListener(OnSettingsButton);
-			_playButton.onClick.AddListener(OnPlayButton);
-			_creditsButton.onClick.AddListener(OnCreditsButton);
-			_changeNicknameButton.onClick.AddListener(OnChangeNicknameButton);
-			_quitButton.onClick.AddListener(OnQuitButton);
-			_playerButton.onClick.AddListener(OnPlayerButton);
-			
-			if (_shopButton != null)
-				_shopButton.onClick.AddListener(OnShopButton);
-			
-			if (_partyButton != null)
-				_partyButton.onClick.AddListener(OnPartyButton);
-			
-			if (_replaysButton != null)
-				_replaysButton.onClick.AddListener(OnReplaysButton);
+            _settingsButton.onClick.AddListener(OnSettingsButton);
+            _playButton.onClick.AddListener(OnPlayButton);
+            _creditsButton.onClick.AddListener(OnCreditsButton);
+            _changeNicknameButton.onClick.AddListener(OnChangeNicknameButton);
+            _quitButton.onClick.AddListener(OnQuitButton);
+            _playerButton.onClick.AddListener(OnPlayerButton);
 
-			_applicationVersion.text = $"Version {Application.version}";
-		}
+            if (_shopButton != null)
+                _shopButton.onClick.AddListener(OnShopButton);
 
-		protected override void OnDeinitialize()
-		{
-			_settingsButton.onClick.RemoveListener(OnSettingsButton);
-			_playButton.onClick.RemoveListener(OnPlayButton);
-			_creditsButton.onClick.RemoveListener(OnCreditsButton);
-			_changeNicknameButton.onClick.RemoveListener(OnChangeNicknameButton);
-			_quitButton.onClick.RemoveListener(OnQuitButton);
-			_playerButton.onClick.RemoveListener(OnPlayerButton);
-			
-			if (_shopButton != null)
-				_shopButton.onClick.RemoveListener(OnShopButton);
-			
-			if (_partyButton != null)
-				_partyButton.onClick.RemoveListener(OnPartyButton);
-			
-			if (_replaysButton != null)
-				_replaysButton.onClick.RemoveListener(OnReplaysButton);
+            if (_questsButton != null)
+                _questsButton.onClick.AddListener(OnQuestsButton);
 
-			base.OnDeinitialize();
-		}
+            if (_partyButton != null)
+                _partyButton.onClick.AddListener(OnPartyButton);
 
-		protected override void OnOpen()
-		{
-			base.OnOpen();
+            if (_replaysButton != null)
+                _replaysButton.onClick.AddListener(OnReplaysButton);
 
-			UpdatePlayer();
+            _applicationVersion.text = $"Version {Application.version}";
+        }
 
-			Global.PlayerService.PlayerDataChanged += OnPlayerDataChanged;
-			Context.PlayerPreview.ShowAgent(Context.PlayerData.AgentID);
+        protected override void OnDeinitialize()
+        {
+            _settingsButton.onClick.RemoveListener(OnSettingsButton);
+            _playButton.onClick.RemoveListener(OnPlayButton);
+            _creditsButton.onClick.RemoveListener(OnCreditsButton);
+            _changeNicknameButton.onClick.RemoveListener(OnChangeNicknameButton);
+            _quitButton.onClick.RemoveListener(OnQuitButton);
+            _playerButton.onClick.RemoveListener(OnPlayerButton);
 
-			Context.PlayerPreview.ShowOutline(false);
-		}
+            if (_shopButton != null)
+                _shopButton.onClick.RemoveListener(OnShopButton);
 
-		protected override void OnClose()
-		{
-			Global.PlayerService.PlayerDataChanged -= OnPlayerDataChanged;
+            if (_questsButton != null)
+                _questsButton.onClick.RemoveListener(OnQuestsButton);
 
-			Context.PlayerPreview.ShowOutline(false);
+            if (_partyButton != null)
+                _partyButton.onClick.RemoveListener(OnPartyButton);
 
-			base.OnClose();
-		}
+            if (_replaysButton != null)
+                _replaysButton.onClick.RemoveListener(OnReplaysButton);
 
-		protected override bool OnBackAction()
-		{
-			if (IsInteractable == false)
-				return false;
+            base.OnDeinitialize();
+        }
 
-			OnQuitButton();
-			return true;
-		}
+        protected override void OnOpen()
+        {
+            base.OnOpen();
 
-		// PRIVATE METHODS
+            UpdatePlayer();
 
-		private void OnSettingsButton()
-		{
-			Open<UISettingsView>();
-		}
+            Global.PlayerService.PlayerDataChanged += OnPlayerDataChanged;
+            Context.PlayerPreview.ShowAgent(Context.PlayerData.AgentID);
 
-		private void OnPlayButton()
-		{
-			Open<UIMultiplayerView>();
-		}
+            Context.PlayerPreview.ShowOutline(false);
+        }
 
-		private void OnCreditsButton()
-		{
-			Open<UICreditsView>();
-		}
+        protected override void OnClose()
+        {
+            Global.PlayerService.PlayerDataChanged -= OnPlayerDataChanged;
 
-		private void OnChangeNicknameButton()
-		{
-			var changeNicknameView = Open<UIChangeNicknameView>();
-			changeNicknameView.SetData("CHANGE NICKNAME", false);
-		}
+            Context.PlayerPreview.ShowOutline(false);
 
-		private void OnQuitButton()
-		{
-			var dialog = Open<UIYesNoDialogView>();
+            base.OnClose();
+        }
 
-			dialog.Title.text = "EXIT GAME";
-			dialog.Description.text = "Are you sure you want to exit the game?";
+        protected override bool OnBackAction()
+        {
+            if (IsInteractable == false)
+                return false;
 
-			dialog.YesButtonText.text = "EXIT";
-			dialog.NoButtonText.text = "CANCEL";
+            OnQuitButton();
+            return true;
+        }
 
-			dialog.HasClosed += (result) =>
-			{
-				if (result == true)
-				{
-					SceneUI.Scene.Quit();
-				}
-			};
-		}
+        // PRIVATE METHODS
 
-		private void OnPlayerButton()
-		{
-			var agentSelection = Open<UIAgentSelectionView>();
-			agentSelection.BackView = this;
+        private void OnSettingsButton()
+        {
+            Open<UISettingsView>();
+        }
 
-			Close();
-		}
-		
-		private void OnShopButton()
-		{
-			var shopView = Open<UIShopView>();
-			shopView.BackView = this;
+        private void OnPlayButton()
+        {
+            Open<UIMultiplayerView>();
+        }
 
-			Close();
-		}
-		
-		private void OnPartyButton()
-		{
-			Open<UIPartyViewSimple>();
-		}
-		
-		private void OnReplaysButton()
-		{
-			SceneManager.LoadScene("ReplayViewer");
-		}
+        private void OnCreditsButton()
+        {
+            Open<UICreditsView>();
+        }
 
-		private void OnPlayerDataChanged(PlayerData playerData)
-		{
-			UpdatePlayer();
-		}
+        private void OnChangeNicknameButton()
+        {
+            var changeNicknameView = Open<UIChangeNicknameView>();
+            changeNicknameView.SetData("CHANGE NICKNAME", false);
+        }
 
-		private void UpdatePlayer()
-		{
-			_player.SetData(Context, Context.PlayerData);
-			Context.PlayerPreview.ShowAgent(Context.PlayerData.AgentID);
+        private void OnQuitButton()
+        {
+            var dialog = Open<UIYesNoDialogView>();
 
-			var setup = Context.Settings.Agent.GetAgentSetup(Context.PlayerData.AgentID);
-			_agentName.text = setup != null ? $"Playing as {setup.DisplayName}" : string.Empty;
-		}
-	}
+            dialog.Title.text = "EXIT GAME";
+            dialog.Description.text = "Are you sure you want to exit the game?";
+
+            dialog.YesButtonText.text = "EXIT";
+            dialog.NoButtonText.text = "CANCEL";
+
+            dialog.HasClosed += (result) =>
+            {
+                if (result == true)
+                {
+                    SceneUI.Scene.Quit();
+                }
+            };
+        }
+
+        private void OnPlayerButton()
+        {
+            var agentSelection = Open<UIAgentSelectionView>();
+            agentSelection.BackView = this;
+
+            Close();
+        }
+
+        private void OnShopButton()
+        {
+            var modernShop = Open<ModernShopManager>();
+
+            if (modernShop == null)
+            {
+                Debug.LogWarning("[Modern Shop] ModernShopManager not found. Trying old UIShopView...");
+                var shopView = Open<UIShopView>();
+                
+                if (shopView == null)
+                {
+                    Debug.LogWarning("[Shop System] No shop view found. Please run: TPSBR → 🎨 Create Modern Shop UI");
+                    return;
+                }
+
+                shopView.BackView = this;
+                Close();
+                return;
+            }
+
+            modernShop.BackView = this;
+
+            var agentSelection = SceneUI.Get<UIAgentSelectionView>();
+            if (agentSelection != null && agentSelection.IsOpen == true)
+            {
+                agentSelection.Close();
+            }
+
+            Close();
+        }
+
+        private void OnPartyButton()
+        {
+            Open<UIPartyViewSimple>();
+        }
+
+        private void OnReplaysButton()
+        {
+            SceneManager.LoadScene("ReplayViewer");
+        }
+
+        private void OnQuestsButton()
+        {
+            var questView = Open<UIQuestView>();
+            
+            if (questView == null)
+            {
+                Debug.LogWarning("[Quest System] UIQuestView not found. Please run: TPSBR → Generate Quest UI");
+                return;
+            }
+
+            questView.BackView = this;
+
+            var agentSelection = SceneUI.Get<UIAgentSelectionView>();
+            if (agentSelection != null && agentSelection.IsOpen == true)
+            {
+                agentSelection.Close();
+            }
+
+            Close();
+        }
+
+        private void OnPlayerDataChanged(PlayerData playerData)
+        {
+            UpdatePlayer();
+        }
+
+        private void UpdatePlayer()
+        {
+            _player.SetData(Context, Context.PlayerData);
+            Context.PlayerPreview.ShowAgent(Context.PlayerData.AgentID);
+
+            var setup = Context.Settings.Agent.GetAgentSetup(Context.PlayerData.AgentID);
+            _agentName.text = setup != null ? $"Playing as {setup.DisplayName}" : string.Empty;
+        }
+    }
 }

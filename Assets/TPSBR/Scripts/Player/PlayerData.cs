@@ -52,12 +52,26 @@ namespace TPSBR
 		// CONSTRUCTORS
 
 		public PlayerData(string userID)
+	{
+		_userID = userID;
+		
+		var shopDatabase = Global.Settings != null ? Global.Settings.ShopDatabase : null;
+		if (shopDatabase != null)
 		{
-			_userID = userID;
+			_shopSystem.InitializeWithDatabase(shopDatabase);
+			
+			if (_coinSystem.CloudCoins == 100)
+			{
+				_coinSystem.CloudCoins = shopDatabase.startingCloudCoins;
+			}
+		}
+		else
+		{
 			_shopSystem.Initialize();
 		}
+	}
 
-		// PUBLIC METHODS
+	// PUBLIC METHODS
 
 		public void ClearDirty()
 		{
