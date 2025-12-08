@@ -115,6 +115,7 @@
     <AdditionalFiles Include="C:\Users\camev\Documents\GitHub\SkyfallUnityEditor\Library\PackageCache\com.unity.netcode@5d39c9b3860a\Runtime\SourceGenerators\Templates\DefaultTypes\GhostSnapshotValueFloat4.NetCodeSourceGenerator.additionalfile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\ShopSystemSetupHelper.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\AllowHttpDialog.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UIToggleEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationStateEditor.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Editor\UIButtonEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\DisabledInPlayModeDrawer.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\PlayerInterestViewEditor.cs" />
+    <Compile Include="Assets\Editor\ShopUICreator.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\ProxyBehaviorDrawer.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationLayerEditor.cs" />
     <Compile Include="Assets\Scripts\Editor\FixReplayGalleryHierarchy.cs" />

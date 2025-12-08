@@ -80,8 +80,30 @@ namespace TPSBR
 			if (playerData == null)
 			{
 				playerData = new PlayerData(userID);
-				playerData.AgentID = Global.Settings.Agent.GetRandomAgentSetup().ID;
-			};
+				
+				var soldierAgent = Global.Settings.Agent.GetAgentSetup("Soldier");
+				if (soldierAgent != null)
+				{
+					playerData.AgentID = soldierAgent.ID;
+				}
+				else
+				{
+					playerData.AgentID = Global.Settings.Agent.GetRandomAgentSetup().ID;
+				}
+			}
+			else
+			{
+				playerData.ShopSystem.Initialize();
+				
+				if (!playerData.ShopSystem.OwnsAgent(playerData.AgentID))
+				{
+					var soldierAgent = Global.Settings.Agent.GetAgentSetup("Soldier");
+					if (soldierAgent != null && playerData.ShopSystem.OwnsAgent(soldierAgent.ID))
+					{
+						playerData.AgentID = soldierAgent.ID;
+					}
+				}
+			}
 
 			return playerData;
 		}

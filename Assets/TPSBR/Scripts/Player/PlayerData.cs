@@ -23,6 +23,9 @@ namespace TPSBR
 		public string           Nickname        { get { return _nickname; } set { _nickname = value; IsDirty = true; } }
 		public string           AgentID         { get { return _agentID; } set { _agentID = value; IsDirty = true; } }
 
+		public CloudCoinSystem  CoinSystem      => _coinSystem;
+		public ShopSystem       ShopSystem      => _shopSystem;
+
 		public bool             IsDirty         { get; private set; }
 
 		// PRIVATE MEMBERS
@@ -37,6 +40,11 @@ namespace TPSBR
 		private string _agentID;
 
 		[SerializeField]
+		private CloudCoinSystem _coinSystem = new CloudCoinSystem();
+		[SerializeField]
+		private ShopSystem _shopSystem = new ShopSystem();
+
+		[SerializeField]
 		private bool _isLocked;
 		[SerializeField]
 		private int _lastProcessID;
@@ -46,6 +54,7 @@ namespace TPSBR
 		public PlayerData(string userID)
 		{
 			_userID = userID;
+			_shopSystem.Initialize();
 		}
 
 		// PUBLIC METHODS
@@ -53,6 +62,8 @@ namespace TPSBR
 		public void ClearDirty()
 		{
 			IsDirty = false;
+			_coinSystem.ClearDirty();
+			_shopSystem.ClearDirty();
 		}
 
 		public bool IsLocked(bool checkProcess = true)

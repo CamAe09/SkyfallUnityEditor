@@ -537,13 +537,13 @@ MonoBehaviour:
   - Transform: {fileID: 5384783977642912115}
     Pickups:
     - Pickup: {fileID: 6198615961083387491, guid: 671206c3c0ad9e64aa2d6111ae4e1a04, type: 3}
-      Probability: 50
+      Probability: 35
     - Pickup: {fileID: 6061256743707649197, guid: 601e1dd95e360bd428e13886af43bcde, type: 3}
-      Probability: 50
+      Probability: 25
     - Pickup: {fileID: 1753923265918319972, guid: 93ff156a0ef76084c918a240b780304b, type: 3}
-      Probability: 10
+      Probability: 15
     - Pickup: {fileID: 6061256743707649197, guid: 76ebfb9abe30d9143bcad60f8a502217, type: 3}
-      Probability: 10
+      Probability: 20
     - Pickup: {fileID: 6198615961083387491, guid: 2f3aad8a90c6ade42a5eca39072fdc64, type: 3}
       Probability: 10
   - Transform: {fileID: 1902573880166076804}
@@ -565,7 +565,7 @@ MonoBehaviour:
     - Pickup: {fileID: 2234597929257676308, guid: 197f5bfc88b9b304bb7698c8f5a2af5d, type: 3}
       Probability: 50
     - Pickup: {fileID: 8389084916135308144, guid: fa21fb8dc9db56f4fb9089135a6973f2, type: 3}
-      Probability: 20
+      Probability: 30
   _audioEffect: {fileID: 8046687650521345275}
   _openSound:
     Clips:

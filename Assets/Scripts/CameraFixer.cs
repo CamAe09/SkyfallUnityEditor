@@ -12,6 +12,12 @@ public class CameraFixer : MonoBehaviour
     [Tooltip("Far clip plane distance")]
     public float farClipPlane = 90000f;
     
+    [Tooltip("Override near clip plane")]
+    public bool overrideNearClipPlane = true;
+    
+    [Tooltip("Near clip plane distance (smaller values prevent close-up clipping)")]
+    public float nearClipPlane = 0.1f;
+    
     [Tooltip("Ensure Agent layer is always rendered")]
     public bool ensureAgentLayer = true;
     
@@ -52,6 +58,11 @@ public class CameraFixer : MonoBehaviour
         if (overrideFarClipPlane)
         {
             _camera.farClipPlane = farClipPlane;
+        }
+        
+        if (overrideNearClipPlane)
+        {
+            _camera.nearClipPlane = nearClipPlane;
         }
     }
 }

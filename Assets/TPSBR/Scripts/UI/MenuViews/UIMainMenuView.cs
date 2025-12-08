@@ -13,6 +13,8 @@ namespace TPSBR.UI
 		[SerializeField]
 		private UIButton _settingsButton;
 		[SerializeField]
+		private UIButton _shopButton;
+		[SerializeField]
 		private UIButton _creditsButton;
 		[SerializeField]
 		private UIButton _changeNicknameButton;
@@ -56,6 +58,9 @@ namespace TPSBR.UI
 			_quitButton.onClick.AddListener(OnQuitButton);
 			_playerButton.onClick.AddListener(OnPlayerButton);
 			
+			if (_shopButton != null)
+				_shopButton.onClick.AddListener(OnShopButton);
+			
 			if (_partyButton != null)
 				_partyButton.onClick.AddListener(OnPartyButton);
 			
@@ -73,6 +78,9 @@ namespace TPSBR.UI
 			_changeNicknameButton.onClick.RemoveListener(OnChangeNicknameButton);
 			_quitButton.onClick.RemoveListener(OnQuitButton);
 			_playerButton.onClick.RemoveListener(OnPlayerButton);
+			
+			if (_shopButton != null)
+				_shopButton.onClick.RemoveListener(OnShopButton);
 			
 			if (_partyButton != null)
 				_partyButton.onClick.RemoveListener(OnPartyButton);
@@ -159,6 +167,14 @@ namespace TPSBR.UI
 		{
 			var agentSelection = Open<UIAgentSelectionView>();
 			agentSelection.BackView = this;
+
+			Close();
+		}
+		
+		private void OnShopButton()
+		{
+			var shopView = Open<UIShopView>();
+			shopView.BackView = this;
 
 			Close();
 		}

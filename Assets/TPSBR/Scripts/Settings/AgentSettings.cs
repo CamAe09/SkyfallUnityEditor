@@ -52,6 +52,7 @@ namespace TPSBR
 		public Sprite               Icon              => _icon;
 		public NetworkPrefabRef     AgentPrefab       => _agentPrefab;
 		public GameObject           MenuAgentPrefab   => _menuAgentPrefab;
+		public int                  CloudCoinCost     => _cloudCoinCost;
 
 		// PRIVATE MEMBERS
 
@@ -67,5 +68,7 @@ namespace TPSBR
 		private NetworkPrefabRef _agentPrefab;
 		[SerializeField]
 		private GameObject _menuAgentPrefab;
+		[SerializeField]
+		private int _cloudCoinCost = 0;
 	}
 }

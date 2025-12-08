@@ -47,9 +47,13 @@ namespace TPSBR.UI
 		private void OnListUpdateContent(int index, MonoBehaviour content)
 		{
 			var behaviour = content as UIBehaviour;
-			var setup = Context.Settings.Agent.Agents[index];
-
-			behaviour.Image.sprite = setup.Icon;
+			var agentSetups = GetOwnedAgents();
+			
+			if (index < agentSetups.Length)
+			{
+				var setup = agentSetups[index];
+				behaviour.Image.sprite = setup.Icon;
+			}
 		}
 
 		protected override void OnOpen()
@@ -61,7 +65,8 @@ namespace TPSBR.UI
 
 			_previewAgent = Context.PlayerData.AgentID;
 
-			_agentList.Refresh(Context.Settings.Agent.Agents.Length, false);
+			var ownedAgents = GetOwnedAgents();
+			_agentList.Refresh(ownedAgents.Length, false);
 			
 			UpdateAgent();
 		}
@@ -89,8 +94,12 @@ namespace TPSBR.UI
 
 		private void OnSelectionChanged(int index)
 		{
-			_previewAgent = Context.Settings.Agent.Agents[index].ID;
-			UpdateAgent();
+			var ownedAgents = GetOwnedAgents();
+			if (index < ownedAgents.Length)
+			{
+				_previewAgent = ownedAgents[index].ID;
+				UpdateAgent();
+			}
 		}
 
 		private void OnSelectButton()
@@ -117,13 +126,13 @@ namespace TPSBR.UI
 
 		private void UpdateAgent()
 		{
-			var agentSetups = Context.Settings.Agent.Agents;
-			_agentList.Selection = Array.FindIndex(agentSetups, t => t.ID == _previewAgent);
+			var ownedAgents = GetOwnedAgents();
+			_agentList.Selection = Array.FindIndex(ownedAgents, t => t.ID == _previewAgent);
 
-			if (_agentList.Selection < 0)
+			if (_agentList.Selection < 0 && ownedAgents.Length > 0)
 			{
 				_agentList.Selection = 0;
-				_previewAgent = agentSetups[_agentList.Selection].ID;
+				_previewAgent = ownedAgents[_agentList.Selection].ID;
 			}
 
 			if (_previewAgent.HasValue() == false)
@@ -142,6 +151,22 @@ namespace TPSBR.UI
 			}
 
 			_selectedAgentGroup.SetActive(_previewAgent == Context.PlayerData.AgentID);
+		}
+
+		private AgentSetup[] GetOwnedAgents()
+		{
+			var allAgents = Context.Settings.Agent.Agents;
+			var ownedAgentsList = new System.Collections.Generic.List<AgentSetup>();
+
+			foreach (var agent in allAgents)
+			{
+				if (Context.PlayerData.ShopSystem.OwnsAgent(agent.ID))
+				{
+					ownedAgentsList.Add(agent);
+				}
+			}
+
+			return ownedAgentsList.ToArray();
 		}
 	}
 }
