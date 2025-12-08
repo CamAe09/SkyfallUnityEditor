@@ -80,6 +80,11 @@ namespace TPSBR
             }
         }
 
+        public void OnAgentKilled(KillData killData)
+        {
+            OnAgentDeath(killData);
+        }
+
         private void OnAgentDeath(KillData killData)
         {
             if (_questTracker == null || _networkGame == null)
@@ -93,11 +98,23 @@ namespace TPSBR
 
             if (IsLocalPlayer(killer))
             {
-                float distance = 15f;
+                float distance = CalculateKillDistance(killer, victim);
                 string weaponType = GetWeaponTypeFromHitType(killData.HitType);
                 
                 _questTracker.OnKillObtained(killData, distance, weaponType);
             }
+        }
+
+        private float CalculateKillDistance(Player killer, Player victim)
+        {
+            if (killer.ActiveAgent != null && victim.ActiveAgent != null)
+            {
+                Vector3 killerPos = killer.ActiveAgent.transform.position;
+                Vector3 victimPos = victim.ActiveAgent.transform.position;
+                return Vector3.Distance(killerPos, victimPos);
+            }
+            
+            return 15f;
         }
 
         private void OnPlayerEliminated(PlayerRef playerRef)

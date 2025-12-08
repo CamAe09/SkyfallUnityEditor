@@ -32,6 +32,16 @@ namespace TPSBR
 
 			HitUtility.ProcessHit(ref hitData);
 
+		if (hitData.Amount > 0f && _actionType == EHitAction.Heal)
+		{
+			var agent = instigator.GetComponent<Agent>();
+			if (agent != null)
+			{
+				GameplayQuestHooks.NotifyHealingUsed(agent);
+			}
+		}
+
+
 			result = hitData.Amount > 0f ? string.Empty : (_actionType == EHitAction.Shield ? "Shield full" : "Health full");
 
 			return hitData.Amount > 0f;

@@ -188,6 +188,8 @@ namespace TPSBR
 			if (hitData.Amount > 0 && hitData.Target != (IHitTarget)this && Runner.IsResimulation == false)
 			{
 				HitPerformed?.Invoke(hitData);
+
+			GameplayQuestHooks.NotifyDamageDealt(this, hitData);
 			}
 		}
 

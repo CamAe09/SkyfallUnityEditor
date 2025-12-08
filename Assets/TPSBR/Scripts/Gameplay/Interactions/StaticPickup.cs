@@ -106,6 +106,12 @@ namespace TPSBR
 
 			PickupConsumed?.Invoke(this);
 
+			var agent = instigator.GetComponent<Agent>();
+			if (agent != null)
+			{
+				GameplayQuestHooks.NotifyItemPickup(agent);
+			}
+
 			return true;
 		}
 

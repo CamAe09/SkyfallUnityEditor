@@ -273,6 +273,8 @@ namespace TPSBR
 			ShrinkCenter = new Vector3(stage.Center.x, transform.position.y, stage.Center.y);
 
 			ShrinkingAnnounced?.Invoke(ShrinkCenter, ShrinkRadius);
+
+			GameplayQuestHooks.NotifyStormCircleChanged(_currentStage);
 		}
 
 		private void Shrink()

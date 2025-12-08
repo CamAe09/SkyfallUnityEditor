@@ -131,6 +131,9 @@ namespace TPSBR
 				HasStarted = isGrounded == false;
 			}
 			else if (isGrounded == true)
+			GameplayQuestHooks.NotifyPlayerLanded(_agent, _agent.transform.position);
+
+
 			{
 				Deactivate();
 				return; // Deactivate after touch down

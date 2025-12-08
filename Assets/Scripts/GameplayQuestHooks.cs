@@ -92,6 +92,11 @@ namespace TPSBR
             if (!_trackCombatEvents) return;
 
             Debug.Log($"[Quest Hooks] Agent killed - Killer: {killData.KillerRef}, Victim: {killData.VictimRef}, Headshot: {killData.Headshot}");
+            
+            if (QuestEventIntegration.Instance != null)
+            {
+                QuestEventIntegration.Instance.OnAgentKilled(killData);
+            }
         }
 
         private void OnPlayerEliminated(PlayerRef playerRef)

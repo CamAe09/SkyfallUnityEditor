@@ -81,6 +81,12 @@ namespace TPSBR
 				hitData.HitType          = EHitType.Suicide;
 
 				HitUtility.ProcessHit(ref hitData);
+
+			var agent = (target as MonoBehaviour).GetComponent<Agent>();
+			if (agent != null && hitData.Amount > 0)
+			{
+				GameplayQuestHooks.NotifyStormDamage(agent);
+			}
 			}
 		}
 	}
