@@ -133,6 +133,7 @@
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationControllerEditor.cs" />
     <Compile Include="Assets\Editor\CharacterDataEditor.cs" />
     <Compile Include="Assets\Scripts\Editor\MapScreenshotTool.cs" />
+    <Compile Include="Assets\Scripts\Editor\QuickFixGameplayMode.cs" />
     <Compile Include="Assets\Scripts\Editor\FixBattleRoyaleType.cs" />
     <Compile Include="Assets\Editor\AssignShopDatabase.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCLayerDrawer.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Assets\Editor\DirectShopFix.cs" />
     <Compile Include="Assets\Editor\FixShopSetup.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\Utilities\InterestEditorUtility.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixGameplayModeCode.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCAuthorityBehaviorDrawer.cs" />
     <Compile Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\Editor\FPS_UberDecalGUI.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\GlobalInterestManagerEditor.cs" />

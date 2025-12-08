@@ -137,6 +137,8 @@ namespace TPSBR
 			State = EState.Active;
 
 			OnActivate();
+
+			QuestIntegrationPatches.PatchGameplayModeActivated();
 		}
 
 		public void AgentDeath(Agent victim, HitData hitData)
@@ -454,6 +456,17 @@ namespace TPSBR
 			State = EState.Finished;
 			Runner.SessionInfo.IsOpen = false;
 			Context.Backfill.BackfillEnabled = false;
+
+			var localPlayer = Context.NetworkGame.GetPlayer(Runner.LocalPlayer);
+			if (localPlayer != null)
+			{
+				var stats = localPlayer.Statistics;
+				int playerPosition = stats.Position > 0 ? stats.Position : 1;
+				int totalPlayers = Context.NetworkGame.ActivePlayerCount;
+				bool isWinner = stats.Position == 1;
+				
+				QuestIntegrationPatches.PatchGameplayModeFinished(playerPosition, totalPlayers, isWinner);
+			}
 
 			if (Application.isBatchMode == true)
 			{
