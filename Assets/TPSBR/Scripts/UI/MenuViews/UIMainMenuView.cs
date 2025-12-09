@@ -133,7 +133,7 @@ namespace TPSBR.UI
             if (PhotonAppSettings.Global.AppSettings.AppIdFusion.HasValue())
             {
                 Debug.Log("[UIMainMenuView] Joining Photon lobby...");
-                Context.Matchmaking.JoinLobby(false);
+                Context.Matchmaking.JoinLobby(true);
             }
             else
             {
@@ -201,7 +201,11 @@ namespace TPSBR.UI
 
             if (Context.Matchmaking.IsConnectedToLobby == false)
             {
-                Debug.LogWarning("[Quick Play] Not connected to lobby. Connecting and will retry...");
+                Debug.LogWarning("[Quick Play] Not connected to lobby. Attempting to connect...");
+                
+                _quickPlayInProgress = true;
+                _playButton.interactable = false;
+                
                 Context.Matchmaking.JoinLobby(true);
                 StartCoroutine(WaitForLobbyAndRetry());
                 return;
@@ -411,12 +415,20 @@ namespace TPSBR.UI
 
         private System.Collections.IEnumerator WaitForLobbyAndRetry()
         {
-            float timeout = 5f;
+            float timeout = 10f;
             float elapsed = 0f;
+            
+            Debug.Log("[Quick Play] Waiting for lobby connection...");
 
             while (Context.Matchmaking.IsConnectedToLobby == false && elapsed < timeout)
             {
                 elapsed += Time.deltaTime;
+                
+                if (Mathf.FloorToInt(elapsed) % 2 == 0 && elapsed - Time.deltaTime < Mathf.FloorToInt(elapsed))
+                {
+                    Debug.Log($"[Quick Play] Still connecting to lobby... ({Mathf.FloorToInt(elapsed)}s / {timeout}s)");
+                }
+                
                 yield return null;
             }
 
@@ -427,10 +439,16 @@ namespace TPSBR.UI
             }
             else
             {
-                Debug.LogError("[Quick Play] Failed to connect to lobby within timeout");
+                Debug.LogError("[Quick Play] Failed to connect to lobby within timeout. Please check:");
+                Debug.LogError("  1. Your internet connection");
+                Debug.LogError("  2. Photon App ID is correctly configured");
+                Debug.LogError("  3. Photon servers are accessible");
+                
+                ResetQuickPlayState();
+                
                 var errorDialog = Open<UIErrorDialogView>();
                 errorDialog.Title.text = "Connection Failed";
-                errorDialog.Description.text = "Failed to connect to Photon lobby. Please check your internet connection and try again.";
+                errorDialog.Description.text = "Failed to connect to Photon lobby. Please check:\n\n• Your internet connection\n• Photon App ID configuration\n• Try restarting the game";
             }
         }
 
