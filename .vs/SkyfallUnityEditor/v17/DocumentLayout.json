@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Gameplay\\Jetpack\\Jetpack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\TPSBR\\Scripts\\Gameplay\\Jetpack\\Jetpack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Core\\NetworkGame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\TPSBR\\Scripts\\Core\\NetworkGame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -38,11 +42,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "Jetpack.cs",
+              "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Gameplay\\Jetpack\\Jetpack.cs",
+              "RelativeDocumentMoniker": "Assets\\TPSBR\\Scripts\\Gameplay\\Jetpack\\Jetpack.cs",
+              "ToolTip": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Gameplay\\Jetpack\\Jetpack.cs",
+              "RelativeToolTip": "Assets\\TPSBR\\Scripts\\Gameplay\\Jetpack\\Jetpack.cs",
+              "ViewState": "AgIAACEBAAAAAAAAAAAkwCwBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T23:12:36.56Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "UICreateSessionView.cs",
               "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\UI\\MenuViews\\UICreateSessionView.cs",
               "RelativeDocumentMoniker": "Assets\\TPSBR\\Scripts\\UI\\MenuViews\\UICreateSessionView.cs",
@@ -50,12 +67,11 @@
               "RelativeToolTip": "Assets\\TPSBR\\Scripts\\UI\\MenuViews\\UICreateSessionView.cs",
               "ViewState": "AgIAAJUAAAAAAAAAAAArwJkAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T20:20:11.311Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-07T20:20:11.311Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Loader.cs",
               "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Core\\Loader.cs",
               "RelativeDocumentMoniker": "Assets\\TPSBR\\Scripts\\Core\\Loader.cs",
@@ -63,12 +79,11 @@
               "RelativeToolTip": "Assets\\TPSBR\\Scripts\\Core\\Loader.cs",
               "ViewState": "AgIAADwAAAAAAAAAAAArwEMAAACAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T20:12:10.698Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-07T20:12:10.698Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "GameplayMode.cs",
               "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Gameplay\\GameplayModes\\GameplayMode.cs",
               "RelativeDocumentMoniker": "Assets\\TPSBR\\Scripts\\Gameplay\\GameplayModes\\GameplayMode.cs",
@@ -76,12 +91,11 @@
               "RelativeToolTip": "Assets\\TPSBR\\Scripts\\Gameplay\\GameplayModes\\GameplayMode.cs",
               "ViewState": "AgIAAGIAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T20:11:52.93Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-07T20:11:52.93Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "FreeCameraController.cs",
               "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\Scripts\\FreeCameraController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\FreeCameraController.cs",
@@ -89,18 +103,17 @@
               "RelativeToolTip": "Assets\\Scripts\\FreeCameraController.cs",
               "ViewState": "AgIAAMIAAAAAAAAAAAArwMoAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T18:22:08.312Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-07T18:22:08.312Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "NetworkGame.cs",
               "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Core\\NetworkGame.cs",
               "RelativeDocumentMoniker": "Assets\\TPSBR\\Scripts\\Core\\NetworkGame.cs",
               "ToolTip": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Core\\NetworkGame.cs",
               "RelativeToolTip": "Assets\\TPSBR\\Scripts\\Core\\NetworkGame.cs",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAkwEYAAAC3AAAAAAAAAA==",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAkwIQAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-07T02:44:18.693Z",
               "EditorCaption": ""
@@ -111,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "FirearmWeapon.cs",
               "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\TPSBR\\Scripts\\Gameplay\\Weapons\\FirearmWeapon.cs",
               "RelativeDocumentMoniker": "Assets\\TPSBR\\Scripts\\Gameplay\\Weapons\\FirearmWeapon.cs",
@@ -123,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "SimpleMapSystem.cs",
               "DocumentMoniker": "C:\\Users\\camev\\Documents\\GitHub\\SkyfallUnityEditor\\Assets\\Scripts\\SimpleMapSystem.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\SimpleMapSystem.cs",
