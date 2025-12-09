@@ -147,6 +147,7 @@ namespace TPSBR.UI
             if (_quickPlayInProgress)
             {
                 Context.Matchmaking.SessionListUpdated -= OnQuickPlaySessionListUpdated;
+                Context.Matchmaking.SessionListUpdated -= OnFinalSessionCheckBeforeCreate;
                 _quickPlayInProgress = false;
             }
 
@@ -352,8 +353,8 @@ namespace TPSBR.UI
             }
             else
             {
-                Debug.Log("[Quick Play] No available sessions found. Creating new Battle Royale session...");
-                CreateQuickPlaySession();
+                Debug.Log("[Quick Play] No available sessions found. Waiting before creating session to check for other players...");
+                StartCoroutine(WaitAndCreateSession());
             }
         }
 
@@ -429,6 +430,52 @@ namespace TPSBR.UI
                 var errorDialog = Open<UIErrorDialogView>();
                 errorDialog.Title.text = "Connection Failed";
                 errorDialog.Description.text = "Failed to connect to Photon lobby. Please check your internet connection and try again.";
+            }
+        }
+
+        private System.Collections.IEnumerator WaitAndCreateSession()
+        {
+            float randomDelay = Random.Range(0.5f, 2.0f);
+            Debug.Log($"[Quick Play] Waiting {randomDelay:F1}s before creating session (checking for other players)...");
+            
+            yield return new WaitForSeconds(randomDelay);
+
+            if (_quickPlayInProgress == false)
+            {
+                Debug.Log("[Quick Play] Quick play was cancelled during wait");
+                yield break;
+            }
+
+            Debug.Log("[Quick Play] Rechecking session list one more time...");
+            Context.Matchmaking.SessionListUpdated += OnFinalSessionCheckBeforeCreate;
+            Context.Matchmaking.JoinLobby(true);
+        }
+
+        private void OnFinalSessionCheckBeforeCreate(NetworkRunner runner, List<SessionInfo> sessionList)
+        {
+            Context.Matchmaking.SessionListUpdated -= OnFinalSessionCheckBeforeCreate;
+
+            if (_quickPlayInProgress == false)
+                return;
+
+            var availableSessions = sessionList
+                .Where(s => s.IsValid && s.IsOpen && s.IsVisible)
+                .Where(s => s.GetGameplayType() == EGameplayType.BattleRoyale)
+                .Where(s => s.PlayerCount < s.MaxPlayers)
+                .Where(s => s.HasMap())
+                .OrderByDescending(s => s.PlayerCount)
+                .ToList();
+
+            if (availableSessions.Count > 0)
+            {
+                var bestSession = availableSessions[0];
+                Debug.Log($"[Quick Play] Found session during final check! Joining '{bestSession.Name}' with {bestSession.PlayerCount}/{bestSession.MaxPlayers} players...");
+                Context.Matchmaking.JoinSession(bestSession);
+            }
+            else
+            {
+                Debug.Log("[Quick Play] Still no sessions found. Creating new Battle Royale session...");
+                CreateQuickPlaySession();
             }
         }
     }
