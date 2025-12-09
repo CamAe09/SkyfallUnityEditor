@@ -235,18 +235,6 @@ namespace TPSBR.UI
                 return;
             }
 
-            if (Context.Matchmaking.IsConnectedToLobby == false)
-            {
-                Debug.LogWarning("[Quick Play] Not connected to lobby. Attempting to connect...");
-                
-                _quickPlayInProgress = true;
-                _playButton.interactable = false;
-                
-                Context.Matchmaking.JoinLobby(true);
-                StartCoroutine(WaitForLobbyAndRetry());
-                return;
-            }
-
             _quickPlayInProgress = true;
             _playButton.interactable = false;
 
