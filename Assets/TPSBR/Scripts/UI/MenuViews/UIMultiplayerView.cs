@@ -42,6 +42,11 @@ namespace TPSBR.UI
 			OnQuickPlayButton();
 		}
 
+		public void StartQuickMatch()
+		{
+			Open<UIQuickMatchView>();
+		}
+
 		// UIView INTEFACE
 
 		protected override void OnInitialize()
