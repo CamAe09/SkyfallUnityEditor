@@ -1,17 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TPSBR.UI;
 
 namespace TPSBR
 {
-	[RequireComponent(typeof(Button))]
+	[RequireComponent(typeof(UIButton))]
 	public class UIQuickMatchButton : MonoBehaviour
 	{
-		private Button _button;
+		private UIButton _button;
 
 		private void Awake()
 		{
-			_button = GetComponent<Button>();
+			_button = GetComponent<UIButton>();
 			_button.onClick.AddListener(OnButtonClick);
 		}
 
