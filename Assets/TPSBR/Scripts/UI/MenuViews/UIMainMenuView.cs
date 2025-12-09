@@ -68,6 +68,8 @@ namespace TPSBR.UI
         {
             base.OnInitialize();
 
+            Debug.Log("[UIMainMenuView] OnInitialize - Setting up button listeners");
+
             _settingsButton.onClick.AddListener(OnSettingsButton);
             _playButton.onClick.AddListener(OnPlayButton);
             _creditsButton.onClick.AddListener(OnCreditsButton);
@@ -147,7 +149,6 @@ namespace TPSBR.UI
             if (_quickPlayInProgress)
             {
                 Context.Matchmaking.SessionListUpdated -= OnQuickPlaySessionListUpdated;
-                Context.Matchmaking.SessionListUpdated -= OnFinalSessionCheckBeforeCreate;
                 _quickPlayInProgress = false;
             }
 
@@ -354,7 +355,7 @@ namespace TPSBR.UI
             else
             {
                 Debug.Log("[Quick Play] No available sessions found. Waiting before creating session to check for other players...");
-                StartCoroutine(WaitAndCreateSession());
+                StartCoroutine(WaitAndCreateSession(sessionList));
             }
         }
 
@@ -433,7 +434,7 @@ namespace TPSBR.UI
             }
         }
 
-        private System.Collections.IEnumerator WaitAndCreateSession()
+        private System.Collections.IEnumerator WaitAndCreateSession(List<SessionInfo> lastSessionList)
         {
             float randomDelay = Random.Range(0.5f, 2.0f);
             Debug.Log($"[Quick Play] Waiting {randomDelay:F1}s before creating session (checking for other players)...");
@@ -446,19 +447,9 @@ namespace TPSBR.UI
                 yield break;
             }
 
-            Debug.Log("[Quick Play] Rechecking session list one more time...");
-            Context.Matchmaking.SessionListUpdated += OnFinalSessionCheckBeforeCreate;
-            Context.Matchmaking.JoinLobby(true);
-        }
-
-        private void OnFinalSessionCheckBeforeCreate(NetworkRunner runner, List<SessionInfo> sessionList)
-        {
-            Context.Matchmaking.SessionListUpdated -= OnFinalSessionCheckBeforeCreate;
-
-            if (_quickPlayInProgress == false)
-                return;
-
-            var availableSessions = sessionList
+            Debug.Log("[Quick Play] Rechecking if any sessions appeared during wait...");
+            
+            var availableSessions = lastSessionList
                 .Where(s => s.IsValid && s.IsOpen && s.IsVisible)
                 .Where(s => s.GetGameplayType() == EGameplayType.BattleRoyale)
                 .Where(s => s.PlayerCount < s.MaxPlayers)
@@ -469,7 +460,7 @@ namespace TPSBR.UI
             if (availableSessions.Count > 0)
             {
                 var bestSession = availableSessions[0];
-                Debug.Log($"[Quick Play] Found session during final check! Joining '{bestSession.Name}' with {bestSession.PlayerCount}/{bestSession.MaxPlayers} players...");
+                Debug.Log($"[Quick Play] Found session during wait! Joining '{bestSession.Name}' with {bestSession.PlayerCount}/{bestSession.MaxPlayers} players...");
                 Context.Matchmaking.JoinSession(bestSession);
             }
             else
