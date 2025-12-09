@@ -184,7 +184,6 @@ namespace TPSBR.UI
 
             if (_quickPlayInProgress)
             {
-                Context.Matchmaking.SessionListUpdated -= OnQuickPlaySessionListUpdated;
                 StopAllCoroutines();
                 _quickPlayInProgress = false;
             }
@@ -251,11 +250,56 @@ namespace TPSBR.UI
             _quickPlayInProgress = true;
             _playButton.interactable = false;
 
-            Debug.Log("[Quick Play] Starting Battle Royale quick match...");
+            string region = Context.RuntimeSettings.Region;
+            string appVersion = Application.version;
             
-            Context.Matchmaking.SessionListUpdated += OnQuickPlaySessionListUpdated;
-            
-            Context.Matchmaking.JoinLobby(true);
+            string quickPlaySessionName = $"QuickPlay_{region}_{appVersion}";
+
+            Debug.Log($"[Quick Play] Starting Quick Play...");
+            Debug.Log($"[Quick Play] Session Name: {quickPlaySessionName}");
+            Debug.Log($"[Quick Play] Region: {region}");
+            Debug.Log($"[Quick Play] App Version: {appVersion}");
+            Debug.Log($"[Quick Play] This session name is shared - all players in this region/version will join the same game!");
+
+            var mapSettings = Context.Settings.Map;
+            if (mapSettings == null || mapSettings.Maps == null || mapSettings.Maps.Length == 0)
+            {
+                Debug.LogError("[Quick Play] No maps configured!");
+                ResetQuickPlayState();
+
+                var errorDialog = Open<UIErrorDialogView>();
+                errorDialog.Title.text = "No Maps Available";
+                errorDialog.Description.text = "No maps are configured in the game settings. Please configure maps in GlobalSettings.";
+                return;
+            }
+
+            var availableMaps = mapSettings.Maps.Where(m => m != null && m.ShowInMapSelection).ToList();
+            if (availableMaps.Count == 0)
+            {
+                Debug.LogError("[Quick Play] No valid maps found for selection!");
+                ResetQuickPlayState();
+
+                var errorDialog = Open<UIErrorDialogView>();
+                errorDialog.Title.text = "No Valid Maps";
+                errorDialog.Description.text = "No valid maps available. Please check map configuration in GlobalSettings.";
+                return;
+            }
+
+            var randomMap = availableMaps[Random.Range(0, availableMaps.Count)];
+
+            var request = new SessionRequest
+            {
+                UserID = Context.PlayerData.UserID,
+                GameMode = _dedicatedServer ? GameMode.Server : GameMode.Host,
+                DisplayName = Context.PlayerData.Nickname,
+                SessionName = quickPlaySessionName,
+                ScenePath = randomMap.ScenePath,
+                GameplayType = EGameplayType.BattleRoyale,
+                MaxPlayers = _maxPlayers,
+            };
+
+            Debug.Log($"[Quick Play] Creating/Joining session on map '{randomMap.DisplayName}' (MaxPlayers: {_maxPlayers})");
+            Global.Networking.StartGame(request);
         }
 
         private void OnCreditsButton()
@@ -370,87 +414,6 @@ namespace TPSBR.UI
 
             var setup = Context.Settings.Agent.GetAgentSetup(Context.PlayerData.AgentID);
             _agentName.text = setup != null ? $"Playing as {setup.DisplayName}" : string.Empty;
-        }
-
-        private void OnQuickPlaySessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
-        {
-            Context.Matchmaking.SessionListUpdated -= OnQuickPlaySessionListUpdated;
-
-            if (_quickPlayInProgress == false)
-                return;
-
-            Debug.Log($"[Quick Play] Received session list with {sessionList.Count} total sessions");
-            
-            foreach (var session in sessionList)
-            {
-                Debug.Log($"[Quick Play]   Session: '{session.Name}' | Players: {session.PlayerCount}/{session.MaxPlayers} | Valid: {session.IsValid} | Open: {session.IsOpen} | Visible: {session.IsVisible} | Type: {session.GetGameplayType()}");
-            }
-
-            var availableSessions = sessionList
-                .Where(s => s.IsValid && s.IsOpen && s.IsVisible)
-                .Where(s => s.GetGameplayType() == EGameplayType.BattleRoyale)
-                .Where(s => s.PlayerCount < s.MaxPlayers)
-                .Where(s => s.HasMap())
-                .OrderByDescending(s => s.PlayerCount)
-                .ToList();
-
-            Debug.Log($"[Quick Play] Found {availableSessions.Count} available Battle Royale sessions after filtering");
-
-            if (availableSessions.Count > 0)
-            {
-                var bestSession = availableSessions[0];
-                Debug.Log($"[Quick Play] Joining session '{bestSession.Name}' with {bestSession.PlayerCount}/{bestSession.MaxPlayers} players...");
-                Context.Matchmaking.JoinSession(bestSession);
-            }
-            else
-            {
-                Debug.Log("[Quick Play] No available sessions found. Waiting before creating session to check for other players...");
-                StartCoroutine(WaitAndCreateSession(sessionList));
-            }
-        }
-
-        private void CreateQuickPlaySession()
-        {
-            var mapSettings = Context.Settings.Map;
-            if (mapSettings == null || mapSettings.Maps == null || mapSettings.Maps.Length == 0)
-            {
-                Debug.LogError("[Quick Play] No maps configured!");
-                ResetQuickPlayState();
-                
-                var errorDialog = Open<UIErrorDialogView>();
-                errorDialog.Title.text = "No Maps Available";
-                errorDialog.Description.text = "No maps are configured in the game settings. Please configure maps in GlobalSettings.";
-                return;
-            }
-
-            var availableMaps = mapSettings.Maps.Where(m => m != null && m.ShowInMapSelection).ToList();
-            if (availableMaps.Count == 0)
-            {
-                Debug.LogError("[Quick Play] No valid maps found for selection!");
-                ResetQuickPlayState();
-                
-                var errorDialog = Open<UIErrorDialogView>();
-                errorDialog.Title.text = "No Valid Maps";
-                errorDialog.Description.text = "No valid maps available. Please check map configuration in GlobalSettings.";
-                return;
-            }
-
-            var randomMap = availableMaps[Random.Range(0, availableMaps.Count)];
-            string sessionName = $"BR_{Random.Range(1000, 9999)}";
-
-            var request = new SessionRequest
-            {
-                UserID = Context.PlayerData.UserID,
-                GameMode = _dedicatedServer ? GameMode.Server : GameMode.Host,
-                DisplayName = Context.PlayerData.Nickname,
-                SessionName = sessionName,
-                ScenePath = randomMap.ScenePath,
-                GameplayType = EGameplayType.BattleRoyale,
-                MaxPlayers = _maxPlayers,
-            };
-
-            Debug.Log($"[Quick Play] Creating new session '{sessionName}' on map '{randomMap.DisplayName}' (MaxPlayers: {_maxPlayers})...");
-            Global.Networking.StartGame(request);
         }
 
         private void ResetQuickPlayState()
@@ -593,7 +556,7 @@ namespace TPSBR.UI
             }
 
             Debug.Log($"[Quick Play] No sessions found after {searchDuration} seconds. Creating new Battle Royale session...");
-            CreateQuickPlaySession();
+            // CreateQuickPlaySession(); // Method removed - now using deterministic session names
         }
     }
 }
