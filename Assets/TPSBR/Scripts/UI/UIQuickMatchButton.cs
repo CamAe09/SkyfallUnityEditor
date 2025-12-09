@@ -7,7 +7,7 @@ using Fusion;
 namespace TPSBR
 {
 	[RequireComponent(typeof(UIButton))]
-	public class UIQuickMatchButton : ContextBehaviour
+	public class UIQuickMatchButton : MonoBehaviour
 	{
 		private UIButton _button;
 
@@ -27,16 +27,23 @@ namespace TPSBR
 
 		private void OnButtonClick()
 		{
-			if (Context.Matchmaking.IsConnectedToLobby == false)
-			{
-				Debug.LogWarning("Quick Match: Not connected to lobby. Please wait for connection.");
-				return;
-			}
-
 			var multiplayerView = FindObjectOfType<UIMultiplayerView>();
 			if (multiplayerView == null)
 			{
-				Debug.LogWarning("UIMultiplayerView not found in scene.");
+				Debug.LogWarning("Quick Match: UIMultiplayerView not found in scene.");
+				return;
+			}
+
+			var context = GetContext(multiplayerView);
+			if (context == null || context.Matchmaking == null)
+			{
+				Debug.LogWarning("Quick Match: Context or Matchmaking service not available yet.");
+				return;
+			}
+
+			if (context.Matchmaking.IsConnectedToLobby == false)
+			{
+				Debug.LogWarning("Quick Match: Not connected to lobby. Please wait for connection.");
 				return;
 			}
 
@@ -54,13 +61,23 @@ namespace TPSBR
 			if (bestSession != null)
 			{
 				Debug.Log($"Quick Match: Joining session {bestSession.GetDisplayName()} with {bestSession.PlayerCount} players");
-				Context.Matchmaking.JoinSession(bestSession);
+				context.Matchmaking.JoinSession(bestSession);
 			}
 			else
 			{
 				Debug.Log("Quick Match: No joinable sessions found, opening create session view");
 				OpenCreateSessionView();
 			}
+		}
+
+		private SceneContext GetContext(UIMultiplayerView view)
+		{
+			var contextProperty = typeof(UIMultiplayerView).BaseType.GetProperty("Context", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+			if (contextProperty != null)
+			{
+				return contextProperty.GetValue(view) as SceneContext;
+			}
+			return null;
 		}
 
 		private List<SessionInfo> GetSessionListFromView(UIMultiplayerView view)
@@ -75,14 +92,22 @@ namespace TPSBR
 
 		private void OpenCreateSessionView()
 		{
-			var createSessionView = FindObjectOfType<UICreateSessionView>();
-			if (createSessionView != null)
+			var multiplayerView = FindObjectOfType<UIMultiplayerView>();
+			if (multiplayerView != null)
 			{
-				createSessionView.Open();
+				var createMethod = typeof(UIMultiplayerView).GetMethod("OnCreateGameButton", BindingFlags.NonPublic | BindingFlags.Instance);
+				if (createMethod != null)
+				{
+					createMethod.Invoke(multiplayerView, null);
+				}
+				else
+				{
+					Debug.LogWarning("Could not find OnCreateGameButton method on UIMultiplayerView.");
+				}
 			}
 			else
 			{
-				Debug.LogWarning("UICreateSessionView not found in scene.");
+				Debug.LogWarning("UIMultiplayerView not found in scene.");
 			}
 		}
 
