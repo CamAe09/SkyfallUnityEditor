@@ -250,6 +250,9 @@ namespace TPSBR.UI
             _quickPlayInProgress = true;
             _playButton.interactable = false;
 
+            Debug.Log("[Quick Play] Leaving lobby before starting game...");
+            Context.Matchmaking.LeaveLobby();
+
             string region = Context.RuntimeSettings.Region;
             string appVersion = Application.version;
             
