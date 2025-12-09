@@ -211,6 +211,11 @@ namespace TPSBR.UI
 
         private void OnPlayButton()
         {
+            Open<UIMultiplayerView>();
+        }
+
+        private void OnPlayButtonOLD_DISABLED()
+        {
             Debug.Log("[Quick Play] Play button clicked!");
 
             if (_quickPlayInProgress)
