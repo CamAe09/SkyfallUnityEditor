@@ -47,6 +47,8 @@ namespace TPSBR.UI
         private TextMeshProUGUI _agentName;
         [SerializeField]
         private TextMeshProUGUI _applicationVersion;
+        [SerializeField]
+        private TMP_Dropdown _regionDropdown;
 
         private bool _quickPlayInProgress = false;
         private List<SessionInfo> _latestSessionList = new List<SessionInfo>();
@@ -90,6 +92,12 @@ namespace TPSBR.UI
             if (_replaysButton != null)
                 _replaysButton.onClick.AddListener(OnReplaysButton);
 
+            if (_regionDropdown != null)
+            {
+                _regionDropdown.onValueChanged.AddListener(OnRegionChanged);
+                PrepareRegionDropdown();
+            }
+
             _applicationVersion.text = $"Version {Application.version}";
         }
 
@@ -114,6 +122,9 @@ namespace TPSBR.UI
             if (_replaysButton != null)
                 _replaysButton.onClick.RemoveListener(OnReplaysButton);
 
+            if (_regionDropdown != null)
+                _regionDropdown.onValueChanged.RemoveListener(OnRegionChanged);
+
             base.OnDeinitialize();
         }
 
@@ -133,6 +144,16 @@ namespace TPSBR.UI
             _latestSessionList.Clear();
             
             Context.Matchmaking.SessionListUpdated += OnSessionListUpdate;
+
+            if (_regionDropdown != null)
+            {
+                var currentRegion = Context.RuntimeSettings.Region;
+                int regionIndex = System.Array.FindIndex(Context.Settings.Network.Regions, t => t.Region == currentRegion);
+                if (regionIndex >= 0)
+                {
+                    _regionDropdown.SetValueWithoutNotify(regionIndex);
+                }
+            }
 
             if (PhotonAppSettings.Global.AppSettings.AppIdFusion.HasValue())
             {
@@ -436,6 +457,45 @@ namespace TPSBR.UI
         {
             _quickPlayInProgress = false;
             _playButton.interactable = true;
+        }
+
+        private void OnRegionChanged(int regionIndex)
+        {
+            if (regionIndex < 0 || regionIndex >= Context.Settings.Network.Regions.Length)
+                return;
+
+            var region = Context.Settings.Network.Regions[regionIndex].Region;
+            var regionInfo = Context.Settings.Network.Regions[regionIndex];
+            
+            Debug.Log($"[UIMainMenuView] Region changed to: {regionInfo.DisplayName} ({region})");
+            
+            Context.RuntimeSettings.Region = region;
+
+            if (PhotonAppSettings.Global.AppSettings.AppIdFusion.HasValue())
+            {
+                Debug.Log($"[UIMainMenuView] Rejoining lobby with new region: {region}");
+                Context.Matchmaking.JoinLobby(true);
+            }
+        }
+
+        private void PrepareRegionDropdown()
+        {
+            var options = ListPool.Get<TMP_Dropdown.OptionData>(16);
+            var regions = Context.Settings.Network.Regions;
+
+            for (int i = 0; i < regions.Length; i++)
+            {
+                var regionInfo = regions[i];
+                var optionData = new TMP_Dropdown.OptionData();
+                optionData.text = regionInfo.DisplayName;
+                optionData.image = regionInfo.Icon;
+                options.Add(optionData);
+            }
+
+            _regionDropdown.ClearOptions();
+            _regionDropdown.AddOptions(options);
+
+            ListPool.Return(options);
         }
 
         private void OnSessionListUpdate(NetworkRunner runner, List<SessionInfo> sessionList)
