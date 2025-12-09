@@ -136,7 +136,16 @@ namespace TPSBR.UI
 
             if (PhotonAppSettings.Global.AppSettings.AppIdFusion.HasValue())
             {
-                Debug.Log("[UIMainMenuView] Joining Photon lobby...");
+                string appId = PhotonAppSettings.Global.AppSettings.AppIdFusion;
+                string region = Context.RuntimeSettings.Region;
+                string lobby = $"FusionBR.{Application.version}";
+                
+                Debug.Log($"[UIMainMenuView] Joining Photon lobby...");
+                Debug.Log($"  App ID: {appId.Substring(0, Mathf.Min(8, appId.Length))}... (length: {appId.Length})");
+                Debug.Log($"  Region: {region}");
+                Debug.Log($"  Lobby Name: {lobby}");
+                Debug.Log($"  App Version: {Application.version}");
+                
                 Context.Matchmaking.JoinLobby(true);
             }
             else
@@ -432,7 +441,19 @@ namespace TPSBR.UI
         private void OnSessionListUpdate(NetworkRunner runner, List<SessionInfo> sessionList)
         {
             _latestSessionList = new List<SessionInfo>(sessionList);
-            Debug.Log($"[Quick Play] Session list updated - now tracking {sessionList.Count} total sessions");
+            
+            string debugInfo = $"[Quick Play] Session list updated - now tracking {sessionList.Count} total sessions";
+            
+            if (sessionList.Count > 0)
+            {
+                debugInfo += "\n  Sessions in lobby:";
+                foreach (var session in sessionList)
+                {
+                    debugInfo += $"\n    - '{session.Name}' | {session.PlayerCount}/{session.MaxPlayers} players | Type: {session.GetGameplayType()} | Open: {session.IsOpen} | Visible: {session.IsVisible}";
+                }
+            }
+            
+            Debug.Log(debugInfo);
         }
 
         private System.Collections.IEnumerator WaitForLobbyAndRetry()
