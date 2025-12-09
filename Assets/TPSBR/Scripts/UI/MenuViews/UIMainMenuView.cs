@@ -150,6 +150,8 @@ namespace TPSBR.UI
             {
                 Context.Matchmaking.SessionListUpdated -= OnQuickPlaySessionListUpdated;
                 Context.Matchmaking.SessionListUpdated -= OnFinalSessionCheck;
+                Context.Matchmaking.SessionListUpdated -= OnSearchSessionUpdate;
+                StopAllCoroutines();
                 _quickPlayInProgress = false;
             }
 
@@ -464,28 +466,71 @@ namespace TPSBR.UI
 
         private System.Collections.IEnumerator WaitAndCreateSession(List<SessionInfo> lastSessionList)
         {
-            float randomDelay = Random.Range(2.0f, 4.0f);
-            Debug.Log($"[Quick Play] Waiting {randomDelay:F1}s before creating session (checking for other players)...");
+            float searchDuration = 10f;
+            float checkInterval = 1.5f;
+            float elapsed = 0f;
             
-            yield return new WaitForSeconds(randomDelay);
-
-            if (_quickPlayInProgress == false)
+            Debug.Log($"[Quick Play] Searching for available sessions for {searchDuration} seconds before creating new game...");
+            
+            while (elapsed < searchDuration)
             {
-                Debug.Log("[Quick Play] Quick play was cancelled during wait");
-                yield break;
+                if (_quickPlayInProgress == false)
+                {
+                    Debug.Log("[Quick Play] Quick play was cancelled during search");
+                    yield break;
+                }
+
+                var availableSessions = lastSessionList
+                    .Where(s => s.IsValid && s.IsOpen && s.IsVisible)
+                    .Where(s => s.GetGameplayType() == EGameplayType.BattleRoyale)
+                    .Where(s => s.PlayerCount < s.MaxPlayers)
+                    .Where(s => s.HasMap())
+                    .OrderByDescending(s => s.PlayerCount)
+                    .ToList();
+
+                if (availableSessions.Count > 0)
+                {
+                    var bestSession = availableSessions[0];
+                    Debug.Log($"[Quick Play] Found session after {elapsed:F1}s! Joining '{bestSession.Name}' with {bestSession.PlayerCount}/{bestSession.MaxPlayers} players...");
+                    Context.Matchmaking.JoinSession(bestSession);
+                    yield break;
+                }
+
+                Debug.Log($"[Quick Play] Still searching... ({elapsed:F1}s / {searchDuration}s) - checking again in {checkInterval}s");
+                yield return new WaitForSeconds(checkInterval);
+                elapsed += checkInterval;
+                
+                Context.Matchmaking.SessionListUpdated += OnSearchSessionUpdate;
+                yield return new WaitForSeconds(0.3f);
+                Context.Matchmaking.SessionListUpdated -= OnSearchSessionUpdate;
             }
 
-            Debug.Log("[Quick Play] Requesting fresh session list to check for new sessions...");
-            
-            Context.Matchmaking.SessionListUpdated += OnFinalSessionCheck;
-            
-            yield return new WaitForSeconds(0.5f);
-            
-            if (_quickPlayInProgress)
+            Debug.Log($"[Quick Play] No sessions found after {searchDuration} seconds. Creating new Battle Royale session...");
+            CreateQuickPlaySession();
+        }
+
+        private void OnSearchSessionUpdate(NetworkRunner runner, List<SessionInfo> sessionList)
+        {
+            if (_quickPlayInProgress == false)
+                return;
+
+            Debug.Log($"[Quick Play] Search update - received {sessionList.Count} total sessions");
+
+            var availableSessions = sessionList
+                .Where(s => s.IsValid && s.IsOpen && s.IsVisible)
+                .Where(s => s.GetGameplayType() == EGameplayType.BattleRoyale)
+                .Where(s => s.PlayerCount < s.MaxPlayers)
+                .Where(s => s.HasMap())
+                .OrderByDescending(s => s.PlayerCount)
+                .ToList();
+
+            if (availableSessions.Count > 0)
             {
-                Debug.Log("[Quick Play] No new sessions found after final check. Creating new Battle Royale session...");
-                Context.Matchmaking.SessionListUpdated -= OnFinalSessionCheck;
-                CreateQuickPlaySession();
+                var bestSession = availableSessions[0];
+                Debug.Log($"[Quick Play] Found session during search! Joining '{bestSession.Name}' with {bestSession.PlayerCount}/{bestSession.MaxPlayers} players...");
+                Context.Matchmaking.JoinSession(bestSession);
+                StopAllCoroutines();
+                _quickPlayInProgress = false;
             }
         }
 
