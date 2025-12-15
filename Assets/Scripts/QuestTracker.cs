@@ -20,7 +20,8 @@ namespace TPSBR
             _questManager = QuestManager.Instance;
             if (_questManager == null)
             {
-                Debug.LogError("QuestManager not found! Make sure QuestManager exists in the scene.");
+                Debug.LogWarning("[QuestTracker] QuestManager not found. Quest tracking will be disabled.");
+                enabled = false;
             }
         }
 

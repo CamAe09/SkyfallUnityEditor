@@ -26,6 +26,9 @@ namespace TPSBR
         [Tooltip("Show countdown timer UI")]
         public bool ShowCountdownUI = true;
         
+        [Tooltip("Only show world countdown when within this many seconds of event (0 = always show). Ex: 604800 = 1 week")]
+        public float CountdownVisibilityThreshold = 604800f;
+        
         [Tooltip("Seconds before event when text turns red")]
         public float RedTextThreshold = 60f;
         
@@ -38,6 +41,13 @@ namespace TPSBR
         
         [Tooltip("Final rotation of the island (X = pitch, Y = yaw, Z = roll)")]
         public Vector3 FlipRotation = new Vector3(180f, 0f, 0f);
+        
+        [Header("Season End Event")]
+        [Tooltip("This event marks the end of the season (triggers season end sequence)")]
+        public bool IsSeasonEndEvent = false;
+        
+        [Tooltip("Delay after event before season end sequence starts (seconds)")]
+        public float SeasonEndDelay = 5f;
         
         private static TimeZoneInfo EasternTimeZone
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Fusion;
 using UnityEngine;
 
@@ -10,6 +11,13 @@ namespace TPSBR
         
         [Header("Event Configuration")]
         [SerializeField] private LiveEventData[] _liveEvents;
+        
+        [Header("Audio Settings")]
+        [Tooltip("AudioSource for playing event sounds (will be created if not assigned)")]
+        [SerializeField] private AudioSource _eventAudioSource;
+        
+        [Tooltip("Global volume multiplier for event audio")]
+        [SerializeField][Range(0f, 1f)] private float _masterVolume = 1f;
         
         [Networked] private int CurrentEventIndex { get; set; }
         [Networked] private TickTimer EventTriggerTimer { get; set; }
@@ -36,6 +44,20 @@ namespace TPSBR
             }
             
             Instance = this;
+            
+            if (_eventAudioSource == null)
+            {
+                _eventAudioSource = gameObject.AddComponent<AudioSource>();
+                _eventAudioSource.playOnAwake = false;
+                _eventAudioSource.spatialBlend = 0f;
+                _eventAudioSource.volume = _masterVolume;
+                Debug.Log("[LiveEventManager] Created AudioSource for event audio");
+            }
+            else
+            {
+                _eventAudioSource.volume = _masterVolume;
+            }
+            
             Debug.Log("[LiveEventManager] Awake - Instance set");
         }
         
@@ -210,7 +232,41 @@ namespace TPSBR
             
             Debug.Log($"[LiveEventManager] Playing event effects for '{_activeEvent.EventName}'");
             
+            if (_activeEvent.EventAudio != null && _eventAudioSource != null)
+            {
+                _eventAudioSource.clip = _activeEvent.EventAudio;
+                _eventAudioSource.volume = _masterVolume;
+                _eventAudioSource.Play();
+                Debug.Log($"[LiveEventManager] Playing audio: {_activeEvent.EventAudio.name} at volume {_masterVolume}");
+            }
+            else if (_activeEvent.EventAudio == null)
+            {
+                Debug.LogWarning($"[LiveEventManager] No audio clip assigned for event '{_activeEvent.EventName}'");
+            }
+            
             OnEventTriggered?.Invoke(_activeEvent);
+            
+            if (_activeEvent.IsSeasonEndEvent)
+            {
+                Debug.Log("[LiveEventManager] This is a season end event!");
+                StartCoroutine(TriggerSeasonEndSequence(_activeEvent.SeasonEndDelay));
+            }
+        }
+        
+        private IEnumerator TriggerSeasonEndSequence(float delay)
+        {
+            Debug.Log($"[LiveEventManager] Waiting {delay} seconds before season end...");
+            yield return new WaitForSeconds(delay);
+            
+            if (SeasonEndController.Instance != null)
+            {
+                Debug.Log("[LiveEventManager] Triggering season end controller...");
+                SeasonEndController.Instance.TriggerSeasonEnd();
+            }
+            else
+            {
+                Debug.LogWarning("[LiveEventManager] SeasonEndController not found in scene!");
+            }
         }
         
         public float GetRemainingTime()
@@ -222,6 +278,25 @@ namespace TPSBR
         public bool IsCountdownActive()
         {
             return IsEventActive && GetRemainingTime() > 0f;
+        }
+        
+        public void SetMasterVolume(float volume)
+        {
+            _masterVolume = Mathf.Clamp01(volume);
+            if (_eventAudioSource != null)
+            {
+                _eventAudioSource.volume = _masterVolume;
+            }
+            Debug.Log($"[LiveEventManager] Master volume set to {_masterVolume}");
+        }
+        
+        public void StopEventAudio()
+        {
+            if (_eventAudioSource != null && _eventAudioSource.isPlaying)
+            {
+                _eventAudioSource.Stop();
+                Debug.Log("[LiveEventManager] Event audio stopped");
+            }
         }
     }
 }

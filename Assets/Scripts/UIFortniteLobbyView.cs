@@ -26,7 +26,7 @@ namespace TPSBR.UI
         [SerializeField] private Image _levelProgressBar;
         
         [Header("Quick Play Settings")]
-        [SerializeField] private float _searchTimeout = 5f;
+        [SerializeField] private float _searchTimeout = 10f;
         [SerializeField] private EGameplayType _gameplayType = EGameplayType.BattleRoyale;
         [SerializeField] private int _maxPlayers = 100;
         [SerializeField] private string _defaultMapScenePath = "TPSBR/Scenes/Game";
@@ -120,6 +120,7 @@ namespace TPSBR.UI
                 
                 if (elapsedTime >= _searchTimeout)
                 {
+                    Debug.LogWarning($"[UIFortniteLobbyView] Search timeout after {_searchTimeout} seconds - no games found");
                     _isSearchingForGame = false;
                     ShowCreateGameUI();
                 }
@@ -137,7 +138,29 @@ namespace TPSBR.UI
         private void OnPlayButtonClicked()
         {
             Debug.Log("[UIFortniteLobbyView] Play button clicked - Starting Quick Play");
-            StartQuickPlay();
+            
+            if (SeasonEndController.Instance != null && SeasonEndController.Instance.IsInDowntime)
+            {
+                Debug.LogWarning("[UIFortniteLobbyView] Cannot start game - Season downtime is active!");
+                
+                if (_playButtonText != null)
+                {
+                    _playButtonText.text = "SEASON DOWNTIME";
+                }
+                
+                return;
+            }
+            
+            _availableSessions.Clear();
+            _isSearchingForGame = false;
+            
+            if (_playButtonText != null)
+            {
+                _playButtonText.text = "CONNECTING...";
+            }
+            
+            Debug.Log("[UIFortniteLobbyView] Rejoining lobby to refresh session list...");
+            Context.Matchmaking.JoinLobby(true);
         }
         
         private void StartQuickPlay()
@@ -152,32 +175,104 @@ namespace TPSBR.UI
             }
             
             Debug.Log("[UIFortniteLobbyView] Starting quick play search");
+            Debug.Log($"[UIFortniteLobbyView] Looking for {_gameplayType} games with max {_maxPlayers} players");
         }
         
         private void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
         {
-            if (!_isSearchingForGame)
-                return;
-            
-            _availableSessions.Clear();
+            Debug.Log($"[UIFortniteLobbyView] ========== SESSION LIST UPDATE ==========");
+            Debug.Log($"[UIFortniteLobbyView] Total sessions received: {sessionList.Count}");
+            Debug.Log($"[UIFortniteLobbyView] Is searching: {_isSearchingForGame}");
             
             foreach (var session in sessionList)
             {
-                if (session.IsValid == false || session.IsOpen == false || session.IsVisible == false)
-                    continue;
-                
-                if (session.PlayerCount >= session.MaxPlayers)
-                    continue;
-                
-                if (session.HasMap() == false)
-                    continue;
-                
-                var sessionGameplayType = session.GetGameplayType();
-                if (sessionGameplayType != _gameplayType)
-                    continue;
-                
-                _availableSessions.Add(session);
+                Debug.Log($"[UIFortniteLobbyView] RAW SESSION:");
+                Debug.Log($"  Name: {session.Name}");
+                Debug.Log($"  IsValid: {session.IsValid}");
+                Debug.Log($"  IsOpen: {session.IsOpen}");
+                Debug.Log($"  IsVisible: {session.IsVisible}");
+                Debug.Log($"  PlayerCount: {session.PlayerCount}/{session.MaxPlayers}");
+                Debug.Log($"  Region: {session.Region}");
+                Debug.Log($"  HasMap: {session.HasMap()}");
+                if (session.HasMap())
+                {
+                    var mapSetup = session.GetMapSetup();
+                    Debug.Log($"  Map: {(mapSetup != null ? mapSetup.DisplayName : "NULL")}");
+                }
+                Debug.Log($"  GameplayType: {session.GetGameplayType()}");
             }
+            
+            if (!_isSearchingForGame)
+            {
+                Debug.Log("[UIFortniteLobbyView] Not searching, ignoring session update");
+                Debug.Log($"[UIFortniteLobbyView] ========================================");
+                return;
+            }
+            
+            _availableSessions.Clear();
+            
+            int filteredOutCount = 0;
+            string filterReasons = "";
+            
+            foreach (var session in sessionList)
+            {
+                bool filtered = false;
+                string reason = "";
+                
+                if (session.IsValid == false)
+                {
+                    filtered = true;
+                    reason = "not valid";
+                }
+                else if (session.IsOpen == false)
+                {
+                    filtered = true;
+                    reason = "not open";
+                }
+                else if (session.IsVisible == false)
+                {
+                    filtered = true;
+                    reason = "not visible";
+                }
+                else if (session.PlayerCount >= session.MaxPlayers)
+                {
+                    filtered = true;
+                    reason = "full";
+                }
+                else if (session.HasMap() == false)
+                {
+                    filtered = true;
+                    reason = "no map";
+                }
+                else
+                {
+                    var sessionGameplayType = session.GetGameplayType();
+                    if (sessionGameplayType != _gameplayType)
+                    {
+                        filtered = true;
+                        reason = $"wrong type ({sessionGameplayType} vs {_gameplayType})";
+                    }
+                }
+                
+                if (filtered)
+                {
+                    filteredOutCount++;
+                    filterReasons += $"\n  - {session.GetDisplayName()}: {reason}";
+                }
+                else
+                {
+                    _availableSessions.Add(session);
+                    Debug.Log($"[UIFortniteLobbyView] ✓ Found valid session: {session.GetDisplayName()} ({session.PlayerCount}/{session.MaxPlayers})");
+                }
+            }
+            
+            if (filteredOutCount > 0)
+            {
+                Debug.Log($"[UIFortniteLobbyView] Filtered out {filteredOutCount} sessions:{filterReasons}");
+            }
+            
+            Debug.Log($"[UIFortniteLobbyView] {_availableSessions.Count} sessions match criteria");
+            Debug.Log($"[UIFortniteLobbyView] ========================================");
             
             if (_availableSessions.Count > 0)
             {
@@ -218,6 +313,12 @@ namespace TPSBR.UI
         private void OnLobbyJoined()
         {
             Debug.Log("[UIFortniteLobbyView] Joined lobby successfully");
+            
+            if (_playButtonText != null && _playButtonText.text == "CONNECTING...")
+            {
+                Debug.Log("[UIFortniteLobbyView] Lobby connected! Starting search...");
+                StartQuickPlay();
+            }
         }
         
         private void OnLobbyJoinFailed(string region)

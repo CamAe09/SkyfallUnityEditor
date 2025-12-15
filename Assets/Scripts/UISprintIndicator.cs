@@ -47,6 +47,9 @@ namespace TPSBR
                     return;
             }
 
+            if (_sceneUI.Context == null)
+                return;
+
             _agent = _sceneUI.Context.ObservedAgent;
 
             if (_agent == null)

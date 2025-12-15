@@ -158,6 +158,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Projectiles\Projectile.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Extensions\KCCArrayExtensions.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\KCC.Properties.cs" />
+    <Compile Include="Assets\Scripts\UIPlayButtonAnimator.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UIPartyView.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIMapList.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\States\Clip\ClipState.cs" />
@@ -167,10 +168,12 @@
     <Compile Include="Assets\TPSBR\Scripts\Extensions\SessionInfoExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Core\LoadingScene.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\GameplayModes\EliminationGameplayMode.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\LiveEventWorldText.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Announcer\Announcement.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Extensions\KCCGameObjectExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Camera\ShakeEffect.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\Layers\LookLayer.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\LiveEventIslandFlip.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\GameplayModes\DeathmatchGameplayMode.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\States\BlendTree\BlendTreeSet.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\MenuViews\UIMatchmakerView.cs" />
@@ -193,10 +196,10 @@
     <Compile Include="Assets\Scripts\TeamSystem\Revive\PlayerReviveExtension.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\Layers\ShootLayer.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
-    <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIValue.cs" />
-    <Compile Include="Assets\Photon\FusionAddons\KCC\Extensions\KCCQuaternionExtensions.cs" />
-    <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIHitDamageIndicatorItem.cs" />
     <Compile Include="Assets\Scripts\QuestSystemInitializer.cs" />
+    <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIHitDamageIndicatorItem.cs" />
+    <Compile Include="Assets\Photon\FusionAddons\KCC\Extensions\KCCQuaternionExtensions.cs" />
+    <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIValue.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\Core\ScriptableKCCProcessor.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\AgentInput.Standalone.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkEnum.cs" />
@@ -217,11 +220,13 @@
     <Compile Include="Assets\TPSBR\Scripts\Utilities\ApplicationUtility.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\RaycastUtility.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\TeamSystemInitializer.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\SeasonEndUI.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\SimpleDamageArea.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\KCC.Depenetration.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\KCC\BRPlatformProcessor.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GeneralViews\UIDialogView.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GameplayViews\UIGameOverView.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\TerrainToMesh.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIMapItem.cs" />
     <Compile Include="Assets\Scripts\QuickMatchExample.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Hits\BodyPart.cs" />
@@ -230,6 +235,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\Accumulators\Vector2Accumulator.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\KCC.Events.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\States\GrenadeState.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\LiveEventData.cs" />
     <Compile Include="Assets\Scripts\CloudCoinManager.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\NetworkRunnerExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\KCC\BRPlatformProcessorUpdater.cs" />
@@ -237,6 +243,7 @@
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIGameInfo.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Utilities\AnimationProfiler.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\LevelGeneration\LevelGenerator.cs" />
+    <Compile Include="Assets\Scripts\StylizedSkyboxController.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\Examples\TeamFriendlyFirePrevention.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\States\Mixer\MixerState.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIGameplayInteractions.cs" />
@@ -266,6 +273,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Input\GameplayInput.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIListItem.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Weapons\ThrowableWeapon.cs" />
+    <Compile Include="Assets\Scripts\SimplifiedSeasonCinematicController.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Weapons\MeleeWeapon.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
@@ -276,6 +284,7 @@
     <Compile Include="Assets\TPSBR\Scripts\UI\GeneralViews\UIInfoDialogView.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Extensions\NetworkRunnerExtensions.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UIFriendListWidget.cs" />
+    <Compile Include="Assets\Scripts\SeasonCinematicController.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\Revive\ReviveData.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\AnimationExtensions.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Data\Collections\KCCInteractions.cs" />
@@ -291,6 +300,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Interactions\StaticPickup.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Core\InterestProvider.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\States\Clip\MultiClipState.cs" />
+    <Compile Include="Assets\Scripts\SimpleCinematicPlayerController.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\SortedUpdateInvoker.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkBool.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkVector4.cs" />
@@ -306,6 +316,7 @@
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Core\AnimationState.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\Timer.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Providers\InterestByView.cs" />
+    <Compile Include="Assets\Scripts\UIFortniteLobbyView.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIJetpack.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\CharacterAnimationController.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIBehaviour.cs" />
@@ -317,6 +328,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\MenuViews\UIChangeNicknameView.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UITeamMemberWidget.cs" />
+    <Compile Include="Assets\Scripts\CinematicCameraDebugger.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Projectiles\KinematicProjectile.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\RandomTeamAssignment.cs" />
@@ -352,8 +364,9 @@
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIWeapons.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\States\LandState.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Projectiles\PiercingSetup.cs" />
-    <Compile Include="Assets\Scripts\ModernShopManager.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\MenuViews\UIQuickMatchView.cs" />
+    <Compile Include="Assets\Scripts\ModernShopManager.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\SimpleEraIntroController.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Settings\GlobalSettings.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\Accumulators\Vector3Accumulator.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\States\BlendTree\MirrorBlendTreeState.cs" />
@@ -369,12 +382,15 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\StepUpProcessor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\KCCInterestProxy.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\Revive\Examples\CustomReviveBehavior.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\LiveEventManager.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\Layers\UpperBodyLayer.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\RenderSettingsUpdater.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\Pool.cs" />
+    <Compile Include="Assets\Scripts\StylizedMaterialSetup.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Utilities\AnimationUtility.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\States\UnequipState.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\LiveEventExample.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Targets\ColorTag.cs" />
     <Compile Include="Assets\Scripts\CharacterData.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\MenuViews\UIShopView.cs" />
@@ -412,12 +428,14 @@
     <Compile Include="Assets\Scripts\MapPOI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Options\PersistentStorage.cs" />
+    <Compile Include="Assets\LiveEventStuff\TimeEvent.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Data\Collections\KCCIgnores.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\PlatformProcessorUpdater.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Core\ContextBehaviour.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Stages\BeginMove.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\SeasonEndTester.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\PhotonFriendsManager.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\InputUtility.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\DeleteInBatchMode.cs" />
@@ -470,6 +488,7 @@
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIGameplayPanel.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Extensions\AudioSourceExtensions.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Effects\Smoke.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\LiveEventAnimationTrigger.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\Revive\ReviveSystemManager.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Utilities\InterestBoxUtility.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\RotateToCamera.cs" />
@@ -489,6 +508,7 @@
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkProperty.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\Layers\LowerBodyLayer.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\PartyLobbyManager.cs" />
+    <Compile Include="Assets\Scripts\GlobalMaterialApplier.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Player\PlayerService.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Core\KCC.Methods.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Extensions\AnimationGameObjectExtensions.cs" />
@@ -498,10 +518,12 @@
     <Compile Include="Assets\TPSBR\Scripts\Player\PlayerData.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Properties\AnimationPropertyProvider.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Processors\Core\NetworkKCCProcessor.cs" />
+    <Compile Include="Assets\Scripts\FixSkyboxColorsFortnite.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UIPartyMemberWidget.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Weapons\FirearmWeapon.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\LevelGeneration\LevelBlock.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Core\Gameplay.cs" />
+    <Compile Include="Assets\Scripts\CinematicAudioManager.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Camera\SceneCamera.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\Character\States\MoveState.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\UI\UIPartyCharacterPreviews.cs" />
@@ -522,9 +544,9 @@
     <Compile Include="Assets\Scripts\UIQuestView.cs" />
     <Compile Include="Assets\Scripts\TeamSystem\TeammateVisualizer.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Core\UIList.cs" />
+    <Compile Include="Assets\Scripts\GameplayQuestHooks.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\NetworkAreaOfInterestProxy.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Network\KCCNetworkProperties.cs" />
-    <Compile Include="Assets\Scripts\GameplayQuestHooks.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\GameplayModes\BattleRoyaleGameplayMode.cs" />
     <Compile Include="Assets\Scripts\QuestIntegrationPatches.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Utilities\KCCNetworkUtility.cs" />
@@ -576,6 +598,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\DictionaryPool.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
+    <Compile Include="Assets\Scripts\FixSkyboxColors.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\GameplayViews\UIAnnouncementsView.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Miscellaneous\ObjectLayer.cs" />
@@ -612,6 +635,7 @@
     <Compile Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Scripts\FPSShaderFloatCurves.cs" />
     <Compile Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Scripts\FPSLightCurves.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Data\Collections\KCCHits.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\SeasonEndController.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Data\KCCShapeCastHit.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\MenuUI.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Interactions\Pickups\FuelPickup.cs" />
@@ -635,6 +659,7 @@
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Interactions\ItemBox.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Utilities\UIFader.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Gameplay\Agent\AgentInterestProvider.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\LiveEventUI.cs" />
     <Compile Include="Assets\TPSBR\Scripts\UI\Widgets\UIBattleRoyale.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Properties\AnimationWeightsProvider.cs" />
   </ItemGroup>
@@ -645,11 +670,13 @@
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSLazer.shader" />
+    <None Include="Assets\Scripts\README_CINEMATIC_SYSTEM.txt" />
     <None Include="Assets\Scripts\SPRINT_INTEGRATION_INSTRUCTIONS.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\Photon\FusionAddons\InterestManagement\release_history.txt" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\Particles.shader" />
+    <None Include="Assets\Scripts\ANIMATION_QUICKFIX.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Unity - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\Scripts\TeamSystem\Revive\QUICK_START.txt" />
@@ -657,15 +684,19 @@
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - AFL.txt" />
     <None Include="Assets\NewSurfaceShader.shader" />
+    <None Include="Assets\Scripts\CINEMATIC_FLOW_DIAGRAM.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\Rocks.shader" />
     <None Include="Assets\TPSBR\Shaders\UICircleMask.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\Scripts\QUICK_FIX_CHECKLIST.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Log.dll" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Common.dll" />
+    <None Include="Assets\Scripts\PLAYER_MOVEMENT_CONTROLS.txt" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Runtime.xml" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\NanoSockets\Static\NanoSockets.dll" />
+    <None Include="Assets\Scripts\LiveEvent\ANIMATION_CLIPS_GUIDE.txt" />
     <None Include="Assets\Village Buildings\Read me.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Sockets.dll" />
@@ -678,6 +709,8 @@
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Log.xml" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPS_UberDecal.shader" />
     <None Include="Assets\Photon\Fusion\release_history.txt" />
+    <None Include="Assets\Scripts\ANIMATION_SETUP_GUIDE.txt" />
+    <None Include="Assets\Scripts\HOW_TO_FIX_ANIMATIONS.txt" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\NanoSockets\Dynamic\NanoSockets.dll" />
     <None Include="Assets\3rdParty\Hovl Studio\Render Pipelines support\Documentation.txt" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Runtime.dll" />
@@ -694,10 +727,12 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\Metro\x64\libnanosockets.dll" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSGlowAdditive.shader" />
+    <None Include="Assets\Scripts\CAMERA_TROUBLESHOOTING.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\Metro\x86\libnanosockets.dll" />
     <None Include="Assets\Photon\FusionAddons\KCC\release_history.txt" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSDistortionGlass.shader" />
+    <None Include="Assets\Scripts\QUICK_START_EXAMPLE.txt" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.dll" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Realtime.xml" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Common.xml" />
@@ -705,6 +740,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Sockets.xml" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\Windows\nanosockets.dll" />
+    <None Include="Assets\Scripts\LiveEvent\CINEMATIC_CREATION_GUIDE.txt" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSDistortionParticles.shader" />
     <None Include="Assets\Shaders\DangerZoneOverlay.shader" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSDistortionWaterParticles.shader" />
@@ -722,8 +758,11 @@
     <None Include="Assets\Scripts\DELETE_BROKEN_GAMEOBJECT.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\Shaders\StylizedSkybox.shader" />
     <None Include="Assets\Scripts\SHOP_QUICK_START.txt" />
+    <None Include="Assets\Shaders\StylizedToonLit.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Scripts\LiveEvent\README.txt" />
     <None Include="Assets\3rdPartyAsset-Links.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Scripts\MANUAL_FIX_REQUIRED.txt" />
@@ -732,6 +771,7 @@
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\Metro\ARM\libnanosockets.dll" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\Leafs.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Scripts\SEASON_CINEMATIC_SETUP.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -1277,6 +1317,18 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@6cc66d58ac08\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:\Program Files\Unity 6000.0.62f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>C:\Program Files\Unity 6000.0.62f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.Apple.Extensions.Common">
+      <HintPath>C:\Program Files\Unity 6000.0.62f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.Apple.Extensions.Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

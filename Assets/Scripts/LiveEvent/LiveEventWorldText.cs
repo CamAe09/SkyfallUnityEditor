@@ -128,6 +128,12 @@ namespace TPSBR
                 return;
             }
             
+            if (eventData.CountdownVisibilityThreshold > 0 && remainingTime > eventData.CountdownVisibilityThreshold)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            
             gameObject.SetActive(true);
             
             if (_eventNameText != null && _showEventName)
@@ -152,9 +158,20 @@ namespace TPSBR
                 return;
             }
             
+            if (eventData.CountdownVisibilityThreshold > 0 && remainingTime > eventData.CountdownVisibilityThreshold)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            
             if (!gameObject.activeSelf)
             {
                 gameObject.SetActive(true);
+                
+                if (_eventNameText != null && _showEventName)
+                {
+                    _eventNameText.text = eventData.EventName.ToUpper();
+                }
             }
             
             if (remainingTime <= 0f)
@@ -205,11 +222,17 @@ namespace TPSBR
         private string FormatTime(float seconds)
         {
             int totalSeconds = Mathf.CeilToInt(seconds);
-            int hours = totalSeconds / 3600;
+            
+            int days = totalSeconds / 86400;
+            int hours = (totalSeconds % 86400) / 3600;
             int minutes = (totalSeconds % 3600) / 60;
             int secs = totalSeconds % 60;
             
-            if (hours > 0)
+            if (days > 0)
+            {
+                return $"{days}D {hours:D2}:{minutes:D2}:{secs:D2}";
+            }
+            else if (hours > 0)
             {
                 return $"{hours:D2}:{minutes:D2}:{secs:D2}";
             }

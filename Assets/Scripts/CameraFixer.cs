@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cinemachine;
 
 [RequireComponent(typeof(Camera))]
 public class CameraFixer : MonoBehaviour
@@ -21,6 +22,9 @@ public class CameraFixer : MonoBehaviour
     [Tooltip("Ensure Agent layer is always rendered")]
     public bool ensureAgentLayer = true;
     
+    [Tooltip("Automatically add CinemachineBrain if missing")]
+    public bool ensureCinemachineBrain = true;
+    
     private Camera _camera;
     private int _agentLayer = -1;
     
@@ -32,6 +36,16 @@ public class CameraFixer : MonoBehaviour
         if (_agentLayer == -1)
         {
             Debug.LogWarning("CameraFixer: Agent layer not found!");
+        }
+        
+        if (ensureCinemachineBrain)
+        {
+            CinemachineBrain brain = GetComponent<CinemachineBrain>();
+            if (brain == null)
+            {
+                brain = gameObject.AddComponent<CinemachineBrain>();
+                Debug.Log("CameraFixer: Added CinemachineBrain component to camera");
+            }
         }
     }
     
