@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
 namespace TPSBR
 {
-    public class SeasonEndController : MonoBehaviour
+    public class SeasonEndController : NetworkBehaviour
     {
         public static SeasonEndController Instance { get; private set; }
         
@@ -24,6 +25,9 @@ namespace TPSBR
         [SerializeField] private bool _testMode = false;
         [Tooltip("In test mode, countdown will be this many seconds")]
         [SerializeField] private float _testCountdownSeconds = 120f;
+        
+        [Networked] private NetworkBool NetworkSeasonEnded { get; set; }
+        [Networked] private NetworkBool NetworkCountdownShown { get; set; }
         
         private bool _isSeasonEnded = false;
         private bool _isFading = false;
@@ -47,16 +51,42 @@ namespace TPSBR
             }
             
             Instance = this;
-            DontDestroyOnLoad(gameObject);
             
             LoadSeasonState();
             
             Debug.Log("[SeasonEndController] Initialized");
         }
         
+        public override void Spawned()
+        {
+            if (HasStateAuthority)
+            {
+                NetworkSeasonEnded = _isSeasonEnded;
+                NetworkCountdownShown = _countdownShown;
+                Debug.Log($"[SeasonEndController] Server spawned - SeasonEnded: {_isSeasonEnded}");
+            }
+            else
+            {
+                _isSeasonEnded = NetworkSeasonEnded;
+                _countdownShown = NetworkCountdownShown;
+                Debug.Log($"[SeasonEndController] Client spawned - Synced SeasonEnded: {_isSeasonEnded}");
+            }
+            
+            Runner.SetIsSimulated(Object, true);
+        }
+        
         private void Start()
         {
             CheckSeasonStatus();
+            
+            if (Object != null && Object.IsValid)
+            {
+                Debug.Log("[SeasonEndController] Networked mode - waiting for Spawned() callback");
+            }
+            else
+            {
+                Debug.LogWarning("[SeasonEndController] Not networked! Running in standalone mode");
+            }
             
             if (IsInDowntime)
             {
@@ -136,13 +166,42 @@ namespace TPSBR
                 return;
             }
             
+            Debug.Log($"[SeasonEndController] TriggerSeasonEnd called! HasStateAuthority: {HasStateAuthority}, Object valid: {Object != null && Object.IsValid}");
+            
             _isSeasonEnded = true;
             _countdownShown = true;
             SaveSeasonState();
             
-            Debug.Log("[SeasonEndController] Season end triggered manually!");
+            Debug.Log("[SeasonEndController] Season end triggered!");
             
             OnSeasonEnded?.Invoke();
+            
+            if (Object != null && Object.IsValid && HasStateAuthority)
+            {
+                NetworkSeasonEnded = true;
+                NetworkCountdownShown = true;
+                Debug.Log("[SeasonEndController] Calling RPC to all clients...");
+                RPC_TriggerSeasonEndEffects();
+            }
+            else if (Object == null || !Object.IsValid)
+            {
+                Debug.LogWarning("[SeasonEndController] NetworkObject not valid, running locally only");
+                StartCoroutine(SeasonEndSequence());
+            }
+        }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_TriggerSeasonEndEffects()
+        {
+            Debug.Log($"[SeasonEndController] RPC received! IsServer: {HasStateAuthority}");
+            
+            if (!HasStateAuthority)
+            {
+                _isSeasonEnded = true;
+                _countdownShown = true;
+                OnSeasonEnded?.Invoke();
+            }
+            
             StartCoroutine(SeasonEndSequence());
         }
         

@@ -741,6 +741,7 @@
     <None Include="Assets\Photon\Fusion\Assemblies\Fusion.Sockets.xml" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\Windows\nanosockets.dll" />
     <None Include="Assets\Scripts\LiveEvent\CINEMATIC_CREATION_GUIDE.txt" />
+    <None Include="Assets\Shaders\FortniteSimpleSky.shader" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSDistortionParticles.shader" />
     <None Include="Assets\Shaders\DangerZoneOverlay.shader" />
     <None Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\FPSDistortionWaterParticles.shader" />

@@ -49,6 +49,25 @@ namespace TPSBR
         [Tooltip("Delay after event before season end sequence starts (seconds)")]
         public float SeasonEndDelay = 5f;
         
+        [Header("Explosion Effects")]
+        [Tooltip("Enable explosion effect when event ends")]
+        public bool EnableExplosion = false;
+        
+        [Tooltip("Explosion prefab to spawn (should contain ParticleSystem, AudioSource, or VFX Graph)")]
+        public GameObject ExplosionPrefab;
+        
+        [Tooltip("Explosion sound effect to play at explosion position")]
+        public AudioClip ExplosionSound;
+        
+        [Tooltip("World position where explosion spawns (X, Y, Z coordinates)")]
+        public Vector3 ExplosionPosition = Vector3.zero;
+        
+        [Tooltip("Delay after event audio before explosion triggers (seconds)")]
+        public float ExplosionDelay = 0f;
+        
+        [Tooltip("How long the explosion prefab stays before being destroyed (0 = never destroy)")]
+        public float ExplosionLifetime = 5f;
+        
         private static TimeZoneInfo EasternTimeZone
         {
             get

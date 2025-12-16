@@ -22,6 +22,7 @@ namespace TPSBR
         [Networked] private int CurrentEventIndex { get; set; }
         [Networked] private TickTimer EventTriggerTimer { get; set; }
         [Networked] private NetworkBool EventHasTriggered { get; set; }
+        [Networked] private NetworkBool IsEventInitialized { get; set; }
         
         private LiveEventData _activeEvent;
         private double _lastSyncTime;
@@ -72,6 +73,43 @@ namespace TPSBR
             }
             
             Runner.SetIsSimulated(Object, true);
+            
+            if (!HasStateAuthority && IsEventInitialized)
+            {
+                Debug.Log("[LiveEventManager] Client joined - syncing active event");
+                SyncClientWithActiveEvent();
+            }
+        }
+        
+        private void Start()
+        {
+            StartCoroutine(CheckForSpawnedCallback());
+        }
+        
+        private System.Collections.IEnumerator CheckForSpawnedCallback()
+        {
+            yield return new WaitForSeconds(2f);
+            
+            if (!_initialized)
+            {
+                Debug.LogWarning($"[LiveEventManager] Spawned() was not called! Runner: {Runner != null}, Object: {Object != null}, Object.IsValid: {Object != null && Object.IsValid}");
+                
+                if (Runner != null && Object != null && Object.IsValid)
+                {
+                    Debug.Log("[LiveEventManager] Network is active but Spawned() wasn't called - manually initializing");
+                    if (HasStateAuthority)
+                    {
+                        _initialized = true;
+                        InitializeServerEvents();
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("[LiveEventManager] Running in standalone/non-networked mode!");
+                    _initialized = true;
+                    InitializeServerEvents();
+                }
+            }
         }
         
         public override void Despawned(NetworkRunner runner, bool hasState)
@@ -124,15 +162,43 @@ namespace TPSBR
                 float timerDuration = (float)shortestTime;
                 EventTriggerTimer = TickTimer.CreateFromSeconds(Runner, timerDuration);
                 EventHasTriggered = false;
+                IsEventInitialized = true;
                 
                 Debug.Log($"[LiveEventManager] Next event '{nextEvent.EventName}' scheduled in {timerDuration:F0} seconds");
                 
-                OnEventStarted?.Invoke(nextEvent, timerDuration);
+                RPC_NotifyEventStarted(nextIndex, timerDuration);
             }
             else
             {
                 Debug.LogWarning("[LiveEventManager] No upcoming events found!");
                 _activeEvent = null;
+                IsEventInitialized = false;
+            }
+        }
+        
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RPC_NotifyEventStarted(int eventIndex, float remainingTime)
+        {
+            if (HasStateAuthority) return;
+            
+            if (eventIndex >= 0 && eventIndex < _liveEvents.Length)
+            {
+                _activeEvent = _liveEvents[eventIndex];
+                Debug.Log($"[LiveEventManager] Client notified: Event '{_activeEvent.EventName}' starting in {remainingTime:F0}s");
+                OnEventStarted?.Invoke(_activeEvent, remainingTime);
+            }
+        }
+        
+        private void SyncClientWithActiveEvent()
+        {
+            if (CurrentEventIndex >= 0 && CurrentEventIndex < _liveEvents.Length)
+            {
+                _activeEvent = _liveEvents[CurrentEventIndex];
+                float remainingTime = EventTriggerTimer.RemainingTime(Runner) ?? 0f;
+                
+                Debug.Log($"[LiveEventManager] Client synced with active event: '{_activeEvent.EventName}', {remainingTime:F0}s remaining");
+                
+                OnEventStarted?.Invoke(_activeEvent, remainingTime);
             }
         }
         
@@ -193,19 +259,20 @@ namespace TPSBR
         {
             if (_activeEvent == null)
             {
-                if (CurrentEventIndex >= 0 && CurrentEventIndex < _liveEvents.Length)
+                if (CurrentEventIndex >= 0 && CurrentEventIndex < _liveEvents.Length && IsEventInitialized)
                 {
                     _activeEvent = _liveEvents[CurrentEventIndex];
                     
                     if (_activeEvent != null)
                     {
                         float remainingTime = EventTriggerTimer.RemainingTime(Runner) ?? 0f;
+                        Debug.Log($"[LiveEventManager] Client initialized active event: '{_activeEvent.EventName}'");
                         OnEventStarted?.Invoke(_activeEvent, remainingTime);
                     }
                 }
             }
             
-            if (_activeEvent != null)
+            if (_activeEvent != null && IsEventInitialized)
             {
                 float remainingTime = EventTriggerTimer.RemainingTime(Runner) ?? 0f;
                 OnCountdownUpdate?.Invoke(_activeEvent, remainingTime);
@@ -246,10 +313,52 @@ namespace TPSBR
             
             OnEventTriggered?.Invoke(_activeEvent);
             
+            if (_activeEvent.EnableExplosion)
+            {
+                StartCoroutine(TriggerExplosionSequence(_activeEvent));
+            }
+            
             if (_activeEvent.IsSeasonEndEvent)
             {
                 Debug.Log("[LiveEventManager] This is a season end event!");
                 StartCoroutine(TriggerSeasonEndSequence(_activeEvent.SeasonEndDelay));
+            }
+        }
+        
+        private IEnumerator TriggerExplosionSequence(LiveEventData eventData)
+        {
+            if (eventData.ExplosionDelay > 0f)
+            {
+                Debug.Log($"[LiveEventManager] Waiting {eventData.ExplosionDelay}s before explosion...");
+                yield return new WaitForSeconds(eventData.ExplosionDelay);
+            }
+            
+            Debug.Log($"[LiveEventManager] Spawning explosion at {eventData.ExplosionPosition}");
+            
+            if (eventData.ExplosionPrefab != null)
+            {
+                GameObject explosion = Instantiate(eventData.ExplosionPrefab, eventData.ExplosionPosition, Quaternion.identity);
+                
+                if (eventData.ExplosionLifetime > 0f)
+                {
+                    Destroy(explosion, eventData.ExplosionLifetime);
+                }
+                
+                Debug.Log($"[LiveEventManager] Explosion spawned at {eventData.ExplosionPosition}");
+            }
+            else
+            {
+                Debug.LogWarning("[LiveEventManager] Explosion enabled but no ExplosionPrefab assigned!");
+            }
+            
+            if (eventData.ExplosionSound != null)
+            {
+                AudioSource.PlayClipAtPoint(eventData.ExplosionSound, eventData.ExplosionPosition, _masterVolume);
+                Debug.Log($"[LiveEventManager] Explosion sound played at {eventData.ExplosionPosition}");
+            }
+            else if (eventData.EnableExplosion)
+            {
+                Debug.LogWarning("[LiveEventManager] Explosion enabled but no ExplosionSound assigned!");
             }
         }
         
