@@ -1,0 +1,50 @@
+ERROR FIX INSTRUCTIONS
+======================
+
+The error is on line 171 of CharacterAnimationController.cs
+
+Problem:
+--------
+The method `OnRenderUpdate()` doesn't exist in the Fusion AnimationController base class.
+
+Solution:
+---------
+1. Delete the current CharacterAnimationController.cs file
+2. Rename CharacterAnimationController_FIXED.cs to CharacterAnimationController.cs
+
+OR manually edit the file:
+
+1. Open CharacterAnimationController.cs
+2. Find the method `OnRenderUpdate()` starting at line 171
+3. Delete the ENTIRE method (lines 171-185):
+   
+   protected override void OnRenderUpdate()
+   {
+       if (_jetpack.IsActive == true && _fullBody.Jetpack.IsActive() == false)
+       {
+           _fullBody.Jetpack.Activate(0.1f);
+           _upperBody.DeactivateAllStates(0.1f);
+       }
+       else if (_jetpack.IsActive == false && _fullBody.Jetpack.IsActive() == true)
+       {
+           _fullBody.Jetpack.Deactivate(0.1f);
+           SwitchWeapons();
+       }
+   }
+
+4. Save the file
+
+Why?
+----
+The AnimationController base class in Fusion only has these virtual methods:
+- OnInitialize()
+- OnDeinitialize()
+- OnSpawned()
+- OnDespawned()
+- OnFixedUpdate()
+- OnInterpolate()
+- OnEvaluate()
+
+There is NO OnRenderUpdate() method!
+
+The crouch integration is working correctly - it's in the OnEvaluate() method.

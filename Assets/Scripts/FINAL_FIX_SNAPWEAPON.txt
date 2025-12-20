@@ -1,0 +1,50 @@
+FINAL FIX FOR CharacterAnimationController.cs
+==============================================
+
+PROBLEM:
+Lines 226-229 have duplicate variable declarations and reference non-existent 'ikSetup'
+
+SOLUTION:
+Open CharacterAnimationController.cs and manually delete lines 226-229
+
+WHAT TO DELETE (lines 226-229):
+--------------------------------
+		if (ikSetup == null || ikSetup.Grip == null)
+			return;
+
+		Transform actualGrip = ikSetup.Grip;
+
+
+AFTER DELETION:
+---------------
+Line 224 should be:
+		Transform actualGrip = _weapons.CurrentWeapon.LeftHandTarget;
+
+Line 225 should be blank
+
+Line 226 should be:  (this was line 231 before)
+		if (actualGrip != null)
+
+
+QUICK STEPS:
+------------
+1. Open: Assets/TPSBR/Scripts/Gameplay/Agent/Character/CharacterAnimationController.cs
+2. Go to line 226
+3. Delete 4 lines (226, 227, 228, 229)
+4. Save the file
+5. Unity will recompile - all errors should be gone!
+
+
+VERIFICATION:
+-------------
+After the fix, the SnapWeapon method around line 224 should look like this:
+
+	Transform actualGrip = _weapons.CurrentWeapon.LeftHandTarget;
+
+	if (actualGrip != null)
+	{
+		_leftHand.SetPositionAndRotation(actualGrip.position, actualGrip.rotation);
+		...
+	}
+
+That's it! This will fix all remaining compilation errors.

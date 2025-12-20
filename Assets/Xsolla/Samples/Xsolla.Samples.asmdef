@@ -1,0 +1,16 @@
+{
+    "name": "Xsolla.Samples",
+    "rootNamespace": "",
+    "references": [
+        "Xsolla"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

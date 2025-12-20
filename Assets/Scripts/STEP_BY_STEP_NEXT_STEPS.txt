@@ -1,0 +1,259 @@
+================================================================================
+📋 WHAT TO DO NEXT - COMPLETE STEP-BY-STEP GUIDE
+================================================================================
+
+You have the CrouchAnimationSetup asset with animations assigned.
+Here's EXACTLY what to do next!
+
+
+STEP 1: FIND YOUR ANIMATOR CONTROLLER
+======================================
+
+Your character uses a Unity Animator Controller (not Fusion's code-based one).
+
+How to find it:
+
+Option A - Through the Prefab:
+  1. In Project window, navigate to: Assets/TPSBR/Prefabs/Agents/
+  2. Double-click "Marine.prefab" (or Soldier.prefab)
+  3. In Hierarchy, select the root "Marine" GameObject
+  4. In Inspector, find the "Animator" component
+  5. Look at the "Controller" field
+  6. Note the path shown (e.g., "Assets/TPSBR/Animations/MarineController")
+  7. That's your Animator Controller!
+
+Option B - Search in Project:
+  1. In Project window, click the search bar
+  2. Type: t:AnimatorController
+  3. Look for controllers in Assets/TPSBR/Animations/
+  4. Common names:
+     - MarineController
+     - SoldierController
+     - AgentController
+     - CharacterController
+  5. Select it to verify it has animation states
+
+
+STEP 2: OPEN THE AUTOMATED TOOL
+================================
+
+1. In Unity's top menu bar, click: TPSBR
+2. From dropdown, click: Setup Crouch Animations
+3. A new window opens titled "Crouch Animation Setup"
+
+If you DON'T see "TPSBR" menu:
+  - Check Console for compilation errors
+  - The tool is at: Assets/Scripts/Editor/CrouchAnimatorSetup.cs
+  - Make sure there are no errors blocking it
+
+
+STEP 3: FILL IN THE TOOL WINDOW
+================================
+
+The window has two fields to fill:
+
+┌─────────────────────────────────────────────────┐
+│  Crouch Animator Setup                          │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  Animator Controller: [Drag your controller]   │
+│                       ↑                         │
+│                       Drag from Step 1          │
+│                                                 │
+│  Animation Setup:     [Drag setup asset]       │
+│                       ↑                         │
+│                       Currently selected        │
+│                       (CrouchAnimationSetup)    │
+│                                                 │
+│  ────────────────────────────────────────────   │
+│                                                 │
+│      [SETUP CROUCH ANIMATIONS]                 │
+│                                                 │
+└─────────────────────────────────────────────────┘
+
+
+How to fill them:
+
+Field 1 - Animator Controller:
+  → Drag the controller you found in Step 1
+  → Click and drag from Project window into this field
+  → Should show the controller's name when assigned
+
+Field 2 - Animation Setup:
+  → Drag your CrouchAnimationSetup asset
+  → It's at: Assets/TPSBR/Animations/Crouch/CrouchAnimationSetup.asset
+  → Currently selected, so just drag it from Project window
+
+
+STEP 4: CLICK THE SETUP BUTTON
+===============================
+
+1. Verify both fields are filled (not empty)
+2. Click the big "SETUP CROUCH ANIMATIONS" button
+3. Wait a moment...
+4. Check the Console for success message:
+   "Created 'Crouch' layer with crouch animation states"
+
+
+What the tool does automatically:
+──────────────────────────────────
+✅ Adds "IsCrouching" bool parameter to Animator
+✅ Creates a new "Crouch" animation layer
+✅ Adds "Crouch Idle" state with your idle animation
+✅ Adds "Crouch Walk" state with your walk animation
+✅ Creates blend trees if you assigned directional animations
+✅ Sets up transitions between idle and walk
+✅ Configures Speed parameter for transitions
+✅ Saves everything
+
+
+STEP 5: VERIFY THE SETUP (OPTIONAL)
+====================================
+
+Check if it worked:
+
+1. In Project window, double-click your Animator Controller
+2. The Animator window opens
+3. Look at the "Layers" dropdown (top left)
+4. You should see:
+   - Base Layer (was already there)
+   - Crouch (NEW! - just added)
+   - Maybe other layers too
+5. Select "Crouch" layer
+6. You should see states: "Crouch Idle" and "Crouch Walk"
+7. Click the "Parameters" tab (left side)
+8. You should see "IsCrouching" parameter (NEW!)
+
+
+STEP 6: ADD CROUCHSYSTEM TO YOUR PLAYER
+========================================
+
+Now add the crouch logic component to your character:
+
+1. In Project, go to: Assets/TPSBR/Prefabs/Agents/
+2. Double-click "Marine.prefab" (or your player character)
+3. In Hierarchy, select the root GameObject
+4. In Inspector, scroll down and click "Add Component"
+5. Search for: CrouchSystem
+6. Click on it to add
+7. The component appears in Inspector
+8. It should auto-find your KCC (no manual setup needed!)
+9. Press Ctrl+S (Cmd+S on Mac) to save the prefab
+10. Close the prefab editing window
+
+
+STEP 7: FIX THE PREFAB ERRORS (IF NOT DONE YET)
+================================================
+
+If you still have those 4 prefab errors:
+
+1. Select Marine.prefab in Project window
+2. In Inspector, look for "Script (Missing)" component
+3. Click the ⚙ gear icon next to it
+4. Select "Remove Component"
+5. Repeat for: Soldier.prefab, AgentBase.prefab, SolderCinematic.prefab
+6. Save (Ctrl+S)
+
+See: FIX_PREFAB_ERRORS.txt for details
+
+
+STEP 8: TEST IT!
+================
+
+1. Open your game scene (Assets/TPSBR/Scenes/GameS2.unity)
+2. Click the Play button (top center)
+3. Enter Play Mode
+4. Spawn/control your character
+5. Press C key to crouch
+6. Character should:
+   ✅ Lower to 60% height
+   ✅ Move at 65% speed
+   ✅ Play crouch animations
+   ✅ Make quieter footsteps
+7. Press C again to stand up
+8. Character returns to normal
+
+
+TROUBLESHOOTING:
+================
+
+Problem: "TPSBR" menu doesn't exist
+Solution:
+  → Check Console for compilation errors
+  → Make sure CrouchAnimatorSetup.cs has no errors
+  → Restart Unity if needed
+
+Problem: Button is grayed out
+Solution:
+  → Make sure BOTH fields are filled
+  → Animator Controller must be assigned
+  → Animation Setup must be assigned
+
+Problem: "Parameter IsCrouching already exists"
+Solution:
+  → This is fine! Tool will skip creating it
+  → Your animator already has the parameter
+  → Continue - everything will work
+
+Problem: Character doesn't crouch when pressing C
+Solution:
+  → Make sure CrouchSystem component is on the prefab
+  → Check Agent.cs is processing crouch input
+  → Verify GameplayInput.cs has Crouch action
+  → Check Console for errors
+
+Problem: Crouch works but animations don't play
+Solution:
+  → Open Animator Controller
+  → Select Crouch layer
+  → Verify animations are assigned to states
+  → Check IsCrouching parameter exists
+  → In Play Mode, watch Animator window to see if parameter changes
+
+Problem: Animations play but look weird
+Solution:
+  → Check animation clips are compatible with your character rig
+  → Verify animations are set to "Humanoid" rig type
+  → Make sure animations aren't from a different character
+
+
+QUICK RECAP:
+============
+
+1. ✅ Find Animator Controller (via prefab or search)
+2. ✅ Open tool: TPSBR → Setup Crouch Animations
+3. ✅ Drag Animator Controller into tool
+4. ✅ Drag CrouchAnimationSetup into tool
+5. ✅ Click "SETUP CROUCH ANIMATIONS" button
+6. ✅ Add CrouchSystem component to player prefab
+7. ✅ Test in Play Mode with C key
+
+
+WHAT IF I DON'T HAVE AN ANIMATOR CONTROLLER?
+=============================================
+
+Your project MUST have one. Your character needs it for ALL animations.
+
+If you can't find it:
+  1. Open Marine.prefab
+  2. Check if Animator component exists
+  3. If Controller field is empty, you need to create one
+  4. But this is unlikely - your game already has animations working
+
+
+YOU'RE ALMOST DONE!
+===================
+
+After these steps:
+  ✅ Code is working (no errors)
+  ✅ Animations are set up
+  ✅ Animator has crouch layer
+  ✅ CrouchSystem component is added
+  ✅ Character can crouch in game!
+
+All that's left is testing! 🎮
+
+
+================================================================================
+Need help with any step? Let me know which step you're stuck on!
+================================================================================

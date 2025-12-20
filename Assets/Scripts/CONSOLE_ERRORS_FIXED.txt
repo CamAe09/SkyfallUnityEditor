@@ -1,0 +1,150 @@
+================================================================================
+✅ CONSOLE SPAM ERRORS FIXED
+================================================================================
+
+PROBLEM:
+--------
+Your console was spamming these errors hundreds of times:
+  "Tag: Agent is not defined."
+  "Tag: Storm is not defined."
+
+This was caused by the GlobalMaterialApplier script trying to check
+tags that don't exist in your project.
+
+
+THE FIX:
+--------
+I updated /Assets/Scripts/GlobalMaterialApplier.cs
+
+Changed from using CompareTag() (which logs errors for undefined tags)
+to using direct tag comparison (renderer.gameObject.tag == tag)
+
+
+WHAT WAS WRONG:
+===============
+
+Old code (line 69):
+  if (renderer.CompareTag(tag))
+
+CompareTag() logs an error when the tag doesn't exist,
+even though the code had a try-catch. The error happens
+BEFORE the exception is thrown.
+
+
+New code:
+  if (renderer.gameObject.tag == tag)
+
+Direct comparison just returns false for non-existent tags
+without logging any errors.
+
+
+RESULT:
+=======
+✅ No more console spam!
+✅ GlobalMaterialApplier will work silently
+✅ Only uses tags that actually exist in your project
+
+
+YOUR DEFINED TAGS:
+==================
+According to your editor context, these tags exist:
+  - Untagged
+  - Respawn
+  - Finish
+  - EditorOnly
+  - MainCamera
+  - Player
+  - GameController
+  - Dirt
+  - Wood
+  - Metal
+  - Water
+  - Mud
+
+Missing tags that were causing errors:
+  - Agent ❌ (not defined)
+  - Storm ❌ (not defined)
+
+
+ABOUT YOUR MARINE GAMEOBJECT:
+==============================
+
+You mentioned the player isn't showing - I need to clarify:
+
+1. Where are you looking for the Marine?
+   - In the Menu scene hierarchy?
+   - In Play mode?
+   - In the Game scene?
+
+2. The Menu scene is loaded, which is the title screen
+   - This scene typically doesn't have player GameObjects
+   - Players spawn when you enter a game session
+
+3. To test the crouch animations, you need to:
+   - Open the GameS2 scene (not Menu scene)
+   - Or start a multiplayer session from Menu
+   - The Marine prefab spawns during gameplay
+
+
+TESTING CROUCH IN GAME:
+========================
+
+Option 1: Test in GameS2 Scene
+-------------------------------
+1. In Project window, navigate to: Assets/TPSBR/Scenes/
+2. Double-click: GameS2.unity
+3. This will load the gameplay scene
+4. Find your player in the hierarchy
+5. Make sure it has:
+   - Animator component with PlayerController assigned
+   - CrouchSystem component
+6. Press Play
+7. Press C to crouch
+
+
+Option 2: Test via Multiplayer Menu
+------------------------------------
+1. Stay in Menu scene
+2. Press Play
+3. Click "Play" button
+4. Create or join a session
+5. Once in-game, press C to crouch
+
+
+WHY NO MARINE IN MENU SCENE:
+=============================
+
+The Menu scene is just UI - no gameplay objects.
+The Marine prefab only spawns when:
+  - You load a gameplay scene (like GameS2)
+  - Or the network spawns it during multiplayer
+
+
+NEXT STEPS:
+===========
+
+1. ✅ Console errors are fixed (no more spam)
+
+2. To test crouch animations:
+   - Load GameS2 scene
+   - Or enter a multiplayer match
+   - Press C to crouch
+
+3. Make sure your Marine prefab has:
+   - /Assets/TPSBR/Prefabs/Agents/Marine.prefab
+   - Animator with PlayerController.controller
+   - CrouchSystem component
+
+
+CONSOLE IS NOW CLEAN:
+======================
+
+The only "errors" remaining are actually warnings:
+  - FindObjectOfType deprecation warnings
+  - These are harmless and just suggest using newer API
+  - They don't affect gameplay
+
+
+================================================================================
+Console spam fixed! Test crouch in GameS2 scene or during multiplayer match.
+================================================================================

@@ -115,74 +115,83 @@
     <AdditionalFiles Include="C:\Users\camev\Documents\GitHub\SkyfallUnityEditor\Library\PackageCache\com.unity.netcode@5d39c9b3860a\Runtime\SourceGenerators\Templates\DefaultTypes\GhostSnapshotValueFloat4.NetCodeSourceGenerator.additionalfile" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\ShopSystemSetupHelper.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\AllowHttpDialog.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UIToggleEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationStateEditor.cs" />
-    <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabs.cs" />
-    <Compile Include="Assets\Editor\ForceFixShopNow.cs" />
     <Compile Include="Assets\Scripts\Editor\FixNetworkGameCode.cs" />
     <Compile Include="Assets\Editor\CompleteShopFix.cs" />
+    <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCProcessorReferenceDrawer.cs" />
+    <Compile Include="Assets\TPSBR\Scripts\Editor\RecoilPatternEditor.cs" />
+    <Compile Include="Assets\Editor\CharacterDataEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\MapScreenshotTool.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixBattleRoyaleType.cs" />
+    <Compile Include="Assets\Scripts\Editor\FortniteLobbySetupWizard.cs" />
+    <Compile Include="Assets\Editor\AssignShopDatabase.cs" />
+    <Compile Include="Assets\Scripts\Editor\XsollaInputSystemFixer.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixReplayGalleryHierarchy.cs" />
+    <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\QuestUIGenerator.cs" />
+    <Compile Include="Assets\Editor\FixPlayerDataConstructor.cs" />
+    <Compile Include="Assets\Editor\ClearPlayerData.cs" />
+    <Compile Include="Assets\Scripts\Editor\CircleSpriteGenerator.cs" />
+    <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\ZoneInterestProviderEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixGameplayModeCode.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\Editor\LiveEventDataEditorEST.cs" />
+    <Compile Include="Assets\Scripts\LiveEvent\Editor\LiveEventSetupHelper.cs" />
+    <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\GlobalInterestManagerEditor.cs" />
+    <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCProxyBehaviorDrawer.cs" />
+    <Compile Include="Assets\Editor\CreateModernShop.cs" />
+    <Compile Include="Assets\Scripts\Editor\QuestSystemSetupWizard.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabsV2.cs" />
+    <Compile Include="Assets\Scripts\Editor\MapMeasurementHelper.cs" />
+    <Compile Include="Assets\Editor\SimpleShopFixer.cs" />
+    <Compile Include="Assets\Editor\ShopSystemSetupHelper.cs" />
+    <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabs.cs" />
+    <Compile Include="Assets\Editor\ForceFixShopNow.cs" />
     <Compile Include="Assets\Scripts\LiveEvent\Editor\AnimationClipCreator.cs" />
     <Compile Include="Assets\Editor\ApplyShopFixNow.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Utilities\Editor\ProjectUtility.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\PlayerInterestManagerEditor.cs" />
-    <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCProcessorReferenceDrawer.cs" />
-    <Compile Include="Assets\TPSBR\Scripts\Editor\RecoilPatternEditor.cs" />
     <Compile Include="Assets\Editor\FinalCompleteShopFix.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UISliderEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationControllerEditor.cs" />
-    <Compile Include="Assets\Editor\CharacterDataEditor.cs" />
-    <Compile Include="Assets\Scripts\Editor\MapScreenshotTool.cs" />
     <Compile Include="Assets\Scripts\Editor\QuickFixGameplayMode.cs" />
-    <Compile Include="Assets\Scripts\Editor\FixBattleRoyaleType.cs" />
-    <Compile Include="Assets\Scripts\Editor\FortniteLobbySetupWizard.cs" />
-    <Compile Include="Assets\Editor\AssignShopDatabase.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCLayerDrawer.cs" />
     <Compile Include="Assets\Scripts\LiveEvent\Editor\SeasonEndSetupHelper.cs" />
     <Compile Include="Assets\TPSBR\Scripts\Editor\UIButtonEditor.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\DisabledInPlayModeDrawer.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\PlayerInterestViewEditor.cs" />
     <Compile Include="Assets\Editor\ShopUICreator.cs" />
-    <Compile Include="Assets\Editor\ReplaceWithShopList.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\ProxyBehaviorDrawer.cs" />
+    <Compile Include="Assets\Editor\ReplaceWithShopList.cs" />
     <Compile Include="Assets\Photon\FusionAddons\AnimationController\Editor\AnimationLayerEditor.cs" />
-    <Compile Include="Assets\Scripts\Editor\FixReplayGalleryHierarchy.cs" />
-    <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCEditor.cs" />
     <Compile Include="Assets\Scripts\Editor\FixReplayViewerViewportAlpha.cs" />
-    <Compile Include="Assets\Scripts\Editor\QuestUIGenerator.cs" />
-    <Compile Include="Assets\Editor\FixPlayerDataConstructor.cs" />
     <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabsV3.cs" />
-    <Compile Include="Assets\Editor\ClearPlayerData.cs" />
     <Compile Include="Assets\Editor\UpdateModernShopCloseButton.cs" />
-    <Compile Include="Assets\Scripts\Editor\CircleSpriteGenerator.cs" />
     <Compile Include="Assets\Editor\FixModernShopVisibility.cs" />
     <Compile Include="Assets\Editor\ShopDatabaseInspector.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\StatsRecorderEditor.cs" />
-    <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\ZoneInterestProviderEditor.cs" />
     <Compile Include="Assets\Editor\DirectShopFix.cs" />
     <Compile Include="Assets\Scripts\LiveEvent\Editor\LiveEventSetupWindow.cs" />
     <Compile Include="Assets\Editor\FixShopSetup.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\Utilities\InterestEditorUtility.cs" />
-    <Compile Include="Assets\Scripts\Editor\FixGameplayModeCode.cs" />
-    <Compile Include="Assets\Scripts\LiveEvent\Editor\LiveEventDataEditorEST.cs" />
     <Compile Include="Assets\Scripts\LiveEvent\Editor\SeasonEndResetMenu.cs" />
     <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCAuthorityBehaviorDrawer.cs" />
     <Compile Include="Assets\3rdParty\KriptoFX\MuzzleFlashes\Shaders\Editor\FPS_UberDecalGUI.cs" />
-    <Compile Include="Assets\Scripts\LiveEvent\Editor\LiveEventSetupHelper.cs" />
-    <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\GlobalInterestManagerEditor.cs" />
-    <Compile Include="Assets\Photon\FusionAddons\KCC\Editor\KCCProxyBehaviorDrawer.cs" />
     <Compile Include="Assets\3rdParty\Hovl Studio\Render Pipelines support\Editor\ShaderChanger.cs" />
     <Compile Include="Assets\Editor\CharacterDataInspector.cs" />
     <Compile Include="Assets\Editor\ManualShopGuide.cs" />
-    <Compile Include="Assets\Editor\CreateModernShop.cs" />
-    <Compile Include="Assets\Scripts\Editor\QuestSystemSetupWizard.cs" />
-    <Compile Include="Assets\Scripts\Editor\FixGameplayModePrefabsV2.cs" />
-    <Compile Include="Assets\Scripts\Editor\MapMeasurementHelper.cs" />
     <Compile Include="Assets\Scripts\Editor\MapZoneSetupHelper.cs" />
     <Compile Include="Assets\Photon\FusionAddons\InterestManagement\Editor\InterestProviderEditor.cs" />
-    <Compile Include="Assets\Editor\SimpleShopFixer.cs" />
     <Compile Include="Assets\Scripts\Editor\FixFortniteButtonComponents.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\external-dependency-manager_version-1.2.181_manifest.txt" />
+    <None Include="Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.JarResolver.dll" />
+    <None Include="Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.VersionHandlerImpl.dll" />
+    <None Include="Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\Google.VersionHandler.dll" />
+    <None Include="Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.IOSResolver.dll" />
+    <None Include="Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.PackageManagerResolver.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -678,7 +687,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>Library\PackageCache\com.unity.services.wire@2d36cce58c62\Plugins\websocket-sharp.dll</HintPath>
+      <HintPath>Assets\Xsolla\Core\Plugins\websocket-sharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
@@ -799,6 +808,82 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@6cc66d58ac08\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PuppeteerSharp">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\PuppeteerSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.IOSResolver">
+      <HintPath>Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.IOSResolver.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.Configuration.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Net.Http.Headers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\System.Text.Encodings.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.Logging.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.JarResolver">
+      <HintPath>Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.JarResolver.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.Options.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.PackageManagerResolver">
+      <HintPath>Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.PackageManagerResolver.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives">
+      <HintPath>Assets\Xsolla\Core\Browser\XsollaBrowser\Plugins\Microsoft.Extensions.Primitives.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.VersionHandlerImpl">
+      <HintPath>Assets\Xsolla\ThirdParty\ExternalDependencyManager\Editor\1.2.181\Google.VersionHandlerImpl.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
@@ -1799,6 +1884,10 @@
       <Project>{B87EDE77-4FC6-7495-92EF-C8806215773D}</Project>
       <Name>Fusion.Menu.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Xsolla.Samples.csproj">
+      <Project>{E0FD7B2E-7803-91AA-6576-48724BB9B33B}</Project>
+      <Name>Xsolla.Samples</Name>
+    </ProjectReference>
     <ProjectReference Include="Fusion.Unity.csproj">
       <Project>{322A6F3B-CF2F-C86A-7560-B0C6244DB7EF}</Project>
       <Name>Fusion.Unity</Name>
@@ -1806,6 +1895,10 @@
     <ProjectReference Include="Bezi.Editor.csproj">
       <Project>{89B735CE-42F5-5E42-D2A7-115B461D3B13}</Project>
       <Name>Bezi.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UIBuilder.csproj">
+      <Project>{11881E6B-BE6D-A752-6F46-100BC629C94F}</Project>
+      <Name>UIBuilder</Name>
     </ProjectReference>
     <ProjectReference Include="Fusion.Plugin.csproj">
       <Project>{0C329DE4-1AF7-3897-0E85-08D64BB50918}</Project>
@@ -1815,6 +1908,18 @@
       <Project>{65107563-B600-2A62-818C-A1071A036739}</Project>
       <Name>Fusion.Addons.Physics.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="XsollaBrowser.Editor.csproj">
+      <Project>{E9ECA988-7EBA-A389-0E00-B392482C7D86}</Project>
+      <Name>XsollaBrowser.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Xsolla.Editor.csproj">
+      <Project>{E93D7CC0-9CD8-E2BD-6158-E4800669E7E6}</Project>
+      <Name>Xsolla.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UIBuilder.Editor.csproj">
+      <Project>{C6FFBC2F-43B4-5B3C-C20C-01B2BCC4A810}</Project>
+      <Name>UIBuilder.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Fusion.Addons.Physics.csproj">
       <Project>{69A9AD49-5C0E-161A-1D79-0461A91E7FF4}</Project>
       <Name>Fusion.Addons.Physics</Name>
@@ -1823,9 +1928,25 @@
       <Project>{148EFEA4-1822-248F-6422-3F096C21B593}</Project>
       <Name>Fusion.Unity.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Xsolla.csproj">
+      <Project>{AAE919CF-CCDB-0CAB-C8EF-E22642CDFC0B}</Project>
+      <Name>Xsolla</Name>
+    </ProjectReference>
+    <ProjectReference Include="Xsolla.Demo.csproj">
+      <Project>{C79EE036-DB3E-3920-3D65-A8F0EE389508}</Project>
+      <Name>Xsolla.Demo</Name>
+    </ProjectReference>
     <ProjectReference Include="Fusion.Menu.csproj">
       <Project>{040481A8-D8E3-4EA0-FAD3-C60DEB707D15}</Project>
       <Name>Fusion.Menu</Name>
+    </ProjectReference>
+    <ProjectReference Include="Xsolla.Demo.Editor.csproj">
+      <Project>{8B99725E-BCB9-4006-6553-617C1EDFD9C6}</Project>
+      <Name>Xsolla.Demo.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="XsollaBrowser.csproj">
+      <Project>{61F52614-C864-1D7E-0F8D-1444BAE3C6F2}</Project>
+      <Name>XsollaBrowser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

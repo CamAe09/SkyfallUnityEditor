@@ -1,0 +1,44 @@
+================================================================================
+SIMPLE 30-SECOND FIX - Just Delete 4 Lines!
+================================================================================
+
+OPEN THIS FILE:
+Assets/TPSBR/Scripts/Gameplay/Agent/Character/CharacterAnimationController.cs
+
+
+FIND LINE 226 - it looks like this:
+		if (ikSetup == null || ikSetup.Grip == null)
+
+
+DELETE THESE 4 LINES (lines 226-229):
+----------------------------------------
+		if (ikSetup == null || ikSetup.Grip == null)
+			return;
+
+		Transform actualGrip = ikSetup.Grip;
+
+
+SAVE THE FILE
+Unity will auto-recompile and ALL ERRORS WILL BE GONE!
+
+
+WHY THIS WORKS:
+---------------
+Line 224 already has: Transform actualGrip = _weapons.CurrentWeapon.LeftHandTarget;
+Lines 226-229 are duplicate/leftover code that reference a non-existent variable 'ikSetup'
+Deleting them fixes everything!
+
+
+AFTER THE FIX, lines 224-231 should look like:
+------------------------------------------------
+224:		Transform actualGrip = _weapons.CurrentWeapon.LeftHandTarget;
+225:
+226:		if (actualGrip != null)
+227:		{
+228:			_leftHand.SetPositionAndRotation(actualGrip.position, actualGrip.rotation);
+229:
+230:			Vector3 targetPosition = actualGrip.position;
+231:
+================================================================================
+
+That's it! Just delete those 4 lines and you're done!

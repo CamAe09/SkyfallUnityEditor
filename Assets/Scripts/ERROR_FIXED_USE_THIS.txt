@@ -1,0 +1,139 @@
+================================================================================
+✅ ERROR FIXED - USE THE FIXED VERSION
+================================================================================
+
+THE PROBLEM:
+------------
+The original tool had a bug on line 191 where it tried to check if
+a layer exists by looking at existingLayer.stateMachine != null.
+
+This caused a NullReferenceException because FirstOrDefault() returns
+a default struct (not null) when no layer is found.
+
+
+THE FIX:
+--------
+I created a FIXED version of the tool that properly checks if the layer exists.
+
+File: Assets/Scripts/Editor/CrouchAnimatorSetup_FIXED.cs
+
+
+HOW TO USE THE FIXED TOOL:
+===========================
+
+STEP 1: Open the Fixed Tool
+----------------------------
+In Unity's top menu bar, click:
+  TPSBR → Setup Crouch Animations (FIXED)
+
+(Note the "(FIXED)" at the end!)
+
+
+STEP 2: Fill in the Fields
+---------------------------
+The window opens. Drag two things into it:
+
+1. Animator Controller field:
+   → Drag your "MarineController" from:
+   → Assets/TPSBR/MarineController.controller
+
+2. Animation Setup field:
+   → Drag your "CrouchAnimationSetup" from:
+   → Assets/TPSBR/Animations/Crouch/CrouchAnimationSetup.asset
+
+
+STEP 3: Click the Button
+-------------------------
+Click the big button: "Setup Crouch Animations"
+
+The tool will:
+  ✅ Add IsCrouching parameter
+  ✅ Create Crouch layer
+  ✅ Add your crouch animations
+  ✅ Set up transitions
+  ✅ Save everything
+
+
+STEP 4: Success!
+----------------
+You'll see a success dialog:
+  "Setup Complete!"
+
+Check the Console - should say:
+  "Created 'Crouch' layer with crouch animation states"
+
+
+WHAT IT FIXED:
+==============
+
+Old code (BROKEN):
+  var existingLayer = animatorController.layers.FirstOrDefault(l => l.name == layerName);
+  if (existingLayer.stateMachine != null)  ← THIS CRASHES!
+  {
+      // remove layer
+  }
+
+New code (FIXED):
+  bool layerExists = animatorController.layers.Any(l => l.name == layerName);
+  if (layerExists)  ← THIS WORKS!
+  {
+      var existingLayer = animatorController.layers.FirstOrDefault(l => l.name == layerName);
+      // remove layer safely
+  }
+
+
+NEXT STEPS AFTER TOOL SUCCEEDS:
+================================
+
+1. ✅ Verify the Setup (Optional):
+   - Double-click MarineController in Project window
+   - Animator window opens
+   - Click "Layers" dropdown (top left)
+   - You should see "Crouch" layer!
+   - Click on it to see Crouch Idle and Crouch Walk states
+
+2. ✅ Add CrouchSystem Component:
+   - Open Marine.prefab
+   - Select the root GameObject
+   - Click Add Component
+   - Search: CrouchSystem
+   - Add it
+   - Save prefab (Ctrl+S)
+
+3. ✅ Test It:
+   - Press Play
+   - Press C to crouch
+   - Character should crouch!
+
+
+TROUBLESHOOTING:
+================
+
+Problem: Still says "Setup Crouch Animations" not "(FIXED)"
+Solution: Close and reopen Unity to refresh the menu
+
+Problem: Can't find the fixed tool in menu
+Solution: Check Console for compilation errors
+
+Problem: Tool succeeds but character doesn't crouch
+Solution: Make sure CrouchSystem component is on the player prefab
+
+
+WHY DID THIS HAPPEN?
+====================
+
+AnimatorControllerLayer is a struct, not a class.
+When FirstOrDefault() doesn't find a matching layer:
+  - For classes: returns null ✅
+  - For structs: returns default(T) with null fields ❌
+
+The old code tried to check stateMachine != null on a default struct,
+which causes NullReferenceException.
+
+The fix uses .Any() to check if layer exists FIRST, then safely
+gets the layer only if it exists.
+
+
+================================================================================
+Use the FIXED tool: TPSBR → Setup Crouch Animations (FIXED)
+================================================================================

@@ -1,0 +1,222 @@
+================================================================================
+🎬 HOW TO CREATE YOUR ANIMATOR CONTROLLER
+================================================================================
+
+YOUR SITUATION:
+---------------
+✅ You have crouch animations ready
+✅ You have Avatar Masks created
+✅ You have an Avatar assigned
+❌ You DON'T have an Animator Controller yet
+
+This is actually NORMAL for a new character setup!
+Let's create one together - it takes 30 seconds!
+
+
+STEP-BY-STEP: CREATE THE ANIMATOR CONTROLLER
+=============================================
+
+STEP 1: Create the Controller
+------------------------------
+
+1. In Unity, go to Project window
+2. Navigate to: Assets/TPSBR/Animations/
+3. Right-click in empty space
+4. Select: Create → Animator Controller
+5. Name it: "MarineController"
+6. Press Enter
+
+✅ You now have an empty Animator Controller!
+
+
+STEP 2: Assign it to Your Marine Prefab
+----------------------------------------
+
+1. In Project window, navigate to: Assets/TPSBR/Prefabs/Agents/
+2. Double-click "Marine.prefab" to open it
+3. In Hierarchy window, select the "Sci_Fi_Character_08_05" GameObject
+   (This is the child object with the visual model)
+4. In Inspector, find the "Animator" component
+5. You'll see:
+   - Controller: [Empty or None]
+   - Avatar: [Should have something assigned]
+6. Drag your new "MarineController" from Project window
+   into the "Controller" field
+7. Press Ctrl+S (Cmd+S on Mac) to save the prefab
+
+✅ Your character now has an Animator Controller assigned!
+
+
+STEP 3: Run the Automated Crouch Setup Tool
+--------------------------------------------
+
+NOW you can use the automated tool!
+
+1. In Unity menu: TPSBR → Setup Crouch Animations
+2. The tool window opens
+3. Fill in:
+   - Animator Controller: Drag "MarineController" here
+   - Animation Setup: Drag "CrouchAnimationSetup" here
+4. Click: "SETUP CROUCH ANIMATIONS"
+5. Watch the Console for success message!
+
+The tool will:
+  ✅ Add IsCrouching parameter
+  ✅ Create Crouch layer
+  ✅ Add your crouch animations
+  ✅ Set up all transitions
+  ✅ Use your LowerBodyMask_Marine
+
+
+VISUAL GUIDE:
+=============
+
+Before:
+┌─────────────────────────────────────┐
+│ Marine Prefab                       │
+│                                     │
+│ Animator Component:                 │
+│   Controller: [None] ❌             │
+│   Avatar: [Marine Avatar] ✅        │
+└─────────────────────────────────────┘
+
+Create Controller:
+  Right-click → Create → Animator Controller
+
+After:
+┌─────────────────────────────────────┐
+│ Marine Prefab                       │
+│                                     │
+│ Animator Component:                 │
+│   Controller: [MarineController] ✅ │
+│   Avatar: [Marine Avatar] ✅        │
+└─────────────────────────────────────┘
+
+
+WHERE TO FIND THINGS:
+=====================
+
+Your Avatar (already assigned):
+  → Should be in the Animator component already
+  → Probably extracted from the FBX model
+  → Located somewhere like: Assets/TPSBR/Models/
+
+Your Animations (already there):
+  → Assets/TPSBR/Animations/Crouch/
+  → Crouching Idle.fbx
+  → Crouched Walking.fbx
+  → Crouch Walk Back.fbx
+  → Crouch Walk Left.fbx
+  → Crouch Walk Right.fbx
+
+Your Avatar Masks (already there):
+  → Assets/TPSBR/Animations/Masks/
+  → LowerBodyMask_Marine.mask ← For crouch layer
+  → UpperBodyMask_Marine.mask ← For weapon layer
+
+Your New Controller (you're about to create):
+  → Assets/TPSBR/Animations/
+  → MarineController.controller
+
+
+OPTIONAL: Verify the Avatar
+============================
+
+Just to make sure your Avatar is properly set up:
+
+1. Open Marine.prefab
+2. Look at Animator component
+3. Check the "Avatar" field
+4. If it says "None":
+   a. Find your character's FBX model
+   b. Select it in Project window
+   c. In Inspector, switch to "Rig" tab
+   d. Set Animation Type: Humanoid
+   e. Click "Apply"
+   f. An Avatar will be created automatically
+   g. Drag it to the Animator's Avatar field
+
+
+WHAT IF I WANT TO ADD OTHER ANIMATIONS LATER?
+==============================================
+
+Once you have the controller:
+
+For Standing Locomotion:
+  1. Open MarineController in Animator window
+  2. Select "Base Layer"
+  3. Right-click → Create State → Empty
+  4. Name it "Stand Idle"
+  5. Drag your standing idle animation onto it
+  6. Repeat for walk, run, jump, etc.
+
+For Weapon Animations:
+  1. Click "Layers" dropdown (top left)
+  2. Click "+" to add new layer
+  3. Name it "Upper Body"
+  4. Set Weight to 1.0
+  5. Click gear icon → Mask → Select "UpperBodyMask_Marine"
+  6. Add weapon states (rifle hold, pistol hold, etc.)
+
+For Shooting:
+  1. Add another layer "Shoot"
+  2. Set mask to UpperBodyMask_Marine
+  3. Set Weight to 1.0
+  4. Add shoot animations
+
+But for NOW, just create the empty controller!
+The crouch tool will add the Crouch layer automatically.
+
+
+QUICK SUMMARY:
+==============
+
+Do this NOW:
+  1. Right-click in Assets/TPSBR/Animations/
+  2. Create → Animator Controller
+  3. Name: "MarineController"
+  4. Open Marine.prefab
+  5. Drag controller to Animator component
+  6. Save prefab
+  7. Run the crouch setup tool!
+
+That's it! 🎯
+
+
+NEXT STEPS AFTER CREATING CONTROLLER:
+======================================
+
+Once you have MarineController created and assigned:
+
+1. ✅ Run crouch setup tool
+   → TPSBR → Setup Crouch Animations
+   
+2. ✅ Add CrouchSystem component
+   → Open Marine.prefab
+   → Add Component → CrouchSystem
+   
+3. ✅ Test in Play Mode
+   → Press Play
+   → Press C to crouch
+   → Works!
+
+
+TROUBLESHOOTING:
+================
+
+Q: Where is the Animator component on my prefab?
+A: It should be on the child GameObject that has the mesh
+   Usually named like "Sci_Fi_Character_08_05" or similar
+
+Q: I created the controller but tool still says "None"
+A: Make sure you DRAG it into the field, don't just click
+   Or click the circle icon and select from list
+
+Q: Avatar field is empty too!
+A: Select your character's FBX → Rig tab → Humanoid → Apply
+   Then drag the created Avatar to the field
+
+
+================================================================================
+Ready? Create that controller and let's get crouching working! 🚀
+================================================================================

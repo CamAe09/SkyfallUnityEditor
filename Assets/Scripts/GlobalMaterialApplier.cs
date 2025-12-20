@@ -64,18 +64,13 @@ public class GlobalMaterialApplier : MonoBehaviour
             bool hasAllowedTag = false;
             foreach (string tag in allowedTags)
             {
-                try
-                {
-                    if (renderer.CompareTag(tag))
-                    {
-                        hasAllowedTag = true;
-                        break;
-                    }
-                }
-                catch (UnityException)
-                {
-                    Debug.LogWarning($"[GlobalMaterialApplier] Tag '{tag}' is not defined. Skipping.");
+                if (string.IsNullOrEmpty(tag))
                     continue;
+                    
+                if (renderer.gameObject.tag == tag)
+                {
+                    hasAllowedTag = true;
+                    break;
                 }
             }
             if (!hasAllowedTag) return false;

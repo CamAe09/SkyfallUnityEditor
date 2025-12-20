@@ -30,7 +30,8 @@ namespace TPSBR
         [SerializeField] private GameObject _npcCharacter;
         [SerializeField] private Transform _npcTransform;
         [SerializeField] private Animator _npcAnimator;
-        [SerializeField] private string _npcTalkStateName = "Talking";
+        [SerializeField] private AnimationClip _npcTalkAnimationClip;
+        [SerializeField] private AnimationClip _npcIdleAnimationClip;
         [SerializeField] private float _interactionDistance = 3f;
 
         [Header("UI")]
@@ -52,9 +53,15 @@ namespace TPSBR
         [Header("Audio")]
         [SerializeField] private AudioClip _npcDialogueClip;
         [SerializeField] private AudioClip _theresYourStopClip;
-        [SerializeField] private AudioClip _backgroundMusic;
+        [SerializeField] private AudioClip _wakeUpMusic;
+        [SerializeField] private AudioClip _flybyMusic;
+        [SerializeField] private AudioClip _planeMusic;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioSource _musicAudioSource;
+        [SerializeField] private float _musicFadeDuration = 2f;
+        [SerializeField] private float _wakeUpMusicVolume = 0.4f;
+        [SerializeField] private float _flybyMusicVolume = 0.5f;
+        [SerializeField] private float _planeMusicVolume = 0.6f;
 
         [Header("Input")]
         [SerializeField] private float _holdDuration = 2f;
@@ -63,9 +70,12 @@ namespace TPSBR
         private Transform _cameraTarget;
         private Animator _playerAnimator;
         private CharacterController _characterController;
+        private CinematicPlayerController _playerController;
         private CinemachineBrain _cinemachineBrain;
         private PlayableGraph _playableGraph;
         private AnimationClipPlayable _currentClipPlayable;
+        private PlayableGraph _npcPlayableGraph;
+        private AnimationClipPlayable _npcClipPlayable;
         private List<GameObject> _hiddenUIObjects = new List<GameObject>();
         private bool _hasShownIntro = false;
         private bool _isIntroActive = false;
@@ -73,6 +83,8 @@ namespace TPSBR
         private float _holdTimer = 0f;
         private bool _hasSpokenToNPC = false;
         private bool _hasWokenUp = false;
+        private bool _hasStartedBattleRoyale = false;
+        private bool _hasFlybyReachedFinalWaypoint = false;
 
         private const string PREF_LAST_ERA_SHOWN = "SimpleEraIntro_LastEraShown";
 
@@ -207,7 +219,82 @@ namespace TPSBR
 
         private void Start()
         {
+            ResetIntroState();
+            StartCoroutine(WaitForSceneReadyThenCheckEra());
+        }
+
+        private IEnumerator WaitForSceneReadyThenCheckEra()
+        {
+            Debug.Log("[SimpleEraIntroController] Waiting for scene to be fully ready...");
+            
+            yield return new WaitForSeconds(2f);
+            
+            while (Time.timeScale == 0f)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] Time scale is 0, waiting...");
+                yield return null;
+            }
+            
+            Debug.Log("[SimpleEraIntroController] Waiting for NetworkGame and local player...");
+            NetworkGame networkGame = null;
+            float timeout = 30f;
+            float elapsed = 0f;
+            
+            while (networkGame == null && elapsed < timeout)
+            {
+                networkGame = FindFirstObjectByType<NetworkGame>();
+                if (networkGame == null)
+                {
+                    Debug.Log("[SimpleEraIntroController] Waiting for NetworkGame to spawn...");
+                    yield return new WaitForSeconds(0.5f);
+                    elapsed += 0.5f;
+                }
+            }
+            
+            if (networkGame == null)
+            {
+                Debug.LogError("[SimpleEraIntroController] NetworkGame not found after timeout - intro cannot start");
+                yield break;
+            }
+            
+            Debug.Log("[SimpleEraIntroController] NetworkGame found, waiting for local player to join...");
+            elapsed = 0f;
+            
+            while (elapsed < timeout)
+            {
+                if (networkGame.Runner != null && networkGame.Runner.LocalPlayer.IsRealPlayer == true)
+                {
+                    Debug.Log($"[SimpleEraIntroController] Local player joined: {networkGame.Runner.LocalPlayer}");
+                    break;
+                }
+                
+                Debug.Log("[SimpleEraIntroController] Waiting for local player...");
+                yield return new WaitForSeconds(0.5f);
+                elapsed += 0.5f;
+            }
+            
+            if (elapsed >= timeout)
+            {
+                Debug.LogError("[SimpleEraIntroController] Local player did not join after timeout - intro cannot start");
+                yield break;
+            }
+            
+            Debug.Log("[SimpleEraIntroController] Scene and local player ready, waiting 1 more second for initialization...");
+            yield return new WaitForSeconds(1f);
+            
+            Debug.Log("[SimpleEraIntroController] Scene is ready, checking for new era");
             CheckForNewEra();
+        }
+
+        private void ResetIntroState()
+        {
+            _hasShownIntro = false;
+            _hasSpokenToNPC = false;
+            _hasWokenUp = false;
+            _hasStartedBattleRoyale = false;
+            _hasFlybyReachedFinalWaypoint = false;
+            _isIntroActive = false;
+            Debug.Log("[SimpleEraIntroController] Reset intro state for new game session");
         }
 
         private void Update()
@@ -273,36 +360,64 @@ namespace TPSBR
             _isIntroActive = true;
             _hasShownIntro = true;
 
+            Debug.Log("[SimpleEraIntroController] Starting timer extension to prevent early game start");
+            StartCoroutine(ExtendGameTimerWhileFlyby());
+
+            Debug.Log("[SimpleEraIntroController] Step 1: Hiding game UI");
             HideGameUI();
 
-            if (_backgroundMusic != null && _musicAudioSource != null)
-            {
-                _musicAudioSource.clip = _backgroundMusic;
-                _musicAudioSource.Play();
-                Debug.Log("[SimpleEraIntroController] Started background music");
-            }
-
+            Debug.Log("[SimpleEraIntroController] Step 2: Fading from black");
             yield return StartCoroutine(FadeFromBlack());
+            Debug.Log("[SimpleEraIntroController] Fade from black complete!");
 
+            Debug.Log("[SimpleEraIntroController] Step 3: Spawning player");
             SpawnPlayer();
 
             if (_npcCharacter != null)
             {
                 _npcCharacter.SetActive(true);
+                
+                if (_npcAnimator != null)
+                {
+                    _npcAnimator.runtimeAnimatorController = null;
+                    
+                    if (_npcIdleAnimationClip != null)
+                    {
+                        PlayNPCAnimation(_npcIdleAnimationClip, true);
+                        Debug.Log($"[SimpleEraIntroController] NPC character activated with idle animation: {_npcIdleAnimationClip.name}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[SimpleEraIntroController] NPC idle animation clip not assigned");
+                    }
+                }
+                else
+                {
+                    Debug.Log("[SimpleEraIntroController] NPC character activated");
+                }
             }
 
+            Debug.Log("[SimpleEraIntroController] Step 4: Setting intro camera");
             SetActiveCamera(_introCam);
 
             if (_uiCanvas != null)
             {
                 _uiCanvas.gameObject.SetActive(true);
+                Debug.Log("[SimpleEraIntroController] UI Canvas activated");
             }
 
+            Debug.Log("[SimpleEraIntroController] Step 5: Playing laying down animation");
             PlayLayingDownAnimation();
 
             if (_promptText != null)
             {
-                _promptText.text = "Press P";
+                _promptText.text = "Press P To Start New Decade";
+            }
+
+            if (_wakeUpMusic != null && _musicAudioSource != null)
+            {
+                StartCoroutine(FadeMusicIn(_wakeUpMusic, _wakeUpMusicVolume));
+                Debug.Log("[SimpleEraIntroController] Started wake-up music (when Press P appears)");
             }
 
             Debug.Log("[SimpleEraIntroController] Player laying down - Press P to wake up");
@@ -312,6 +427,7 @@ namespace TPSBR
                 yield return null;
             }
 
+            Debug.Log("[SimpleEraIntroController] Player woke up!");
             Debug.Log("[SimpleEraIntroController] Player can now move - walk to NPC");
 
             while (!_hasSpokenToNPC)
@@ -319,27 +435,24 @@ namespace TPSBR
                 yield return null;
             }
 
+            Debug.Log("[SimpleEraIntroController] Player spoke to NPC, playing dialogue");
+
             yield return StartCoroutine(PlayNPCDialogue());
+
+            Debug.Log("[SimpleEraIntroController] NPC dialogue finished, fading out wake-up music");
+
+            yield return StartCoroutine(FadeMusicOut());
+
+            Debug.Log("[SimpleEraIntroController] Wake-up music faded out, completing intro");
 
             CompleteIntro();
 
-            var battleRoyaleMode = FindFirstObjectByType<BattleRoyaleGameplayMode>();
-            if (battleRoyaleMode != null)
-            {
-                battleRoyaleMode.StartImmediately();
-                Debug.Log("[SimpleEraIntroController] Starting Battle Royale drop sequence");
-                
-                yield return new WaitForSeconds(2f);
-                
-                if (battleRoyaleMode.Airplane != null)
-                {
-                    yield return StartCoroutine(PlayMapFlyby());
-                }
-            }
-            else
-            {
-                yield return StartCoroutine(PlayMapFlyby());
-            }
+            Debug.Log("[SimpleEraIntroController] Intro complete - starting cinematic map flyby");
+            
+            Debug.Log("[SimpleEraIntroController] Starting cinematic map flyby");
+            yield return StartCoroutine(PlayMapFlyby());
+
+            Debug.Log("[SimpleEraIntroController] Flyby complete - player should now be on airplane");
         }
 
         private void SpawnPlayer()
@@ -401,6 +514,13 @@ namespace TPSBR
             _characterController.height = 2f;
             _characterController.center = new Vector3(0, 1f, 0);
             _characterController.enabled = false;
+
+            _playerController = _spawnedPlayer.GetComponent<CinematicPlayerController>();
+            if (_playerController == null)
+            {
+                _playerController = _spawnedPlayer.AddComponent<CinematicPlayerController>();
+            }
+            _playerController.SetEnabled(false);
 
             Rigidbody rb = _spawnedPlayer.GetComponent<Rigidbody>();
             if (rb != null)
@@ -582,9 +702,19 @@ namespace TPSBR
                 if (_playerAnimator != null)
                 {
                     _playerAnimator.enabled = true;
+                    _playerAnimator.runtimeAnimatorController = null;
                     _playerAnimator.Rebind();
                     _playerAnimator.Update(0f);
-                    Debug.Log("[SimpleEraIntroController] Animator rebound for locomotion");
+                    
+                    SetupLocomotionAnimator();
+                    
+                    Debug.Log("[SimpleEraIntroController] Animator rebound for locomotion (runtime controller disabled)");
+                }
+
+                if (_playerController != null)
+                {
+                    _playerController.SetEnabled(true);
+                    Debug.Log("[SimpleEraIntroController] Player controller enabled for movement");
                 }
             }
 
@@ -706,14 +836,14 @@ namespace TPSBR
         {
             SetActiveCamera(_dialogueCam);
 
-            if (_npcAnimator != null)
+            if (_npcAnimator != null && _npcTalkAnimationClip != null)
             {
-                _npcAnimator.Play(_npcTalkStateName, 0, 0f);
-                Debug.Log($"[SimpleEraIntroController] Playing NPC animation state: {_npcTalkStateName}");
+                PlayNPCAnimation(_npcTalkAnimationClip, false);
+                Debug.Log($"[SimpleEraIntroController] Playing NPC talk animation: {_npcTalkAnimationClip.name}");
             }
             else
             {
-                Debug.LogWarning("[SimpleEraIntroController] NPC Animator not found");
+                Debug.LogWarning("[SimpleEraIntroController] NPC talk animation clip not assigned");
             }
 
             if (_npcDialogueClip != null && _audioSource != null)
@@ -726,66 +856,159 @@ namespace TPSBR
             {
                 yield return new WaitForSeconds(5f);
             }
+
+            if (_npcAnimator != null && _npcIdleAnimationClip != null)
+            {
+                PlayNPCAnimation(_npcIdleAnimationClip, true);
+                Debug.Log($"[SimpleEraIntroController] Playing NPC idle animation: {_npcIdleAnimationClip.name}");
+            }
         }
 
         private IEnumerator PlayMapFlyby()
         {
-            BattleRoyaleGameplayMode battleRoyaleMode = FindFirstObjectByType<BattleRoyaleGameplayMode>();
-            
-            if (battleRoyaleMode != null && battleRoyaleMode.Airplane != null)
+            Debug.Log("[SimpleEraIntroController] Starting waypoint flyby");
+            SetActiveCamera(_flybyCamera);
+
+            if (_flybyMusic != null && _musicAudioSource != null)
             {
-                Debug.Log("[SimpleEraIntroController] Following airplane for map flyby");
-                yield return StartCoroutine(FollowAirplane(battleRoyaleMode.Airplane));
+                StartCoroutine(FadeMusicIn(_flybyMusic, _flybyMusicVolume));
+                Debug.Log("[SimpleEraIntroController] Started flyby music");
+            }
+
+            if (_flybyWaypoints == null || _flybyWaypoints.Length == 0)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] No flyby waypoints assigned");
+                
+                yield return new WaitForSeconds(7f);
+                
+                yield return StartCoroutine(FadeMusicOut());
+                
+                if (_theresYourStopClip != null && _audioSource != null)
+                {
+                    _audioSource.clip = _theresYourStopClip;
+                    _audioSource.Play();
+                    Debug.Log("[SimpleEraIntroController] Playing 'There's your stop' voiceline");
+                    yield return new WaitForSeconds(_theresYourStopClip.length);
+                }
+                else
+                {
+                    yield return new WaitForSeconds(5f);
+                }
+                
+                EndIntroAndRestoreCamera();
+                yield break;
+            }
+
+            Transform cameraTransform = _flybyCamera.transform;
+
+            if (_flybyWaypoints[0] != null)
+            {
+                cameraTransform.position = _flybyWaypoints[0].position;
+                cameraTransform.rotation = _flybyWaypoints[0].rotation;
+                Debug.Log("[SimpleEraIntroController] Starting at first waypoint");
+            }
+
+            float elapsed = 0f;
+
+            Debug.Log($"[SimpleEraIntroController] Flying through waypoints over {_flybyDuration} seconds");
+            while (elapsed < _flybyDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / _flybyDuration;
+
+                int currentIndex = Mathf.FloorToInt(t * (_flybyWaypoints.Length - 1));
+                int nextIndex = Mathf.Min(currentIndex + 1, _flybyWaypoints.Length - 1);
+
+                float segmentT = (t * (_flybyWaypoints.Length - 1)) - currentIndex;
+
+                if (_flybyWaypoints[currentIndex] != null && _flybyWaypoints[nextIndex] != null)
+                {
+                    cameraTransform.position = Vector3.Lerp(
+                        _flybyWaypoints[currentIndex].position,
+                        _flybyWaypoints[nextIndex].position,
+                        segmentT
+                    );
+
+                    cameraTransform.rotation = Quaternion.Slerp(
+                        _flybyWaypoints[currentIndex].rotation,
+                        _flybyWaypoints[nextIndex].rotation,
+                        segmentT
+                    );
+                }
+
+                yield return null;
+            }
+
+            Debug.Log("[SimpleEraIntroController] Reached final waypoint - holding for 8 seconds");
+            _hasFlybyReachedFinalWaypoint = true;
+            
+            if (_flybyWaypoints[_flybyWaypoints.Length - 1] != null)
+            {
+                cameraTransform.position = _flybyWaypoints[_flybyWaypoints.Length - 1].position;
+                cameraTransform.rotation = _flybyWaypoints[_flybyWaypoints.Length - 1].rotation;
+            }
+
+            yield return new WaitForSeconds(4f);
+
+            Debug.Log("[SimpleEraIntroController] 4 seconds into final waypoint hold - force starting plane drop (in background)");
+            
+            BattleRoyaleGameplayMode battleRoyale = FindFirstObjectByType<BattleRoyaleGameplayMode>();
+            if (battleRoyale != null && !_hasStartedBattleRoyale)
+            {
+                _hasStartedBattleRoyale = true;
+                battleRoyale.StartImmediately();
+                Debug.Log("[SimpleEraIntroController] Called StartImmediately() - plane spawning in background while cinematic continues");
+            }
+            else if (_hasStartedBattleRoyale)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] Plane drop already started - skipping duplicate call");
             }
             else
             {
-                SetActiveCamera(_flybyCamera);
-
-                if (_flybyWaypoints == null || _flybyWaypoints.Length == 0)
-                {
-                    Debug.LogWarning("[SimpleEraIntroController] No flyby waypoints assigned and no airplane found");
-                    yield return new WaitForSeconds(5f);
-                    yield break;
-                }
-
-                Transform cameraTransform = _flybyCamera.transform;
-
-                if (_flybyWaypoints[0] != null)
-                {
-                    cameraTransform.position = _flybyWaypoints[0].position;
-                    cameraTransform.rotation = _flybyWaypoints[0].rotation;
-                }
-
-                float elapsed = 0f;
-
-                while (elapsed < _flybyDuration)
-                {
-                    elapsed += Time.deltaTime;
-                    float t = elapsed / _flybyDuration;
-
-                    int currentIndex = Mathf.FloorToInt(t * (_flybyWaypoints.Length - 1));
-                    int nextIndex = Mathf.Min(currentIndex + 1, _flybyWaypoints.Length - 1);
-
-                    float segmentT = (t * (_flybyWaypoints.Length - 1)) - currentIndex;
-
-                    if (_flybyWaypoints[currentIndex] != null && _flybyWaypoints[nextIndex] != null)
-                    {
-                        cameraTransform.position = Vector3.Lerp(
-                            _flybyWaypoints[currentIndex].position,
-                            _flybyWaypoints[nextIndex].position,
-                            segmentT
-                        );
-
-                        cameraTransform.rotation = Quaternion.Slerp(
-                            _flybyWaypoints[currentIndex].rotation,
-                            _flybyWaypoints[nextIndex].rotation,
-                            segmentT
-                        );
-                    }
-
-                    yield return null;
-                }
+                Debug.LogWarning("[SimpleEraIntroController] Could not find BattleRoyaleGameplayMode to force start plane drop");
             }
+
+            yield return new WaitForSeconds(4f);
+            Debug.Log("[SimpleEraIntroController] Final waypoint hold complete (8s total) - fading out music and playing voiceline");
+
+            yield return StartCoroutine(FadeMusicOut());
+
+            if (_theresYourStopClip != null && _audioSource != null)
+            {
+                _audioSource.clip = _theresYourStopClip;
+                _audioSource.Play();
+                Debug.Log("[SimpleEraIntroController] Playing 'There's your stop' voiceline");
+                yield return new WaitForSeconds(_theresYourStopClip.length);
+            }
+            else
+            {
+                yield return new WaitForSeconds(2f);
+            }
+            
+            Debug.Log("[SimpleEraIntroController] Ending intro and transitioning player to airplane");
+            EndIntroAndRestoreCamera();
+        }
+
+        private IEnumerator ExtendGameTimerWhileFlyby()
+        {
+            BattleRoyaleGameplayMode battleRoyale = FindFirstObjectByType<BattleRoyaleGameplayMode>();
+            if (battleRoyale == null)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] No BattleRoyaleGameplayMode found - cannot extend game timer");
+                yield break;
+            }
+
+            Debug.Log("[SimpleEraIntroController] Starting game timer extension loop - adding initial 120 second buffer");
+            battleRoyale.TryAddWaitTime(120f);
+            
+            while (_isIntroActive && !_hasFlybyReachedFinalWaypoint)
+            {
+                battleRoyale.TryAddWaitTime(60f);
+                Debug.Log("[SimpleEraIntroController] Extended game start timer by 60 seconds (intro still active, flyby not at final waypoint)");
+                yield return new WaitForSeconds(20f);
+            }
+
+            Debug.Log("[SimpleEraIntroController] Stopped extending game timer - intro finished or final waypoint reached");
         }
 
         private IEnumerator FollowAirplane(Airplane airplane)
@@ -793,11 +1016,18 @@ namespace TPSBR
             SetActiveCamera(_flybyCamera);
             Transform cameraTransform = _flybyCamera.transform;
             
+            if (_flybyMusic != null && _musicAudioSource != null)
+            {
+                StartCoroutine(FadeMusicIn(_flybyMusic, _flybyMusicVolume));
+                Debug.Log("[SimpleEraIntroController] Started flyby music");
+            }
+            
             Vector3 cameraOffset = new Vector3(0, 8f, -15f);
             float followDuration = _flybyDuration;
             float elapsed = 0f;
             bool hasPlayedVoiceline = false;
             bool hasJumped = false;
+            float voicelinePlayTime = 2f;
 
             AirplaneAgent localPlayerAgent = null;
             Agent droppedPlayer = null;
@@ -815,6 +1045,27 @@ namespace TPSBR
 
                 Transform targetTransform = airplane.transform;
                 Vector3 lookOffset = Vector3.forward * 20f;
+
+                if (!hasPlayedVoiceline && elapsed >= voicelinePlayTime)
+                {
+                    yield return StartCoroutine(FadeMusicOut());
+                    Debug.Log("[SimpleEraIntroController] Faded out flyby music before voiceline");
+                    
+                    if (_theresYourStopClip != null && _audioSource != null)
+                    {
+                        _audioSource.clip = _theresYourStopClip;
+                        _audioSource.Play();
+                        Debug.Log("[SimpleEraIntroController] Playing 'There's your stop' voiceline");
+                        yield return new WaitForSeconds(_theresYourStopClip.length);
+                    }
+                    hasPlayedVoiceline = true;
+                    
+                    if (_planeMusic != null && _musicAudioSource != null)
+                    {
+                        StartCoroutine(FadeMusicIn(_planeMusic, _planeMusicVolume));
+                        Debug.Log("[SimpleEraIntroController] Started plane music after voiceline");
+                    }
+                }
 
                 if (localPlayerAgent == null)
                 {
@@ -837,12 +1088,6 @@ namespace TPSBR
                         droppedPlayer = context.ObservedAgent;
                         hasJumped = true;
                         Debug.Log($"[SimpleEraIntroController] Found ObservedAgent: {droppedPlayer.name} on layer: {LayerMask.LayerToName(droppedPlayer.gameObject.layer)}");
-                        
-                        if (!hasPlayedVoiceline)
-                        {
-                            PlayTheresYourStopAudio();
-                            hasPlayedVoiceline = true;
-                        }
                     }
                     else
                     {
@@ -854,12 +1099,6 @@ namespace TPSBR
                                 droppedPlayer = agent;
                                 hasJumped = true;
                                 Debug.Log($"[SimpleEraIntroController] Player has jumped! Following player: {agent.name} on layer: {LayerMask.LayerToName(agent.gameObject.layer)}");
-                                
-                                if (!hasPlayedVoiceline)
-                                {
-                                    PlayTheresYourStopAudio();
-                                    hasPlayedVoiceline = true;
-                                }
                                 break;
                             }
                         }
@@ -872,9 +1111,9 @@ namespace TPSBR
                     cameraOffset = new Vector3(0, 5f, -10f);
                     lookOffset = Vector3.forward * 5f;
                     
-                    if (hasJumped && elapsed > 3f)
+                    if (hasJumped && elapsed > 5f)
                     {
-                        Debug.Log("[SimpleEraIntroController] Player jumped and 3 seconds passed, ending flyby early");
+                        Debug.Log("[SimpleEraIntroController] Player jumped and 5 seconds passed, ending flyby");
                         break;
                     }
                 }
@@ -893,6 +1132,21 @@ namespace TPSBR
                 yield return null;
             }
 
+            Debug.Log("[SimpleEraIntroController] Airplane flyby duration complete - fading out flyby music");
+            
+            yield return StartCoroutine(FadeMusicOut());
+            Debug.Log("[SimpleEraIntroController] Flyby music faded out - holding for 7 seconds");
+            
+            if (!hasPlayedVoiceline && _theresYourStopClip != null && _audioSource != null)
+            {
+                _audioSource.clip = _theresYourStopClip;
+                _audioSource.Play();
+                Debug.Log("[SimpleEraIntroController] Playing 'There's your stop' voiceline at hold");
+            }
+
+            yield return new WaitForSeconds(7f);
+            
+            Debug.Log("[SimpleEraIntroController] Airplane flyby hold complete - ending intro");
             EndIntroAndRestoreCamera();
         }
 
@@ -904,7 +1158,7 @@ namespace TPSBR
             {
                 _flybyCamera.Priority = -100;
                 _flybyCamera.enabled = false;
-                Debug.Log("[SimpleEraIntroController] Disabled flyby camera");
+                Debug.Log($"[SimpleEraIntroController] Disabled flyby camera at position {_flybyCamera.transform.position}");
             }
 
             if (_introCam != null)
@@ -933,7 +1187,7 @@ namespace TPSBR
 
             _isIntroActive = false;
 
-            Debug.Log("[SimpleEraIntroController] All intro cameras disabled, camera control returned to Agent");
+            Debug.Log("[SimpleEraIntroController] All intro cameras disabled, camera control returned to Agent - Player should now be on airplane");
         }
 
         private void PlayTheresYourStopAudio()
@@ -962,33 +1216,14 @@ namespace TPSBR
                 _uiCanvas.gameObject.SetActive(false);
             }
 
-            if (_musicAudioSource != null && _musicAudioSource.isPlaying)
-            {
-                _musicAudioSource.Stop();
-                Debug.Log("[SimpleEraIntroController] Stopped background music");
-            }
-
             ShowGameUI();
-
-            SetActiveCamera(null);
 
             _isIntroActive = false;
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-            var battleRoyaleMode = FindFirstObjectByType<BattleRoyaleGameplayMode>();
-            if (battleRoyaleMode != null)
-            {
-                battleRoyaleMode.StartImmediately();
-                Debug.Log("[SimpleEraIntroController] Auto-starting Battle Royale drop sequence");
-            }
-            else
-            {
-                Debug.LogWarning("[SimpleEraIntroController] BattleRoyaleGameplayMode not found - cannot auto-start game");
-            }
-
-            Debug.Log("[SimpleEraIntroController] Intro complete - transitioning to plane drop");
+            Debug.Log("[SimpleEraIntroController] NPC dialogue complete - preparing for flyby");
         }
 
         private void HideGameUI()
@@ -1120,25 +1355,43 @@ namespace TPSBR
         private IEnumerator FadeFromBlack()
         {
             if (_fadeImage == null)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] Fade image is null, skipping fade");
                 yield break;
+            }
 
+            Debug.Log("[SimpleEraIntroController] Starting fade from black");
             _fadeImage.gameObject.SetActive(true);
             Color color = _fadeImage.color;
             color.a = 1f;
             _fadeImage.color = color;
 
             float elapsed = 0f;
-            while (elapsed < _fadeDuration)
+            float safetyCounter = 0f;
+            float maxWaitTime = _fadeDuration * 3f;
+            
+            while (elapsed < _fadeDuration && safetyCounter < maxWaitTime)
             {
-                elapsed += Time.deltaTime;
-                color.a = 1f - (elapsed / _fadeDuration);
-                _fadeImage.color = color;
+                float deltaTime = Time.deltaTime;
+                if (deltaTime > 0f)
+                {
+                    elapsed += deltaTime;
+                    color.a = 1f - (elapsed / _fadeDuration);
+                    _fadeImage.color = color;
+                }
+                safetyCounter += Time.unscaledDeltaTime;
                 yield return null;
+            }
+            
+            if (safetyCounter >= maxWaitTime)
+            {
+                Debug.LogWarning($"[SimpleEraIntroController] Fade from black timed out after {safetyCounter}s");
             }
 
             color.a = 0f;
             _fadeImage.color = color;
             _fadeImage.gameObject.SetActive(false);
+            Debug.Log("[SimpleEraIntroController] Fade from black complete");
         }
 
         private IEnumerator FadeToBlack()
@@ -1162,6 +1415,144 @@ namespace TPSBR
 
             color.a = 1f;
             _fadeImage.color = color;
+        }
+
+        private IEnumerator FadeMusicIn(AudioClip clip, float targetVolume)
+        {
+            if (_musicAudioSource == null || clip == null)
+                yield break;
+
+            _musicAudioSource.clip = clip;
+            _musicAudioSource.volume = 0f;
+            _musicAudioSource.Play();
+
+            float elapsed = 0f;
+            while (elapsed < _musicFadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                _musicAudioSource.volume = Mathf.Lerp(0f, targetVolume, elapsed / _musicFadeDuration);
+                yield return null;
+            }
+
+            _musicAudioSource.volume = targetVolume;
+        }
+
+        private IEnumerator FadeMusicOut()
+        {
+            if (_musicAudioSource == null || !_musicAudioSource.isPlaying)
+                yield break;
+
+            float startVolume = _musicAudioSource.volume;
+            float elapsed = 0f;
+
+            while (elapsed < _musicFadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                _musicAudioSource.volume = Mathf.Lerp(startVolume, 0f, elapsed / _musicFadeDuration);
+                yield return null;
+            }
+
+            _musicAudioSource.volume = 0f;
+            _musicAudioSource.Stop();
+        }
+
+        private void SetupLocomotionAnimator()
+        {
+            if (_playerAnimator == null || _idleClip == null || _walkClip == null)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] Cannot setup locomotion - missing animator or clips");
+                return;
+            }
+
+            if (_playableGraph.IsValid())
+            {
+                _playableGraph.Destroy();
+            }
+
+            _playableGraph = PlayableGraph.Create("LocomotionGraph");
+            _playableGraph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
+
+            var mixer = AnimationMixerPlayable.Create(_playableGraph, 2);
+            
+            var idlePlayable = AnimationClipPlayable.Create(_playableGraph, _idleClip);
+            idlePlayable.SetApplyFootIK(false);
+            idlePlayable.SetDuration(_idleClip.length);
+            idlePlayable.Play();
+            
+            var walkPlayable = AnimationClipPlayable.Create(_playableGraph, _walkClip);
+            walkPlayable.SetApplyFootIK(false);
+            walkPlayable.SetDuration(_walkClip.length);
+            walkPlayable.Play();
+
+            _playableGraph.Connect(idlePlayable, 0, mixer, 0);
+            _playableGraph.Connect(walkPlayable, 0, mixer, 1);
+
+            mixer.SetInputWeight(0, 1f);
+            mixer.SetInputWeight(1, 0f);
+
+            var output = AnimationPlayableOutput.Create(_playableGraph, "Animation", _playerAnimator);
+            output.SetSourcePlayable(mixer);
+
+            _playableGraph.Play();
+
+            if (_playerController != null)
+            {
+                var locomotionBlender = _spawnedPlayer.GetComponent<LocomotionBlender>();
+                if (locomotionBlender == null)
+                {
+                    locomotionBlender = _spawnedPlayer.AddComponent<LocomotionBlender>();
+                }
+                locomotionBlender.Initialize(mixer);
+                Debug.Log("[SimpleEraIntroController] LocomotionBlender initialized");
+            }
+            
+            Debug.Log($"[SimpleEraIntroController] Setup locomotion playable graph - Idle: {_idleClip.name} ({_idleClip.length}s), Walk: {_walkClip.name} ({_walkClip.length}s)");
+        }
+
+        private void PlayNPCAnimation(AnimationClip clip, bool loop)
+        {
+            if (_npcAnimator == null || clip == null)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] Cannot play NPC animation - missing animator or clip");
+                return;
+            }
+
+            if (_npcAnimator.avatar == null)
+            {
+                Debug.LogError("[SimpleEraIntroController] NPC Animator has no Avatar assigned! Please assign a humanoid Avatar to prevent T-posing. Check the NPC GameObject's Animator component.");
+                return;
+            }
+
+            if (!_npcAnimator.avatar.isHuman)
+            {
+                Debug.LogWarning("[SimpleEraIntroController] NPC Avatar is not configured as Humanoid. Animation may not play correctly.");
+            }
+
+            if (_npcPlayableGraph.IsValid())
+            {
+                _npcPlayableGraph.Destroy();
+            }
+
+            _npcPlayableGraph = PlayableGraph.Create("NPCAnimationGraph");
+            _npcPlayableGraph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
+
+            _npcClipPlayable = AnimationClipPlayable.Create(_npcPlayableGraph, clip);
+            
+            if (loop)
+            {
+                _npcClipPlayable.SetDuration(double.MaxValue);
+            }
+            else
+            {
+                _npcClipPlayable.SetDuration(clip.length);
+            }
+
+            var output = AnimationPlayableOutput.Create(_npcPlayableGraph, "NPCAnimation", _npcAnimator);
+            output.SetSourcePlayable(_npcClipPlayable);
+
+            _npcPlayableGraph.Play();
+
+            Debug.Log($"[SimpleEraIntroController] Playing NPC animation '{clip.name}' (loop: {loop}, duration: {(_npcClipPlayable.GetDuration() == double.MaxValue ? "infinite" : clip.length.ToString())}s)");
         }
 
         [ContextMenu("Force Trigger Intro (Test)")]

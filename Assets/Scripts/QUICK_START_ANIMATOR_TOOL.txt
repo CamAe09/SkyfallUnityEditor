@@ -1,0 +1,146 @@
+================================================================================
+⚡ QUICK START: Automated Crouch Animation Setup ⚡
+================================================================================
+
+3 EASY STEPS TO GET CROUCH ANIMATIONS WORKING:
+
+
+📋 STEP 1: CREATE ANIMATION SETUP ASSET (10 seconds)
+-----------------------------------------------------
+
+In Unity:
+1. Right-click in Project window (anywhere in Assets folder)
+2. Go to: Create → TPSBR → Crouch Animation Setup
+3. Name it: "CrouchAnimationSetup"
+4. Click on it
+
+
+📦 STEP 2: ASSIGN YOUR ANIMATIONS (30 seconds)
+-----------------------------------------------
+
+With CrouchAnimationSetup selected, in Inspector:
+
+Required (minimum):
+  ┌─────────────────────────────────────┐
+  │ Crouch Idle:          [Drag here]   │  ← Your crouch idle animation
+  │ Crouch Walk Forward:  [Drag here]   │  ← Your crouch walk animation
+  └─────────────────────────────────────┘
+
+Optional (for better movement):
+  ┌─────────────────────────────────────┐
+  │ Crouch Walk Backward: [Drag here]   │
+  │ Crouch Walk Left:     [Drag here]   │
+  │ Crouch Walk Right:    [Drag here]   │
+  └─────────────────────────────────────┘
+
+Settings:
+  Transition Duration: 0.2  (how fast to blend in/out of crouch)
+
+
+🎬 STEP 3: RUN THE AUTOMATED SETUP (15 seconds)
+------------------------------------------------
+
+1. In Unity menu bar, click:
+   
+   TPSBR → Setup Crouch Animations
+   
+2. A window opens: "Crouch Animation Setup"
+
+3. Fill in TWO fields:
+   
+   ┌─────────────────────────────────────────────┐
+   │ Animator Controller: [Drag your Animator]  │
+   │                                             │
+   │ Animation Setup:     [Drag Setup asset]    │
+   │                                             │
+   │     [SETUP CROUCH ANIMATIONS]              │
+   └─────────────────────────────────────────────┘
+
+4. Click the big "SETUP CROUCH ANIMATIONS" button
+
+5. Done! ✅
+
+
+WHERE TO FIND YOUR ANIMATOR CONTROLLER?
+----------------------------------------
+
+Your character's Animator Controller is usually here:
+  Assets/TPSBR/Animations/
+
+Search for:
+  - MarineController
+  - SoldierController  
+  - Or whatever your character is named + "Controller"
+
+OR use search:
+  In Project window search bar, type: "t:AnimatorController"
+
+
+WHAT THE TOOL DOES AUTOMATICALLY:
+----------------------------------
+
+✅ Adds "IsCrouching" parameter to Animator
+✅ Creates a "Crouch" animation layer
+✅ Adds crouch idle state
+✅ Adds crouch movement blend tree
+✅ Sets up smooth transitions
+✅ Configures blend tree for 8-directional movement (if you have all clips)
+✅ Links everything together perfectly
+
+
+DON'T HAVE CROUCH ANIMATIONS YET?
+----------------------------------
+
+OPTION A: Download Free Animations
+   → Mixamo.com - free rigged animations
+   → Unity Asset Store - search "crouch animations"
+
+OPTION B: Use Placeholder (temporary)
+   → Assign your STANDING animations for now
+   → Replace with real crouch animations later
+   → System will still work (just looks like standing)
+
+OPTION C: Manual Setup
+   → See: CROUCH_ANIMATION_COMPLETE_GUIDE.txt
+
+
+AFTER SETUP:
+------------
+
+1. Fix the 4 prefab errors (see FIX_PREFAB_ERRORS.txt)
+2. Add CrouchSystem component to your player prefab
+3. Enter Play Mode
+4. Press C to crouch - animations should play!
+
+
+TROUBLESHOOTING:
+----------------
+
+Button is grayed out?
+  → Assign both Animator Controller AND Animation Setup
+
+Can't find menu item?
+  → Check Console for compilation errors
+  → Tool is at: TPSBR → Setup Crouch Animations
+
+Nothing happens when I crouch?
+  → Make sure CrouchSystem component is on your character
+  → Check Animator has "IsCrouching" parameter
+  → Verify animations are assigned in blend trees
+
+
+EXAMPLE WORKFLOW:
+-----------------
+
+1. Create CrouchAnimationSetup asset                [10 sec]
+2. Assign 2 animation clips (idle + walk)           [20 sec]
+3. Open TPSBR → Setup Crouch Animations             [5 sec]
+4. Drag Animator + Setup asset                      [10 sec]
+5. Click button                                     [2 sec]
+6. Test in Play Mode                                [5 sec]
+                                           TOTAL:   [52 seconds!]
+
+
+================================================================================
+The automated tool saves you 30+ minutes of manual Animator setup!
+================================================================================

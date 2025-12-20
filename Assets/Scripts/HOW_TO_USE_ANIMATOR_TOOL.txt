@@ -1,0 +1,123 @@
+================================================================================
+HOW TO USE THE CROUCH ANIMATION SETUP TOOL
+================================================================================
+
+This tool automatically adds crouch animations to your Animator Controller!
+
+STEP-BY-STEP GUIDE:
+-------------------
+
+STEP 1: Create a Crouch Animation Setup Asset
+----------------------------------------------
+1. In Unity, right-click in Project window
+2. Navigate to: Create > TPSBR > Crouch Animation Setup
+3. Name it: "CrouchAnimationSetup"
+4. Click on it to select it
+
+
+STEP 2: Assign Your Animation Clips
+------------------------------------
+In the Inspector for CrouchAnimationSetup:
+
+1. Drag your CROUCH IDLE animation to "Crouch Idle" field
+2. Drag your CROUCH WALK FORWARD animation to "Crouch Walk Forward" field
+3. (Optional) Assign other crouch animations:
+   - Crouch Walk Backward
+   - Crouch Walk Left  
+   - Crouch Walk Right
+4. Adjust "Transition Duration" if needed (default: 0.2 seconds)
+
+
+STEP 3: Open the Animator Setup Window
+---------------------------------------
+1. In Unity top menu, click: TPSBR > Setup Crouch Animations
+2. A new window will appear: "Crouch Animator Setup"
+
+
+STEP 4: Configure the Setup
+----------------------------
+In the Crouch Animator Setup window:
+
+1. "Animation Controller" field:
+   - Drag your Animator Controller (the one your character uses)
+   - Usually found at: Assets/TPSBR/Animations/[YourCharacter]Controller
+   
+2. "Animation Setup" field:
+   - Drag the CrouchAnimationSetup asset you created in Step 1
+
+3. Click the big "SETUP CROUCH ANIMATIONS" button
+
+
+STEP 5: Done!
+-------------
+The tool will automatically:
+✅ Add "IsCrouching" bool parameter to your Animator
+✅ Create a new "Crouch" layer
+✅ Add crouch idle and movement states
+✅ Create blend trees for smooth crouch movement
+✅ Set up all transitions between standing and crouching
+
+
+WHAT IF I DON'T HAVE CROUCH ANIMATIONS YET?
+--------------------------------------------
+
+Option 1: Use Placeholder Animations (Temporary)
+- Assign your standing idle to "Crouch Idle"
+- Assign your standing walk to "Crouch Walk Forward"
+- Character will "crouch" but use standing animations
+- Replace later with real crouch animations
+
+Option 2: Get/Create Crouch Animations
+- Download from Unity Asset Store
+- Use Mixamo (free rigged character animations)
+- Create your own in Blender/Maya
+- Commission an animator
+
+Option 3: Manual Setup (Advanced)
+- See CROUCH_ANIMATION_COMPLETE_GUIDE.txt
+- Manually add IsCrouching parameter
+- Manually create states and transitions
+
+
+TROUBLESHOOTING:
+----------------
+
+❌ "Setup button is disabled"
+   → Make sure you've assigned BOTH the Animator Controller AND Animation Setup
+
+❌ "Couldn't find crouch animations"
+   → Assign at least Crouch Idle and Crouch Walk Forward clips
+
+❌ "IsCrouching parameter already exists"
+   → No problem! Tool will skip creating it
+
+❌ "Layer already exists"
+   → Tool will tell you - you may need to manually merge or delete old layer
+
+
+WHERE TO FIND YOUR ANIMATOR CONTROLLER:
+---------------------------------------
+
+For Marine character:
+Assets/TPSBR/Animations/MarineController (or similar)
+
+For Soldier character:
+Assets/TPSBR/Animations/SoldierController (or similar)
+
+Or search in Project window: "t:AnimatorController"
+
+
+QUICK START (If You Have Animations Ready):
+--------------------------------------------
+
+1. Right-click > Create > TPSBR > Crouch Animation Setup
+2. Assign your crouch animations to the asset
+3. Menu: TPSBR > Setup Crouch Animations
+4. Drag Animator Controller + Setup asset
+5. Click "SETUP CROUCH ANIMATIONS"
+6. Done! Test in Play Mode with C key
+
+
+================================================================================
+Need help finding animations or setting this up? Just ask!
+================================================================================

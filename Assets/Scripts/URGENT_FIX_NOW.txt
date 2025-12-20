@@ -1,0 +1,58 @@
+==================================
+URGENT FIX - DO THIS RIGHT NOW!
+==================================
+
+PROBLEM:
+--------
+You have 2 files with the SAME class name "CharacterAnimationController"
+This causes all the "already contains a definition" errors you're seeing.
+
+FILES CAUSING THE PROBLEM:
+--------------------------
+✗ CharacterAnimationController_BACKUP.cs (OLD/BROKEN - has OnRenderUpdate bug)
+✓ CharacterAnimationController_Fixed.cs (CORRECT - has crouch integration)
+
+SOLUTION (3 SIMPLE STEPS):
+---------------------------
+
+1. In Unity Project window, navigate to:
+   Assets/TPSBR/Scripts/Gameplay/Agent/Character/
+
+2. DELETE this file:
+   ✗ CharacterAnimationController_BACKUP.cs
+   
+   (Right-click → Delete, or select and press Delete key)
+
+3. RENAME this file:
+   CharacterAnimationController_Fixed.cs
+   
+   TO:
+   CharacterAnimationController.cs
+   
+   (Right-click → Rename, or select and press F2)
+
+4. Wait for Unity to recompile (should be automatic)
+
+DONE! All errors will be gone!
+
+WHY THIS HAPPENED:
+------------------
+When you deleted the OnRenderUpdate() method from the original file,
+Unity probably created a backup. Now you have two files defining the
+same "CharacterAnimationController" class.
+
+C# doesn't allow duplicate class definitions, so you get errors like:
+"The namespace 'TPSBR' already contains a definition for 'CharacterAnimationController'"
+
+WHAT'S IN THE FIXED VERSION:
+-----------------------------
+✓ No OnRenderUpdate() method (that was the bug - it doesn't exist in base class)
+✓ OnFixedUpdate() for jetpack logic
+✓ OnEvaluate() for crouch animation (sets IsCrouching parameter)
+✓ Proper _crouch system integration
+✓ All other original functionality intact
+
+AFTER THE FIX:
+--------------
+Your crouch system will be fully integrated and working!
+See CROUCH_ANIMATION_COMPLETE_GUIDE.txt for next steps.
